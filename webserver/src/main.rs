@@ -8,11 +8,13 @@ use axum::{
 
 mod database;
 mod handlers;
+mod parser;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     // DB url needs to be extracted from a config file, for now this is the spec
-    let db_url = "mysql://theysa_user:theysa_pass@localhost:3306/theysa_db";
+    parser::parse_config("/home/tommaso/Documents/Hacktoberfest/theysa.id/webserver/src/test.toml")?;
+    /* let db_url = "mysql://theysa_user:theysa_pass@localhost:3306/theysa_db";
     let db = database::DbWrapper::new(db_url).await?;
 
     // build our application with some routes
@@ -28,6 +30,7 @@ async fn main() -> Result<()> {
         .serve(app.into_make_service())
         .await
         .unwrap();
+    */
 
     Ok(())
 }

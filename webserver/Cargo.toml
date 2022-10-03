@@ -12,3 +12,4 @@ anyhow = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 rust-argon2 = "1.0"
 sqlx = { version = "0.6", features = [ "runtime-tokio-native-tls" , "mysql" ] }
+toml = "0.5.9"
