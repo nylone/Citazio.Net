@@ -18,9 +18,9 @@ struct Config {
 pub fn parse_config(filename: &str) -> Result<()>{  // It could also not accept a filename as an argument, dunno
     // reads the content of the file
     let content = fs::read_to_string(filename)?;
-    let config = toml::from_str(&content)?;
+    let config: Config = toml::from_str(&content)?;
 
-    eprintln!("{:?}", config);
+    eprintln!("{:?}", config);  // For debug purposes only
 
     Ok(())
 }
