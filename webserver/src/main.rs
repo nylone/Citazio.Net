@@ -7,6 +7,7 @@ use clap::Parser;
 mod cli;
 mod database;
 mod handlers;
+mod parser;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -23,7 +24,6 @@ async fn main() -> Result<()> {
             let app = Router::new()
                 .route("/auth/register", post(handlers::signup))
                 .layer(Extension(db));
-
             // run it with hyper
             let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
             axum::Server::bind(&addr)
@@ -35,6 +35,7 @@ async fn main() -> Result<()> {
             todo!("adds a token");
         }
     }
+
 
     Ok(())
 }
