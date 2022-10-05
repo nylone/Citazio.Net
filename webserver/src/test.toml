@@ -1,6 +1,2 @@
-url = "foof"
-port = 3000
-user = "ciao"
-password = "nilone"
-dbname = "merda"
-bindings = ["0.0.0.0:1111", "[::1]:3333" ]
+db_url = "mysql://theysa_user:theysa_pass@localhost:3306/theysa_db"
+binding = "0.0.0.0:1111"

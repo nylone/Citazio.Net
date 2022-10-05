@@ -6,14 +6,16 @@ mod wrapper {
     use anyhow::Result;
     use anyhow::*;
     use sqlx::mysql::*;
+    use url::Url;
+
     #[derive(Debug, Clone)]
     pub struct DbWrapper(MySqlPool);
 
     impl DbWrapper {
-        pub async fn new(url: &str) -> Result<Self> {
+        pub async fn new(url: &Url) -> Result<Self> {
             let pool = MySqlPoolOptions::new()
                 .max_connections(10)
-                .connect(url)
+                .connect(url.as_str())
                 .await?;
 
             Ok(DbWrapper(pool))
