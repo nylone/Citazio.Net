@@ -1,6 +1,0 @@
-url = "foof"
-port = 3000
-user = "ciao"
-password = "nilone"
-dbname = "merda"
-bindings = ["0.0.0.0:1111", "[::1]:3333" ]
