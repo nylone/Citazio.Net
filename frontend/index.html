@@ -2,35 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>theysa.id</title>
     <link rel="stylesheet"  type="text/css" href="styles/layout.css">
+    <script type="text/javascript" src="scripts/year.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <div class="header">
-        <h1>theysa.id</h1>
+<body onload="getCopyright()" class="m-0 text-lg bg-[color:var(--light-color)] text-[color:var(--text-color)]">
+    <div class="grid grid-cols-2 flex-wrap items-center border rounded-md border-[color:var(--border-color)] bg-[color:var(--bg-color)] mt-5 mx-5 p-5">
+        <header class="justify-self-end">
+            <h1 class="font-bold text-4xl">theysa.id</h1>
+        </header>
+        <nav class="justify-self-end"">
+            <a class="mr-5 ">Home</a>
+            <a class="mr-5 ">Sign in</a>
+            <a class="mr-5 ">Sign up</a>
+            <a class="mr-5 ">About</a>
+        </nav>
+        
     </div>
-    <div class="navbar">
-        <a>Home</a>
-        <a>Sign in</a>
-        <a>Sign up</a>
-        <a>About</a>
-    </div>
+
+    <header class="flex text-center justify-center mt-5">
+        
+    </header>
+    
     <div class="content">
 
     </div>
 
-    <div class="footer">
-        <a id="copyright">&copy; 2022 - 2022 theysa.id</a>
-    </div>
+    <footer class="flex flex-row fixed w-full bottom-0 my-2 justify-center">
+        <a id="copyright" class="text-center">&copy; 2022 - theysa.id</a>
+    </footer>
 </body>
-
-<script>
-    (function(){
-        let cpr = document.getElementById("copyright");
-        cpr.innerHTML = "&copy; 2022 - "+new Date().getFullYear()+" theysa.id - All Rights Reserved.";
-    })();
-</script>
 
 </html>
