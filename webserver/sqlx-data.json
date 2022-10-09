@@ -1,0 +1,23 @@
+{
+  "db": "MySQL",
+  "0c25c5fb17b69bf2486667a35e3f5b1eb8cf603ee0e926e3e57222de245f9fc9": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 1
+      }
+    },
+    "query": "call get_phc_from_username(?);"
+  },
+  "22e567183922d53f74dca5950d5b3d9422c58749b698963438524afd7f4125bf": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Right": 4
+      }
+    },
+    "query": "call add_new_user(?, ?, ?, ?);"
+  }
+}
