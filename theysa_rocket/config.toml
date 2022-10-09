@@ -1,2 +1,0 @@
-db_url = "mysql://theysa_user:theysa_pass@localhost:3306/theysa_db"
-bindings = ["0.0.0.0:1111", "0.0.0.0:3000"]
