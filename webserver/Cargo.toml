@@ -1,0 +1,25 @@
+[package]
+name = "theysaid"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# axum (server + middleware)
+axum = {version = "0.5", features = ["form"] }
+axum-sessions = "0.3"
+axum-macros = "0.3.0-rc.1"
+async-sqlx-session = {version = "0.4", features=["mysql"]}
+hyper = { version = "0.14", features = ["full"] }
+tokio = { version = "1.21", features = ["full"] }
+# error handling
+anyhow = "1.0"
+# deserialization, argument parsing
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.5"
+clap = { version = "4.0", features = ["derive"] }
+url = { version = "2.3", features = ["serde"] }
+# database utils
+sqlx = { version = "0.6", features = ["runtime-tokio-native-tls" , "mysql", "offline"] }
+# other dependencies
+argon2 = "0.4"
+rand = { version = "0.8", features = ["std"] }
