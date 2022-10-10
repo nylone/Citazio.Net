@@ -11,6 +11,7 @@ axum-macros = "0.3.0-rc.1"
 async-sqlx-session = {version = "0.4", features=["mysql"]}
 hyper = { version = "0.14", features = ["full"] }
 tokio = { version = "1.21", features = ["full"] }
+tower-cookies = "*"
 # error handling
 anyhow = "1.0"
 # deserialization, argument parsing
@@ -23,3 +24,4 @@ sqlx = { version = "0.6", features = ["runtime-tokio-native-tls" , "mysql", "off
 # other dependencies
 argon2 = "0.4"
 rand = { version = "0.8", features = ["std"] }
+async-trait = "0.1"

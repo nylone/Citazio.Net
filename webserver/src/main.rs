@@ -7,10 +7,12 @@ use axum::{
 use axum_sessions::{SameSite, SessionLayer};
 use clap::Parser;
 use rand::{rngs::OsRng, RngCore};
+use tower_cookies::CookieManagerLayer;
 
 mod app_config;
 mod database;
 mod handlers;
+mod session;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -39,7 +41,9 @@ async fn main() -> Result<()> {
             let app = Router::new()
                 .route("/auth/register", post(handlers::signup))
                 .route("/auth/login", post(handlers::signin))
+                .route("/session", get(session::test_session))
                 .layer(session_layer)
+                .layer(CookieManagerLayer::new())
                 .layer(Extension(db));
             // run it with hyper
             axum::Server::builder(config.get_combined_bindings()?)
