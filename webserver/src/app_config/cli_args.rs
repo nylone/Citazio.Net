@@ -5,7 +5,7 @@ use std::path::PathBuf;
 #[command(author, version, about, long_about = None)]
 pub struct Args {
     /// Specify the config file location
-    #[arg(short, long, default_value = "config.toml")]
+    #[arg(short, long, default_value = "Config.toml")]
     pub config: PathBuf,
 
     /// What should the app do

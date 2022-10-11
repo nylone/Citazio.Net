@@ -6,13 +6,11 @@ use axum::{
 };
 use axum_sessions::{SameSite, SessionLayer};
 use clap::Parser;
-use rand::{rngs::OsRng, RngCore};
-use tower_cookies::CookieManagerLayer;
+use tokio::{task, time};
 
 mod app_config;
 mod database;
 mod handlers;
-mod session;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -30,9 +28,18 @@ async fn main() -> Result<()> {
                 .await?
                 .with_table_name("sessions");
             store.migrate().await?;
-            let mut secret = [0u8; 128];
-            OsRng.fill_bytes(&mut secret);
-            let session_layer = SessionLayer::new(store, &secret)
+            // spawn a cleanup task for the session storage
+            let store_clone = store.clone();
+            task::spawn(async move {
+                let mut interval = time::interval(*&config.session_duration);
+                loop {
+                    interval.tick().await;
+                    let _ = store_clone.cleanup().await;
+                    // todo: add logging in case of cleanup errors
+                }
+            });
+            // configure the session layer
+            let session_layer = SessionLayer::new(store, &config.session_secret.as_bytes())
                 .with_session_ttl(Some(*&config.session_duration))
                 .with_cookie_name("theysa_session")
                 .with_same_site_policy(SameSite::Strict);
@@ -41,9 +48,7 @@ async fn main() -> Result<()> {
             let app = Router::new()
                 .route("/auth/register", post(handlers::signup))
                 .route("/auth/login", post(handlers::signin))
-                .route("/session", get(session::test_session))
                 .layer(session_layer)
-                .layer(CookieManagerLayer::new())
                 .layer(Extension(db));
             // run it with hyper
             axum::Server::builder(config.get_combined_bindings()?)
