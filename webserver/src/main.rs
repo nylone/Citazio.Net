@@ -6,7 +6,7 @@ use axum::{
 };
 use axum_sessions::{SameSite, SessionLayer};
 use clap::Parser;
-use rand::{rngs::OsRng, RngCore};
+use tokio::{task, time};
 
 mod app_config;
 mod database;
@@ -28,9 +28,18 @@ async fn main() -> Result<()> {
                 .await?
                 .with_table_name("sessions");
             store.migrate().await?;
-            let mut secret = [0u8; 128];
-            OsRng.fill_bytes(&mut secret);
-            let session_layer = SessionLayer::new(store, &secret)
+            // spawn a cleanup task for the session storage
+            let store_clone = store.clone();
+            task::spawn(async move {
+                let mut interval = time::interval(*&config.session_duration);
+                loop {
+                    interval.tick().await;
+                    let _ = store_clone.cleanup().await;
+                    // todo: add logging in case of cleanup errors
+                }
+            });
+            // configure the session layer
+            let session_layer = SessionLayer::new(store, &config.session_secret.as_bytes())
                 .with_session_ttl(Some(*&config.session_duration))
                 .with_cookie_name("theysa_session")
                 .with_same_site_policy(SameSite::Strict);

@@ -15,6 +15,7 @@ use url::Url;
 pub struct Config {
     pub db_url: Url,
     pub session_duration: Duration,
+    pub session_secret: String,
     pub bindings: Vec<SocketAddr>,
 }
 
@@ -22,7 +23,13 @@ impl Config {
     pub fn parse(path: &PathBuf) -> Result<Self> {
         let content = fs::read_to_string(path)
             .context(format_err!("Failed to read '{}'.", path.display()))?;
-        toml::from_str(&content).context(format_err!("Failed to parse '{}'.", path.display()))
+        let parsed = toml::from_str::<Self>(&content)
+            .context(format_err!("Failed to parse '{}'.", path.display()))?;
+        if parsed.session_secret.len() < 64 {
+            bail!("Session secret must be at least 64 characters long.");
+        } else {
+            Ok(parsed)
+        }
     }
 
     pub fn get_combined_bindings(&self) -> Result<CombinedIncoming> {
