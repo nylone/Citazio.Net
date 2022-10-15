@@ -1,10 +1,8 @@
 use crate::database::DbWrapper;
 use crate::handlers::AppError;
-use anyhow::{anyhow, Result};
-use argon2::{
-    password_hash::{rand_core::OsRng, PasswordHasher, SaltString},
-    Argon2, PasswordHash, PasswordVerifier,
-};
+use anyhow::*;
+use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
+use argon2::password_hash::SaltString;
 use axum::extract::{Extension, Form, Json};
 use axum::http::StatusCode;
 use axum_sessions::extractors::WritableSession;
@@ -48,7 +46,7 @@ pub async fn signup(
     mut session: WritableSession,
     Extension(db): Extension<DbWrapper>,
     Json(input): Json<SignUpForm>,
-) -> Result<StatusCode, AppError> {
+) -> Result<StatusCode> {
     if input.password == input.confirm {
         db.add_user_credentials(
             &input.username,
@@ -68,7 +66,7 @@ pub async fn signin(
     mut session: WritableSession,
     Extension(db): Extension<DbWrapper>,
     Json(input): Json<SignInForm>,
-) -> Result<StatusCode, AppError> {
+) -> Result<StatusCode> {
     if verify_password(&input.password, db.get_user_phc(&input.username).await?)? {
         session.insert("uname", &input.username)?;
         Ok(StatusCode::OK)
