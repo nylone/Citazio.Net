@@ -5,9 +5,8 @@ edition = "2021"
 
 [dependencies]
 # axum (server + middleware)
-axum = {version = "0.5", features = ["form"] }
+axum = {version = "0.5.16", features = ["form"] }
 axum-sessions = "0.3"
-axum-macros = "0.3.0-rc.1"
 async-sqlx-session = {version = "0.4", features=["mysql"]}
 hyper = { version = "0.14", features = ["full"] }
 tokio = { version = "1.21", features = ["full"] }
@@ -23,3 +22,4 @@ sqlx = { version = "0.6", features = ["runtime-tokio-native-tls" , "mysql", "off
 # other dependencies
 argon2 = "0.4"
 rand = { version = "0.8", features = ["std"] }
+async-trait = "0.1"
