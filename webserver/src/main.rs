@@ -1,9 +1,6 @@
 use anyhow::*;
 use async_sqlx_session::MySqlSessionStore;
-use axum::{
-    routing::{get, post},
-    Extension, Router,
-};
+use axum::{routing::post, Extension, Router};
 use axum_sessions::{SameSite, SessionLayer};
 use clap::Parser;
 use tokio::{task, time};
@@ -35,7 +32,6 @@ async fn main() -> Result<()> {
                 loop {
                     interval.tick().await;
                     let _ = store_clone.cleanup().await;
-                    // todo: add logging in case of cleanup errors
                 }
             });
             // configure the session layer
@@ -44,12 +40,18 @@ async fn main() -> Result<()> {
                 .with_cookie_name("theysa_session")
                 .with_same_site_policy(SameSite::Strict);
 
-            // build our application with some routes
-            let app = Router::new()
-                .route("/auth/register", post(handlers::signup))
-                .route("/auth/login", post(handlers::signin))
+            // bundle all layers into a service
+            let middleware = tower::ServiceBuilder::new()
                 .layer(session_layer)
                 .layer(Extension(db));
+
+            // build our application with some routes
+            let api_router = Router::new()
+                .route("/sign/up", post(handlers::signup))
+                .route("/sign/in", post(handlers::signin));
+            let app = Router::new()
+                .nest("/api", api_router)
+                .layer(middleware);
             // run it with hyper
             axum::Server::builder(config.get_combined_bindings()?)
                 .serve(app.into_make_service())

@@ -1,16 +1,31 @@
 use crate::database::DbWrapper;
+use crate::handlers::AppError;
 use anyhow::{anyhow, Result};
 use argon2::{
     password_hash::{rand_core::OsRng, PasswordHasher, SaltString},
     Argon2, PasswordHash, PasswordVerifier,
 };
-use axum::extract::{Extension, Form};
+use axum::extract::{Extension, Form, Json};
 use axum::http::StatusCode;
 use axum_sessions::extractors::WritableSession;
 use serde::Deserialize;
-use crate::handlers::AppError;
 
-fn hash_pass(password: &str) -> Result<String> {
+#[derive(Deserialize)]
+pub struct SignUpForm {
+    username: String,
+    password: String,
+    confirm: String,
+    nickname: String,
+    token: String,
+}
+
+#[derive(Deserialize)]
+pub struct SignInForm {
+    username: String,
+    password: String,
+}
+
+fn prepare_password(password: &str) -> Result<String> {
     let salt = SaltString::generate(&mut OsRng);
     let argon2 = Argon2::default();
     match argon2.hash_password(password.as_bytes(), &salt) {
@@ -19,7 +34,7 @@ fn hash_pass(password: &str) -> Result<String> {
     }
 }
 
-fn verify_pass(password: &str, phc: String) -> Result<bool> {
+fn verify_password(password: &str, phc: String) -> Result<bool> {
     match &PasswordHash::new(&phc) {
         Ok(phc) => match Argon2::default().verify_password(password.as_bytes(), phc) {
             Ok(_) => Ok(true),
@@ -29,44 +44,33 @@ fn verify_pass(password: &str, phc: String) -> Result<bool> {
     }
 }
 
-#[derive(Deserialize)]
-pub struct SignUpForm {
-    username: String,
-    password: String,
-    nickname: String,
-    token: String,
-}
-
 pub async fn signup(
     mut session: WritableSession,
     Extension(db): Extension<DbWrapper>,
-    Form(form): Form<SignUpForm>,
-) -> Result<(), AppError> {
-    db.add_user_credentials(
-        &form.username,
-        &hash_pass(&form.password)?,
-        &form.nickname,
-        &form.token,
-    )
-    .await?;
-    session.insert("uname", &form.username)?;
-    Ok(())
-}
-
-#[derive(Deserialize)]
-pub struct SignInForm {
-    username: String,
-    password: String,
+    Json(input): Json<SignUpForm>,
+) -> Result<StatusCode, AppError> {
+    if input.password == input.confirm {
+        db.add_user_credentials(
+            &input.username,
+            &prepare_password(&input.password)?,
+            &input.nickname,
+            &input.token,
+        )
+        .await?;
+        session.insert("uname", &input.username)?;
+        Ok(StatusCode::OK)
+    } else {
+        Ok(StatusCode::CONFLICT)
+    }
 }
 
 pub async fn signin(
     mut session: WritableSession,
     Extension(db): Extension<DbWrapper>,
-    Form(form): Form<SignInForm>,
+    Json(input): Json<SignInForm>,
 ) -> Result<StatusCode, AppError> {
-    let verification = verify_pass(&form.password, db.get_user_phc(&form.username).await?)?;
-    if verification {
-        session.insert("uname", &form.username)?;
+    if verify_password(&input.password, db.get_user_phc(&input.username).await?)? {
+        session.insert("uname", &input.username)?;
         Ok(StatusCode::OK)
     } else {
         Ok(StatusCode::UNAUTHORIZED)

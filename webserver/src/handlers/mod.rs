@@ -1,8 +1,8 @@
 pub mod authentication;
 
+pub use authentication::*;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
-pub use authentication::*;
 
 // Make our own error that wraps `anyhow::Error`.
 pub struct AppError(anyhow::Error);
