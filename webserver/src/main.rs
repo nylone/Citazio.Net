@@ -49,9 +49,7 @@ async fn main() -> Result<()> {
             let api_router = Router::new()
                 .route("/sign/up", post(handlers::signup))
                 .route("/sign/in", post(handlers::signin));
-            let app = Router::new()
-                .nest("/api", api_router)
-                .layer(middleware);
+            let app = Router::new().nest("/api", api_router).layer(middleware);
             // run it with hyper
             axum::Server::builder(config.get_combined_bindings()?)
                 .serve(app.into_make_service())

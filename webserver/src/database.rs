@@ -1,7 +1,7 @@
 use anyhow::*;
 use sqlx::mysql::MySqlPoolOptions;
-use sqlx::MySqlPool;
 use sqlx::prelude::*;
+use sqlx::MySqlPool;
 use url::Url;
 
 #[derive(Debug, Clone)]

@@ -1,8 +1,8 @@
 use crate::database::DbWrapper;
 use crate::handlers::AppError;
 use anyhow::*;
-use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
 use argon2::password_hash::SaltString;
+use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
 use axum::extract::{Extension, Form, Json};
 use axum::http::StatusCode;
 use axum_sessions::extractors::WritableSession;
