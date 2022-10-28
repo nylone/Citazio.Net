@@ -4,57 +4,88 @@
     <meta charset="UTF-8">
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>theysa.id</title>
-    <link rel="stylesheet"  type="text/css" href="styles/layout.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>theysa.id - Authenticate</title>
+    <link rel="stylesheet"  type="text/css" href="styles/style.css">
 </head>
 
-<body class="m-0 text-lg bg-[color:var(--light-color)] text-[color:var(--text-color)]">
-    <nav class="grid grid-rows-3 sm:flex items-center sm:flex-wrap text-center justify-center border rounded-md border-[color:var(--border-color)] bg-[color:var(--bg-color)] mt-5 mx-5 p-5 shadow-lg shadow-[color:var(--shadow-color)]">
-        <a href="index.html" class="sm:mr-5 ">Home</a>
-        <a class="sm:mr-5 text-[color:var(--special-color)]">Authenticate</a>
-        <a class="sm:mr-5">About</a>
+<body class="theysa-flex-col">
+    <header>
+        <h1 class="theysa-shadow">Authenticate</h1>
+    </header>
+    <nav class="theysa-box theysa-flex-row theysa-navbar">
+        <a href="index.html">Home</a>
+        <a class="theysa-set-cur-dom">Authenticate</a>
+        <a>About</a>
     </nav>
-    <div class="grid sm:grid-cols-2 flex-wrap items-center justify-items-center border rounded-md border-[color:var(--border-color)] bg-[color:var(--bg-color)] mt-5 mx-5 p-5 shadow-lg shadow-[color:var(--shadow-color)]">
-        <!-- First Row -->
-        <h1 class="order-1 sm:order-none font-bold text-4xl">Sign In</h1>
-        <h1 class="order-4 sm:order-none font-bold text-4xl mt-10 sm:mt-0">Sign Up</h1>
-
-        <!-- Second Row -->
-        <div class="order-2 sm:order-none">
-            <label>
-                <h2 class="font-bold text-center mt-5">Email</h2>
-                <input type="text" class="form-input border border-[color:var(--outline-color)] rounded-md">
-            </label>
-    
-            <label>
-                <h2 class="font-bold text-center mt-5">Password</h2>
-                <input type="text" class="form-input border border-[color:var(--outline-color)] rounded-md">
-            </label>
-    
+    <div class="theysa-flex-row">
+        <div class="theysa-flex-col theysa-box theysa-shadow grows">
+            <h3 class="theysa-shadow">Sign in</h3>
+            <h5 class="theysa-shadow" hidden id="failed-sing-in">Sign in failed</h5>
+            <form action="#" class="theysa-flex-col" id="sign-in-form">
+                <input
+                        class="theysa-shadow grows"
+                        id="sign-in-email"
+                        name="email"
+                        placeholder="e-mail"
+                        required
+                        type="email"
+                /><br/>
+                <input
+                        class="theysa-shadow grows"
+                        id="sign-in-pass"
+                        name="pass"
+                        placeholder="password"
+                        required
+                        type="password"
+                /><br/>
+                <input class="theysa-button theysa-shadow theysa-grows" type="submit" value="SIGN IN"/>
+            </form>
         </div>
-
-        <div class="order-5 sm:order-none">
-            <label>
-                <h2 class="font-bold text-center mt-5">Email</h2>
-                <input type="text" class="form-input border border-[color:var(--outline-color)] rounded-md">
-            </label>
     
-            <label>
-                <h2 class="font-bold text-center mt-5">Password</h2>
-                <input type="text" class="form-input border border-[color:var(--outline-color)] rounded-md">
-            </label>
+        <div class="theysa-flex-col theysa-box theysa-shadow grows">
+            <h3 class="theysa-shadow">Sign up</h3>
+            <h5 class="theysa-shadow" hidden id="failed-sing-up">Sign up failed</h5>
+            <form action="#" class="theysa-flex-col" id="sign-up-form">
+                <input
+                        class="theysa-shadow grows"
+                        id="sign-up-email"
+                        name="email"
+                        placeholder="e-mail"
+                        required
+                        type="email"
+                /><br/>
+                <input
+                        class="theysa-shadow grows"
+                        id="sign-up-uname"
+                        name="uname"
+                        placeholder="username"
+                        required
+                        type="text"
+                /><br/>
+                <input
+                        class="theysa-shadow grows"
+                        id="sign-up-pass"
+                        name="pass"
+                        placeholder="password"
+                        required
+                        type="password"
+                /><br/>
+                <input
+                        class="theysa-shadow grows"
+                        id="sign-up-confpass"
+                        name="pass-confirm"
+                        placeholder="confirm password"
+                        required
+                        type="password"
+                /><br/>
+                <input class="theysa-button theysa-shadow grows" type="submit" value="SIGN UP"/>
+            </form>
         </div>
-
-         <!-- Third Row -->
-         <button type="button" class="order-3 sm:order-none border border-[color:var(--border-color)] rounded-md mt-3 p-1 hover:bg-[color:var(--mark-color)]">Sign in</button>
-         <button type="button" class="order-6 sm:order-none border border-[color:var(--border-color)] rounded-md mt-3 p-1 hover:bg-[color:var(--mark-color)]">Sign Up</button>
-        
     </div>
 
-    <footer class="flex flex-row w-full bottom-0 my-2 justify-center">
+    <footer class="theysa-flex-row theysa-footer">
         <a id="copyright" class="text-center">&copy; 2022 - theysa.id</a>
     </footer>
-</body>
 
+</body>
 </html>
