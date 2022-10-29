@@ -13,7 +13,6 @@ use crate::database::DbWrapper;
 use crate::password::*;
 use crate::router::AppError;
 use crate::router::legacy::HtmlTemplate;
-use chrono::Utc;
 
 #[derive(Deserialize)]
 pub struct SignUpForm {
@@ -64,14 +63,12 @@ pub async fn signin(
 }
 
 pub async fn do_get() -> impl IntoResponse {
-    let template = HelloTemplate {
-        c_year: Utc::today().year(),
-    };
+    let template = HelloTemplate {nav_active: 2};
     HtmlTemplate(template)
 }
 
 #[derive(Template)]
 #[template(path = "authenticate.html")]
 struct HelloTemplate {
-    c_year: i32,
+    nav_active: usize,
 }

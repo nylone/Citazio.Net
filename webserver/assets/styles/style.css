@@ -73,6 +73,10 @@ body {
     text-align: center;
 }
 
+.theysa-set-cur-dom {
+    color: var(--special-bg-color);
+}
+
 .theysa-button .theysa-set-cur-dom {
     color: var(--special-text-color);
     background-color: var(--special-bg-color);
