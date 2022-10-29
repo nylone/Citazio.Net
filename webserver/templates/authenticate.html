@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>theysa.id - Authenticate</title>
-    <link rel="stylesheet"  type="text/css" href="assets/styles/style.css">
-</head>
+{% extends "base.html" %}
 
-<body class="theysa-flex-col">
-    <header>
-        <h1 class="theysa-shadow"> {{ page_title }} </h1>
-    </header>
-    <nav class="theysa-box theysa-flex-row theysa-navbar theysa-shadow grows">
-        <a class="theysa-button theysa-shadow grows" href="index.html">Home</a>
-        <a class="theysa-button theysa-shadow grows theysa-set-cur-dom">Authenticate</a>
-        <a class="theysa-button theysa-shadow grows">About</a>
-    </nav>
+{% block content %}
     <div class="theysa-flex-row">
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
             <h3 class="theysa-shadow">Sign in</h3>
@@ -41,7 +25,7 @@
                 <input class="theysa-button theysa-shadow theysa-grows" type="submit" value="SIGN IN"/>
             </form>
         </div>
-    
+
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
             <h3 class="theysa-shadow">Sign up</h3>
             <h5 class="theysa-shadow" hidden id="failed-sing-up">Sign up failed</h5>
@@ -82,10 +66,4 @@
             </form>
         </div>
     </div>
-
-    <footer class="theysa-flex-row theysa-footer">
-        <a id="copyright" class="text-center">&copy; 2022 - theysa.id {{ name }}</a>
-    </footer>
-
-</body>
-</html>
+{% endblock %}

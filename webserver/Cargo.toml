@@ -23,6 +23,7 @@ url = { version = "2.3", features = ["serde"] }
 sqlx = { version = "0.6", features = ["runtime-tokio-native-tls" , "mysql", "offline"] }
 # other dependencies
 argon2 = "0.4"
+chrono = "0.4"
 rand = { version = "0.8", features = ["std"] }
 async-trait = "0.1"
 askama = { version = "0.11" }

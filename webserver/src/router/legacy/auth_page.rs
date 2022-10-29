@@ -1,8 +1,11 @@
 use anyhow::Result;
 use askama::Template;
 use axum::extract::{Extension, Form};
+use axum::headers::Date;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
+use axum_sessions::async_session::chrono;
+use axum_sessions::async_session::chrono::Datelike;
 use axum_sessions::extractors::WritableSession;
 use serde::Deserialize;
 
@@ -10,6 +13,7 @@ use crate::database::DbWrapper;
 use crate::password::*;
 use crate::router::AppError;
 use crate::router::legacy::HtmlTemplate;
+use chrono::Utc;
 
 #[derive(Deserialize)]
 pub struct SignUpForm {
@@ -61,7 +65,7 @@ pub async fn signin(
 
 pub async fn do_get() -> impl IntoResponse {
     let template = HelloTemplate {
-        name: "test".to_string(),
+        c_year: Utc::today().year(),
     };
     HtmlTemplate(template)
 }
@@ -69,5 +73,5 @@ pub async fn do_get() -> impl IntoResponse {
 #[derive(Template)]
 #[template(path = "authenticate.html")]
 struct HelloTemplate {
-    name: String,
+    c_year: i32,
 }
