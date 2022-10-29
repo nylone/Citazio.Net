@@ -1,12 +1,15 @@
-use crate::database::DbWrapper;
-use crate::handlers::AppError;
-use anyhow::*;
-use argon2::password_hash::SaltString;
-use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
-use axum::extract::{Extension, Form, Json};
+use anyhow::Result;
+use askama::Template;
+use axum::extract::{Extension, Form};
 use axum::http::StatusCode;
+use axum::response::IntoResponse;
 use axum_sessions::extractors::WritableSession;
 use serde::Deserialize;
+
+use crate::database::DbWrapper;
+use crate::password::*;
+use crate::router::AppError;
+use crate::router::legacy::HtmlTemplate;
 
 #[derive(Deserialize)]
 pub struct SignUpForm {
@@ -23,30 +26,11 @@ pub struct SignInForm {
     password: String,
 }
 
-fn prepare_password(password: &str) -> Result<String> {
-    let salt = SaltString::generate(&mut OsRng);
-    let argon2 = Argon2::default();
-    match argon2.hash_password(password.as_bytes(), &salt) {
-        Ok(hash) => Ok(hash.to_string()),
-        Err(err) => Err(anyhow!("an error occurred: {}", err.to_string())),
-    }
-}
-
-fn verify_password(password: &str, phc: String) -> Result<bool> {
-    match &PasswordHash::new(&phc) {
-        Ok(phc) => match Argon2::default().verify_password(password.as_bytes(), phc) {
-            Ok(_) => Ok(true),
-            Err(_) => Ok(false),
-        },
-        Err(err) => Err(anyhow!("an error occurred: {}", err.to_string())),
-    }
-}
-
 pub async fn signup(
     mut session: WritableSession,
     Extension(db): Extension<DbWrapper>,
-    Json(input): Json<SignUpForm>,
-) -> Result<StatusCode> {
+    Form(input): Form<SignUpForm>,
+) -> Result<StatusCode, AppError> {
     if input.password == input.confirm {
         db.add_user_credentials(
             &input.username,
@@ -54,7 +38,7 @@ pub async fn signup(
             &input.nickname,
             &input.token,
         )
-        .await?;
+            .await?;
         session.insert("uname", &input.username)?;
         Ok(StatusCode::OK)
     } else {
@@ -65,12 +49,25 @@ pub async fn signup(
 pub async fn signin(
     mut session: WritableSession,
     Extension(db): Extension<DbWrapper>,
-    Json(input): Json<SignInForm>,
-) -> Result<StatusCode> {
+    Form(input): Form<SignInForm>,
+) -> Result<StatusCode, AppError> {
     if verify_password(&input.password, db.get_user_phc(&input.username).await?)? {
         session.insert("uname", &input.username)?;
         Ok(StatusCode::OK)
     } else {
         Ok(StatusCode::UNAUTHORIZED)
     }
+}
+
+pub async fn do_get() -> impl IntoResponse {
+    let template = HelloTemplate {
+        name: "test".to_string(),
+    };
+    HtmlTemplate(template)
+}
+
+#[derive(Template)]
+#[template(path = "authenticate.html")]
+struct HelloTemplate {
+    name: String,
 }

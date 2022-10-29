@@ -1,8 +1,16 @@
-pub mod authentication;
-
-pub use authentication::*;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
+use axum::Router;
+use hyper::Body;
+
+mod api;
+mod legacy;
+
+pub fn get_router() -> Router<Body> {
+    Router::new()
+        .nest("/api", api::get_router())
+        .nest("/legacy", legacy::get_router())
+}
 
 // Make our own error that wraps `anyhow::Error`.
 pub struct AppError(anyhow::Error);
@@ -21,8 +29,8 @@ impl IntoResponse for AppError {
 // This enables using `?` on functions that return `Result<_, anyhow::Error>` to turn them into
 // `Result<_, AppError>`. That way you don't need to do that manually.
 impl<E> From<E> for AppError
-where
-    E: Into<anyhow::Error>,
+    where
+        E: Into<anyhow::Error>,
 {
     fn from(err: E) -> Self {
         Self(err.into())

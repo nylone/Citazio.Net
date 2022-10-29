@@ -73,10 +73,16 @@ body {
     text-align: center;
 }
 
-.theysa-set-cur-dom {
-    color: var(--special-color);
+.theysa-button .theysa-set-cur-dom {
+    color: var(--special-text-color);
+    background-color: var(--special-bg-color);
+    border: 1px solid var(--special-bg-color);
 }
 
+.theysa-set-cur-dom .grows:hover {
+    /* === GROW ON HOVER === */
+    transform: scale(1);
+}
 
 .theysa-shadow {
     --shadow-placement: 6px 6px 0 0;
@@ -151,11 +157,6 @@ input, .theysa-button {
 
 input:focus, input:hover {
     background-color: var(--mark-color);
-    border: 1px solid var(--outline-color);
-}
-
-input:focus {
-    outline: 1px solid var(--outline-color);
 }
 
 

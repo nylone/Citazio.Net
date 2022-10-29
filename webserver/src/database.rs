@@ -1,7 +1,7 @@
 use anyhow::*;
 use sqlx::mysql::MySqlPoolOptions;
-use sqlx::prelude::*;
 use sqlx::MySqlPool;
+use sqlx::prelude::*;
 use url::Url;
 
 #[derive(Debug, Clone)]
@@ -17,7 +17,7 @@ impl DbWrapper {
         Ok(DbWrapper(pool))
     }
 
-    pub fn get_pool(&self) -> &MySqlPool {
+    fn get_pool(&self) -> &MySqlPool {
         &self.0
     }
 

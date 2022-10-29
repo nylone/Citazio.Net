@@ -5,17 +5,17 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>theysa.id - Authenticate</title>
-    <link rel="stylesheet"  type="text/css" href="styles/style.css">
+    <link rel="stylesheet"  type="text/css" href="assets/styles/style.css">
 </head>
 
 <body class="theysa-flex-col">
     <header>
-        <h1 class="theysa-shadow">Authenticate</h1>
+        <h1 class="theysa-shadow"> {{ page_title }} </h1>
     </header>
-    <nav class="theysa-box theysa-flex-row theysa-navbar">
-        <a href="index.html">Home</a>
-        <a class="theysa-set-cur-dom">Authenticate</a>
-        <a>About</a>
+    <nav class="theysa-box theysa-flex-row theysa-navbar theysa-shadow grows">
+        <a class="theysa-button theysa-shadow grows" href="index.html">Home</a>
+        <a class="theysa-button theysa-shadow grows theysa-set-cur-dom">Authenticate</a>
+        <a class="theysa-button theysa-shadow grows">About</a>
     </nav>
     <div class="theysa-flex-row">
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
@@ -84,7 +84,7 @@
     </div>
 
     <footer class="theysa-flex-row theysa-footer">
-        <a id="copyright" class="text-center">&copy; 2022 - theysa.id</a>
+        <a id="copyright" class="text-center">&copy; 2022 - theysa.id {{ name }}</a>
     </footer>
 
 </body>
