@@ -1,9 +1,7 @@
 use anyhow::Result;
-use askama::Template;
+use askama::{DynTemplate, Template};
 use axum::extract::{Extension, Form};
-use axum::headers::Date;
-use axum::http::StatusCode;
-use axum::response::IntoResponse;
+use axum::response::{IntoResponse, Redirect};
 use axum_sessions::async_session::chrono;
 use axum_sessions::async_session::chrono::Datelike;
 use axum_sessions::extractors::WritableSession;
@@ -33,7 +31,7 @@ pub async fn signup(
     mut session: WritableSession,
     Extension(db): Extension<DbWrapper>,
     Form(input): Form<SignUpForm>,
-) -> Result<StatusCode, AppError> {
+) -> Result<Redirect, AppError> {
     if input.password == input.confirm {
         db.add_user_credentials(
             &input.username,
@@ -43,9 +41,9 @@ pub async fn signup(
         )
             .await?;
         session.insert("uname", &input.username)?;
-        Ok(StatusCode::OK)
+        Ok(Redirect::to("/legacy/home"))
     } else {
-        Ok(StatusCode::CONFLICT)
+        Ok(Redirect::to("/legacy/auth?conflict"))
     }
 }
 
@@ -53,22 +51,26 @@ pub async fn signin(
     mut session: WritableSession,
     Extension(db): Extension<DbWrapper>,
     Form(input): Form<SignInForm>,
-) -> Result<StatusCode, AppError> {
+) -> Result<Redirect, AppError> {
     if verify_password(&input.password, db.get_user_phc(&input.username).await?)? {
         session.insert("uname", &input.username)?;
-        Ok(StatusCode::OK)
+        Ok(Redirect::to("/legacy/home"))
     } else {
-        Ok(StatusCode::UNAUTHORIZED)
+        Ok(Redirect::to("/legacy/auth?unauthorized"))
     }
 }
 
 pub async fn do_get() -> impl IntoResponse {
-    let template = HelloTemplate {nav_active: 2};
+    let template = AuthPageTemplate {
+        nav_active: 1,
+        error: None,
+    };
     HtmlTemplate(template)
 }
 
 #[derive(Template)]
 #[template(path = "authenticate.html")]
-struct HelloTemplate {
+struct AuthPageTemplate {
     nav_active: usize,
+    error: Option<usize>,
 }

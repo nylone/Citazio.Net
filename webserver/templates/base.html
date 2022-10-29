@@ -11,7 +11,7 @@
     <h1 class="theysa-shadow">theysa.id</h1>
     <nav class="theysa-box theysa-flex-row theysa-navbar theysa-shadow grows">
         {% macro active_index(i) %}
-            {% if nav_active == i %}theysa-set-cur-dom{% endif %}
+            {% if nav_active == i %} theysa-set-cur-dom {% endif %}
         {% endmacro %}
         <a href="#" class="{% call active_index(0) %}">Home</a>
         <a href="#" class="{% call active_index(1) %}">Authenticate</a>

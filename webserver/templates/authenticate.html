@@ -1,23 +1,20 @@
 {% extends "base.html" %}
-
 {% block content %}
     <div class="theysa-flex-row">
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
             <h3 class="theysa-shadow">Sign in</h3>
             <h5 class="theysa-shadow" hidden id="failed-sing-in">Sign in failed</h5>
-            <form action="#" class="theysa-flex-col" id="sign-in-form">
+            <form method="post" action="/legacy/auth/signin" class="theysa-flex-col">
                 <input
                         class="theysa-shadow grows"
-                        id="sign-in-email"
-                        name="email"
-                        placeholder="e-mail"
+                        name="username"
+                        placeholder="username"
                         required
-                        type="email"
+                        type="text"
                 /><br/>
                 <input
                         class="theysa-shadow grows"
-                        id="sign-in-pass"
-                        name="pass"
+                        name="password"
                         placeholder="password"
                         required
                         type="password"
@@ -29,36 +26,39 @@
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
             <h3 class="theysa-shadow">Sign up</h3>
             <h5 class="theysa-shadow" hidden id="failed-sing-up">Sign up failed</h5>
-            <form action="#" class="theysa-flex-col" id="sign-up-form">
+            <form method="post" action="/legacy/auth/signup" class="theysa-flex-col">
                 <input
                         class="theysa-shadow grows"
-                        id="sign-up-email"
-                        name="email"
-                        placeholder="e-mail"
-                        required
-                        type="email"
-                /><br/>
-                <input
-                        class="theysa-shadow grows"
-                        id="sign-up-uname"
-                        name="uname"
+                        name="username"
                         placeholder="username"
                         required
                         type="text"
                 /><br/>
                 <input
                         class="theysa-shadow grows"
-                        id="sign-up-pass"
-                        name="pass"
+                        name="nickname"
+                        placeholder="nickname"
+                        required
+                        type="text"
+                /><br/>
+                <input
+                        class="theysa-shadow grows"
+                        name="password"
                         placeholder="password"
                         required
                         type="password"
                 /><br/>
                 <input
                         class="theysa-shadow grows"
-                        id="sign-up-confpass"
-                        name="pass-confirm"
+                        name="confirm"
                         placeholder="confirm password"
+                        required
+                        type="password"
+                /><br/>
+                <input
+                        class="theysa-shadow grows"
+                        name="token"
+                        placeholder="signup token"
                         required
                         type="password"
                 /><br/>
