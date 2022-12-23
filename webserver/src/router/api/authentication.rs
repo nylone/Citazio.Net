@@ -12,7 +12,6 @@ use crate::router::AppError;
 pub struct SignUpForm {
     username: String,
     password: String,
-    confirm: String,
     nickname: String,
     token: String,
 }
@@ -28,15 +27,15 @@ pub async fn signup(
     Extension(db): Extension<DbWrapper>,
     Json(input): Json<SignUpForm>,
 ) -> Result<StatusCode, AppError> {
-    db.add_user_credentials(
-        &input.username,
-        &prepare_password(&input.password)?,
-        &input.nickname,
-        &input.token,
-    )
-        .await?;
-    session.insert("uname", &input.username)?;
-    Ok(StatusCode::OK)
+        db.add_user_credentials(
+            &input.username,
+            &prepare_password(&input.password)?,
+            &input.nickname,
+            &input.token,
+        )
+            .await?;
+        session.insert("uname", &input.username)?;
+        Ok(StatusCode::OK)
 }
 
 pub async fn signin(

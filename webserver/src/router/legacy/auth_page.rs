@@ -1,6 +1,8 @@
+use std::collections::{HashMap};
+
 use anyhow::Result;
-use askama::{DynTemplate, Template};
-use axum::extract::{Extension, Form};
+use askama::{Template};
+use axum::extract::{Extension, Form, Query};
 use axum::response::{IntoResponse, Redirect};
 use axum_sessions::async_session::chrono;
 use axum_sessions::async_session::chrono::Datelike;
@@ -41,10 +43,9 @@ pub async fn signup(
         )
             .await?;
         session.insert("uname", &input.username)?;
-        Ok(Redirect::to("/legacy/home"))
-    } else {
-        Ok(Redirect::to("/legacy/auth?conflict"))
+        return Ok(Redirect::to("/legacy/home"))
     }
+    Ok(Redirect::to("/legacy/auth?failed_signup=true"))
 }
 
 pub async fn signin(
@@ -52,18 +53,20 @@ pub async fn signin(
     Extension(db): Extension<DbWrapper>,
     Form(input): Form<SignInForm>,
 ) -> Result<Redirect, AppError> {
-    if verify_password(&input.password, db.get_user_phc(&input.username).await?)? {
-        session.insert("uname", &input.username)?;
-        Ok(Redirect::to("/legacy/home"))
-    } else {
-        Ok(Redirect::to("/legacy/auth?unauthorized"))
+    if let Ok(username) = db.get_user_phc(&input.username).await {
+        if verify_password(&input.password, username)? {
+            session.insert("uname", &input.username)?;
+            return Ok(Redirect::to("/legacy/home"))
+        }
     }
+    Ok(Redirect::to("/legacy/auth?failed_signin=true"))
 }
 
-pub async fn do_get() -> impl IntoResponse {
+pub async fn do_get(Query(query): Query<HashMap<String,String>>) -> impl IntoResponse {
     let template = AuthPageTemplate {
         nav_active: 1,
-        error: None,
+        failed_signin: query.contains_key("failed_signin"),
+        failed_signup: query.contains_key("failed_signup")
     };
     HtmlTemplate(template)
 }
@@ -72,5 +75,6 @@ pub async fn do_get() -> impl IntoResponse {
 #[template(path = "authenticate.html")]
 struct AuthPageTemplate {
     nav_active: usize,
-    error: Option<usize>,
+    failed_signin: bool,
+    failed_signup: bool,
 }
