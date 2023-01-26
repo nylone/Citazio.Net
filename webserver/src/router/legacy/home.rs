@@ -3,6 +3,7 @@ use axum::response::{IntoResponse, Redirect, Response};
 use axum_sessions::async_session::chrono;
 use axum_sessions::async_session::chrono::Datelike;
 use axum_sessions::extractors::ReadableSession;
+use std::vec::Vec;
 
 use crate::router::legacy::HtmlTemplate;
 
@@ -12,7 +13,8 @@ pub async fn do_get(
     if let Some(uname) = session.get("uname") {
         let template = PageTemplate {
             nav_active: 0,
-            uname 
+            uname,
+            cards: Vec::new(),
         };
         return HtmlTemplate(template).into_response()
     }
@@ -24,4 +26,13 @@ pub async fn do_get(
 struct PageTemplate {
     nav_active: usize,
     uname: String,
+    cards: Vec<BoardCard>
+}
+
+#[derive(Template)]
+#[template(path = "board_card.html")]
+struct BoardCard {
+    name: String,
+    desc: String,
+    path: String,
 }

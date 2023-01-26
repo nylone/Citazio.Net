@@ -8,6 +8,7 @@ use tower_http::services::ServeDir;
 
 mod auth_page;
 mod home;
+mod about;
 
 struct HtmlTemplate<T>(T);
 
@@ -34,6 +35,7 @@ pub fn get_router() -> Router<Body> {
     Router::new()
         .nest("/assets", serve_dir)
         .route("/home", get(home::do_get))
+        .route("/about", get(about::do_get))
         .route("/auth", get(auth_page::do_get))
         .route("/auth/signin", post(auth_page::signin))
         .route("/auth/signup", post(auth_page::signup))
