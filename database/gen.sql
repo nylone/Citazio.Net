@@ -1,47 +1,101 @@
-create or replace table signup_tokens
+/*
+CREATE DATABASE THEYSAID;
+USE THEYSAID;
+CREATE USER THEYSAID@'LOCALHOST' IDENTIFIED BY 'THEYSAID';
+GRANT ALL PRIVILEGES ON THEYSAID.* TO THEYSAID@'LOCALHOST';
+*/
+
+DROP DATABASE THEYSAID;
+CREATE DATABASE THEYSAID;
+USE THEYSAID;
+
+CREATE OR REPLACE TABLE SIGNUP_TOKENS
 (
-    token_id   bigint unsigned                       not null
-        constraint `PRIMARY`
-        primary key,
-    created_at timestamp default current_timestamp() not null,
-    expires_at timestamp                             null
+    TOKEN_ID   BIGINT UNSIGNED                       NOT NULL PRIMARY KEY,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL,
+    EXPIRES_AT TIMESTAMP
 );
 
-create or replace table users
+CREATE OR REPLACE TABLE USERS
 (
-    id         bigint unsigned auto_increment
-        constraint `PRIMARY`
-        primary key,
-    username   varchar(25)                           not null,
-    phc        tinytext                              not null,
-    nickname   varchar(25)                           null,
-    created_at timestamp default current_timestamp() not null,
-    token_id   bigint unsigned                       null,
-    constraint token_id
-        unique (token_id),
-    constraint username
-        unique (username),
-    constraint users_ibfk_1
-        foreign key (token_id) references signup_tokens (token_id)
+    USER_ID    SERIAL PRIMARY KEY,
+    USERNAME   VARCHAR(25)                           NOT NULL UNIQUE,
+    NICKNAME   VARCHAR(25)                           NOT NULL UNIQUE,
+    PHC        TINYTEXT                              NOT NULL,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL,
+    TOKEN_ID   BIGINT UNSIGNED                       NOT NULL REFERENCES SIGNUP_TOKENS (TOKEN_ID)
 );
 
-create or replace procedure add_new_user(IN username varchar(25), IN phc tinytext, IN nickname varchar(25),
-                                         IN token_id bigint unsigned)
-begin
-    insert into users (username, phc, nickname, token_id) value (username, phc, nickname, token_id);
-end;
+CREATE OR REPLACE TABLE BOARDS
+(
+    BOARD_ID   SERIAL PRIMARY KEY,
+    CREATOR_ID BIGINT UNSIGNED                       NOT NULL REFERENCES USERS (USER_ID),
+    NAME       VARCHAR(25)                           NOT NULL,
+    PUBLIC     BOOLEAN                               NOT NULL,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL
+);
 
-create or replace procedure get_phc_from_username(IN username varchar(25))
-begin
-    select phc from users u where u.username = username ;
-end;
+CREATE OR REPLACE TABLE BOARDS_TO_USERS
+(
+    ID       SERIAL PRIMARY KEY,
+    BOARD_ID BIGINT UNSIGNED NOT NULL REFERENCES BOARDS (BOARD_ID),
+    USER_ID  BIGINT UNSIGNED NOT NULL REFERENCES USERS (USER_ID),
+    CONSTRAINT UNIQUE (BOARD_ID, USER_ID)
+);
+CREATE OR REPLACE TABLE QUOTES
+(
+    QUOTE_ID   SERIAL PRIMARY KEY,
+    BOARD_ID   BIGINT UNSIGNED                       NOT NULL REFERENCES BOARDS (BOARD_ID),
+    USER_ID    BIGINT UNSIGNED                       NOT NULL REFERENCES USERS (USER_ID),
+    QUOTE      JSON                                  NOT NULL,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP() NOT NULL
+);
 
-create or replace procedure get_user_from_id(IN id bigint unsigned)
-begin
-    select * from users u where u.id = id ;
-end;
+DELIMITER //
 
-create or replace procedure get_user_from_username(IN username varchar(25))
-begin
-    select * from users u where u.username = username ;
-end;
+CREATE OR REPLACE PROCEDURE ADD_BOARD(IN NAME VARCHAR(25), IN CREATOR_ID BIGINT UNSIGNED, IN PUBLIC BOOLEAN)
+BEGIN
+    INSERT INTO BOARDS(CREATOR_ID, NAME, PUBLIC) VALUE (CREATOR_ID, NAME, PUBLIC);
+    SELECT LAST_INSERT_ID() AS BOARD_ID;
+END//
+
+CREATE OR REPLACE PROCEDURE ADD_QUOTE(IN QUOTE JSON, IN BOARD_ID BIGINT UNSIGNED, IN USER_ID BIGINT UNSIGNED)
+BEGIN
+    INSERT INTO QUOTES(BOARD_ID, USER_ID, QUOTE) VALUE (BOARD_ID, USER_ID, QUOTE);
+    SELECT LAST_INSERT_ID() AS QUOTE_ID;
+END//
+
+CREATE OR REPLACE PROCEDURE ADD_USER(IN USERNAME VARCHAR(25), IN PHC TINYTEXT, IN NICKNAME VARCHAR(25),
+                                     IN TOKEN_ID BIGINT UNSIGNED)
+BEGIN
+    INSERT INTO USERS (USERNAME, PHC, NICKNAME, TOKEN_ID) VALUE (USERNAME, PHC, NICKNAME, TOKEN_ID);
+    SELECT LAST_INSERT_ID() AS USER_ID;
+END//
+
+CREATE OR REPLACE PROCEDURE GET_QUOTES(IN FETCH_START BIGINT UNSIGNED, IN FETCH_NUMBER BIGINT UNSIGNED,
+                                       IN BOARD_ID BIGINT UNSIGNED, IN USER_ID BIGINT UNSIGNED)
+BEGIN
+    SELECT Q.QUOTE, Q.USER_ID, Q.CREATED_AT
+    FROM BOARDS_TO_USERS B2U
+             INNER JOIN QUOTES Q ON Q.BOARD_ID = B2U.BOARD_ID
+    WHERE B2U.BOARD_ID = BOARD_ID
+      AND B2U.USER_ID = USER_ID
+    LIMIT FETCH_START, FETCH_NUMBER;
+END//
+
+CREATE OR REPLACE PROCEDURE GET_PHC_FROM_USERNAME(IN USERNAME VARCHAR(25))
+BEGIN
+    SELECT PHC FROM USERS U WHERE U.USERNAME = USERNAME;
+END//
+
+CREATE OR REPLACE PROCEDURE GET_USER_FROM_ID(IN ID BIGINT UNSIGNED)
+BEGIN
+    SELECT * FROM USERS U WHERE U.USER_ID = ID;
+END//
+
+CREATE OR REPLACE PROCEDURE GET_USER_FROM_USERNAME(IN USERNAME VARCHAR(25))
+BEGIN
+    SELECT * FROM USERS U WHERE U.USERNAME = USERNAME;
+END//
+
+DELIMITER ;
