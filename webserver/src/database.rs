@@ -26,9 +26,9 @@ impl DbWrapper {
         uname: &str,
         phc: &str,
         nick: &str,
-        token: &str,
+        token: Option<String>,
     ) -> Result<()> {
-        sqlx::query!("call add_new_user(?, ?, ?, ?);", uname, phc, nick, token)
+        sqlx::query!("call add_user(?, ?, ?, ?);", uname, phc, nick, token)
             .execute(self.get_pool())
             .await?;
         Ok(())

@@ -18,6 +18,7 @@ pub struct Config {
     pub session_duration: Duration,
     pub session_secret: String,
     pub bindings: Vec<SocketAddr>,
+    pub require_tokens: bool,
 }
 
 impl Config {

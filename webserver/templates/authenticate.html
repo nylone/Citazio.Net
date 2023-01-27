@@ -54,13 +54,15 @@
                         required
                         type="password"
                 /><br/>
+                {% if require_tokens %}
                 <input
-                        class="theysa-shadow grows"
-                        name="token"
-                        placeholder="signup token"
-                        required
-                        type="password"
+                class="theysa-shadow grows"
+                name="token"
+                placeholder="signup token"
+                required
+                type="password"
                 /><br/>
+                {% endif %}
                 <input class="theysa-button theysa-shadow grows" type="submit" value="SIGN UP"/>
             </form>
         </div>

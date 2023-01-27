@@ -13,7 +13,7 @@ pub struct SignUpForm {
     username: String,
     password: String,
     nickname: String,
-    token: String,
+    token: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -31,7 +31,7 @@ pub async fn signup(
             &input.username,
             &prepare_password(&input.password)?,
             &input.nickname,
-            &input.token,
+            input.token,
         )
             .await?;
         session.insert("uname", &input.username)?;

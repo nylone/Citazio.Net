@@ -9,6 +9,7 @@ use axum_sessions::async_session::chrono::Datelike;
 use axum_sessions::extractors::WritableSession;
 use serde::Deserialize;
 
+use crate::CONFIG;
 use crate::database::DbWrapper;
 use crate::password::*;
 use crate::router::AppError;
@@ -20,7 +21,7 @@ pub struct SignUpForm {
     password: String,
     confirm: String,
     nickname: String,
-    token: String,
+    token: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -34,12 +35,12 @@ pub async fn signup(
     Extension(db): Extension<DbWrapper>,
     Form(input): Form<SignUpForm>,
 ) -> Result<Redirect, AppError> {
-    if input.password == input.confirm {
+    if input.password == input.confirm && input.token.is_some() == CONFIG.require_tokens{
         db.add_user_credentials(
             &input.username,
             &prepare_password(&input.password)?,
             &input.nickname,
-            &input.token,
+            input.token,
         )
             .await?;
         session.insert("uname", &input.username)?;
@@ -66,7 +67,8 @@ pub async fn do_get(Query(query): Query<HashMap<String,String>>) -> impl IntoRes
     let template = AuthPageTemplate {
         nav_active: 1,
         failed_signin: query.contains_key("failed_signin"),
-        failed_signup: query.contains_key("failed_signup")
+        failed_signup: query.contains_key("failed_signup"),
+        require_tokens: CONFIG.require_tokens,
     };
     HtmlTemplate(template)
 }
@@ -77,4 +79,5 @@ struct AuthPageTemplate {
     nav_active: usize,
     failed_signin: bool,
     failed_signup: bool,
+    require_tokens: bool,
 }
