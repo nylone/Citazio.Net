@@ -169,7 +169,7 @@ input:focus, input:hover {
 
 
 /* === SPECIAL === */
-input.special, .theysa-box.special {
+.special {
     color: var(--special-text-color);
     border-color: var(--special-bg-color);
     background-color: var(--special-bg-color);

@@ -2,8 +2,7 @@
 {% block content %}
     <div class="theysa-flex-row">
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
-            <h3 class="theysa-shadow">Sign in</h3>
-            <h5 class="theysa-shadow" {% if !failed_signin %} hidden {% endif %} id="failed-sing-in">Sign in failed</h5>
+            <h3 class="theysa-shadow">{% if !failed_signin %} Sign in {% else %} FAILED {% endif %}</h3>
             <form method="post" action="/legacy/auth/signin" class="theysa-flex-col">
                 <input
                         class="theysa-shadow grows"
@@ -23,8 +22,7 @@
             </form>
         </div>
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
-            <h3 class="theysa-shadow">Sign up</h3>
-            <h5 class="theysa-shadow" {% if !failed_signup %} hidden {% endif %} id="failed-sing-up">Sign up failed</h5>
+            <h3 class="theysa-shadow">{% if !failed_signup %} Sign up {% else %} FAILED {% endif %}</h3>
             <form method="post" action="/legacy/auth/signup" class="theysa-flex-col">
                 <input
                         class="theysa-shadow grows"

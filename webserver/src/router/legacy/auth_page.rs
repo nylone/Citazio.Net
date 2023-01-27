@@ -35,18 +35,21 @@ pub async fn signup(
     Extension(db): Extension<DbWrapper>,
     Form(input): Form<SignUpForm>,
 ) -> Result<Redirect, AppError> {
+    let failed_redirect = Ok(Redirect::to("/legacy/auth?failed_signup=true"));
     if input.password == input.confirm && input.token.is_some() == CONFIG.require_tokens{
-        db.add_user_credentials(
+        if let Err(_error) = db.add_user_credentials(
             &input.username,
             &prepare_password(&input.password)?,
             &input.nickname,
             input.token,
-        )
-            .await?;
-        session.insert("uname", &input.username)?;
-        return Ok(Redirect::to("/legacy/home"))
+        ).await {
+            return failed_redirect
+        } else {
+            session.insert("uname", &input.username)?;
+            return Ok(Redirect::to("/legacy/home"))
+        }
     }
-    Ok(Redirect::to("/legacy/auth?failed_signup=true"))
+    failed_redirect
 }
 
 pub async fn signin(
