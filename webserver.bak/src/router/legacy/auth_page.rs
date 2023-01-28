@@ -45,7 +45,7 @@ pub async fn signup(
         ).await {
             return failed_redirect
         } else {
-            session.insert("uname", &input.username)?;
+            session.insert("uid", db.get_user_id(input.username).await)?;
             return Ok(Redirect::to("/legacy/home"))
         }
     }
@@ -59,7 +59,7 @@ pub async fn signin(
 ) -> Result<Redirect, AppError> {
     if let Ok(username) = db.get_user_phc(&input.username).await {
         if verify_password(&input.password, username)? {
-            session.insert("uname", &input.username)?;
+            session.insert("uid", db.get_user_id(input.username).await)?;
             return Ok(Redirect::to("/legacy/home"))
         }
     }
