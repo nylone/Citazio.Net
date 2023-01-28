@@ -15,7 +15,7 @@ module.exports = async function (fastify, opts) {
       let conn;
       try {
         conn = await fastify.dbPool.getConnection();
-        const rows = await conn.query('CALL GET_USER_FROM_USERNAME(?)', [uname]);
+        const rows = await conn.execute('CALL GET_USER_FROM_USERNAME(?)', [uname]);
         const timeout = sleep(100);
         if (rows[0][0]) {
           const row = rows[0][0];

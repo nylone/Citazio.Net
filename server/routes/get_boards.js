@@ -2,53 +2,36 @@
 
 function sleep(ms) {
     return new Promise((resolve) => {
-      setTimeout(resolve, ms);
+        setTimeout(resolve, ms);
     });
-  }
+}
 
 module.exports = async function (fastify, opts) {
     fastify.get('/boards', async (request, reply) => {
         const uid = request.session.uid;
-        let boards = {}
-        fastify.mysql.getConnection(
-            async (err, client) => {
-                if (err) return reply.internalServerError();
+        if (uid) {
+            let boards = {}
+            let conn;
+            try {
+                conn = await fastify.dbPool.getConnection();
     
-                await client.promise().query('CALL GET_OWN_BOARDS(?)', [uid],
-                (err, result) => {
-                    if (err) return reply.internalServerError();
+                const rows_owned = await conn.execute('CALL GET_OWN_BOARDS(?)', [uid]);
+                const rows_subscribed = await conn.execute('CALL GET_SUBSCRIBED_BOARDS(?)', [uid]);
+                const rows_public = await conn.execute('CALL GET_PUBLIC_BOARDS(?)', [uid]);
     
-                    const row = result[0][0];
-                    boards.owned = { 
-                        bid: row.BOARD_ID,
-                        name: row.NAME,
-                        path: row.PATH,
-                    }
-                    console.log(boards)
-                });
-
-                console.log(boards)
+                const boards_owned = rows_owned[0]
+                const boards_subscribed = rows_subscribed[0]
+                const boards_public = rows_public[0]
     
-                client.query('CALL GET_SUBSCRIBED_BOARDS(?)', [uid],
-                (err, result) => {
-                    if (err) return reply.internalServerError();
-    
-                    const row = result[0][0];
-                    boards.subscribed = row
-                });
-    
-                client.query('CALL GET_PUBLIC_BOARDS(?)', [uid],
-                (err, result) => {
-                    if (err) return reply.internalServerError();
-    
-                    const row = result[0][0];
-                    boards.public = row
-                }); 
-
-                client.release();
-                console.log("released")
+                boards = {boards_owned, boards_public, boards_subscribed}
                 reply.send(boards)
+            } catch (err) {
+                reply.internalServerError(err);
+            } finally {
+                if (conn) return conn.end();
             }
-        )
+        } else {
+            reply.unauthorized()
+        }
     })
 }
