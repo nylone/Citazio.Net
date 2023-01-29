@@ -2,28 +2,28 @@
 const argon2 = require("argon2");
 
 module.exports = async function (fastify, opts) {
+  const requireTokens = fastify.config.app.requireTokens;
+
   fastify.post('/signup', (request, reply) => {
     const uname = request.body?.uname;
     const pass = request.body?.pass;
-    const token = request.body?.token;
+    const token = requireTokens ? request.body?.token : null;
 
-    if (uname && pass && token) {
+    if (uname && pass && (token || requireTokens == false)) {
       argon2.hash(pass).then(
         async function onFulfilled(phc) {
           let conn;
           try {
             conn = await fastify.dbPool.getConnection();
-            const rows = await conn.execute('CALL ADD_USER(?, ?, ?)', [uname, phc, token]);
-            if (rows[0][0]) {
-              const row = rows[0][0];
-              const uid = row?.USER_ID;
-              request.session.uid = uid;
-              reply.redirect('/home')
+            const rows = await conn.execute('CALL add_user(?, ?, ?)', [uname, phc, token || null]);
+            if (rows[0][0].result) {
+              request.session.uname = uname;
+              reply.send();
             } else {
-              reply.internalServerError(); // if the call succeeds the results should aways include the inserted id
+              reply.badRequest(rows[0][0].reason);
             }
           } catch (err) {
-            reply.badRequest(); // todo: adde better handling of user addition from the database
+            reply.internalServerError();
           } finally {
             if (conn) return conn.end();
           }
@@ -32,7 +32,7 @@ module.exports = async function (fastify, opts) {
           reply.internalServerError();
         });
     } else {
-      reply.badRequest();
+      reply.badRequest("missing fields");
     }
   });
 }

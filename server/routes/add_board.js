@@ -1,25 +1,22 @@
 'use strict'
 
 module.exports = async function (fastify, opts) {
-    fastify.get('/board/:path/quotes/:fs/:fn', async (request, reply) => {
-        const path = request.params.path;
-        const fs = request.params.fs;
-        const fn = request.params.fn;
-
+    fastify.post('/boards', async (request, reply) => {
         const uname = request.session.uname;
+
+        const title = request.body?.title;
+        const path = request.body?.path;
+        const pub = request.body?.public;
         if (uname) {
-            let boards = {}
             let conn;
             try {
                 conn = await fastify.dbPool.getConnection();
-    
-                const rows = await conn.execute('CALL get_quotes(?, ?, ?, ?)', [fs, fn, path, uname]);
-
-                if (rows[0][0].result) {
-                    const quotes = rows[0]
-                    reply.send(quotes)
+                const rows = await conn.execute('CALL add_board(?, ?, ?, ?)', [title, uname, path, pub]);
+                const row = rows[0][0]
+                if (row?.result) {
+                    reply.send()
                 } else {
-                    reply.unauthorized()
+                    reply.badRequest()
                 }
             } catch (err) {
                 reply.internalServerError(err);

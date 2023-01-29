@@ -1,23 +1,17 @@
 'use strict'
 
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-}
-
 module.exports = async function (fastify, opts) {
     fastify.get('/boards', async (request, reply) => {
-        const uid = request.session.uid;
-        if (uid) {
+        const uname = request.session.uname;
+        if (uname) {
             let boards = {}
             let conn;
             try {
                 conn = await fastify.dbPool.getConnection();
     
-                const rows_owned = await conn.execute('CALL GET_OWN_BOARDS(?)', [uid]);
-                const rows_subscribed = await conn.execute('CALL GET_SUBSCRIBED_BOARDS(?)', [uid]);
-                const rows_public = await conn.execute('CALL GET_PUBLIC_BOARDS(?)', [uid]);
+                const rows_owned = await conn.execute('CALL get_own_boards(?)', [uname]);
+                const rows_subscribed = await conn.execute('CALL get_subscribed_boards(?)', [uname]);
+                const rows_public = await conn.execute('CALL get_public_boards(?)', [uname]);
     
                 const boards_owned = rows_owned[0]
                 const boards_subscribed = rows_subscribed[0]

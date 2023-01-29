@@ -15,17 +15,15 @@ module.exports = async function (fastify, opts) {
       let conn;
       try {
         conn = await fastify.dbPool.getConnection();
-        const rows = await conn.execute('CALL GET_USER_FROM_USERNAME(?)', [uname]);
+        const rows = await conn.execute('CALL get_phc_from_username(?)', [uname]);
         const timeout = sleep(100);
         if (rows[0][0]) {
-          const row = rows[0][0];
-          const uid = row?.USER_ID;
-          const phc = row?.PHC;
+          const phc = rows[0][0].phc;
           try {
             if (await argon2.verify(phc, pass)) {
-              request.session.uid = uid;
+              request.session.uname = uname;
               await timeout;
-              reply.redirect('/home')
+              reply.send()
             } else {
               await timeout;
               reply.unauthorized();

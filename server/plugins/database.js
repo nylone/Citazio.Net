@@ -4,12 +4,14 @@ const fp = require('fastify-plugin')
 
 module.exports = fp(async function (fastify, opts, done) {
   const mariadb = require('mariadb');
+  const config = fastify.config.database;
   const pool = mariadb.createPool({
-       host: 'localhost', 
-       user:'theysaid', 
-       password: 'theysaid',
-       database: 'theysaid',
-       connectionLimit: 5,
+       host: config.host,
+       port: config.port,
+       user: config.user,
+       password: config.password,
+       database: config.database,
+       connectionLimit: config.connection_limit,
        supportBigNumbers: true,
   });
   
