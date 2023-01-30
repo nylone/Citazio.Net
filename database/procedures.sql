@@ -32,7 +32,8 @@ begin
     end if;
 end;
 
-create or replace procedure add_user_to_board(in username varchar(32), in path varchar(32), in access_lvl tinyint, in executor varchar(32))
+create or replace procedure add_user_to_board(in username varchar(32), in path varchar(32), in access_lvl tinyint,
+                                              in executor varchar(32))
 begin
     set @user_id = get_user_id(username);
     set @board_id = get_board_id(path);
@@ -49,7 +50,8 @@ begin
     end if;
 end;
 
-create or replace procedure remove_user_from_board(in username varchar(32), in path varchar(32), in executor varchar(32))
+create or replace procedure remove_user_from_board(in username varchar(32), in path varchar(32),
+                                                   in executor varchar(32))
 begin
     set @user_id = get_user_id(username);
     set @board_id = get_board_id(path);
@@ -57,8 +59,10 @@ begin
         @board_id is null or
         username = executor or
         (select count(*) from boards_to_users b2u where b2u.user_id = @user_id and b2u.board_id = @board_id) = 0) or
-        has_user_got_access_lvl(executor, path, if((select access_lvl from boards_to_users b2u where b2u.user_id = @user_id and b2u.board_id = @board_id) >= 2, 3, 2)) = 0
-        then
+       has_user_got_access_lvl(executor, path, if(
+                   (select access_lvl from boards_to_users b2u where b2u.user_id = @user_id
+                                                                 and b2u.board_id = @board_id) >= 2, 3, 2)) = 0
+    then
         select false as result;
     else
         delete from boards_to_users where board_id = @board_id and user_id = @user_id;
@@ -66,7 +70,8 @@ begin
     end if;
 end;
 
-create or replace procedure edit_user_on_board(in username varchar(32), in path varchar(32),in access_lvl tinyint, in executor varchar(32))
+create or replace procedure edit_user_on_board(in username varchar(32), in path varchar(32), in access_lvl tinyint,
+                                               in executor varchar(32))
 begin
     set @user_id = get_user_id(username);
     set @board_id = get_board_id(path);
@@ -74,8 +79,10 @@ begin
         @board_id is null or
         username = executor or
         (select count(*) from boards_to_users b2u where b2u.user_id = @user_id and b2u.board_id = @board_id) = 0) or
-        has_user_got_access_lvl(executor, path, if((select access_lvl from boards_to_users b2u where b2u.user_id = @user_id and b2u.board_id = @board_id) >= 2, 3, 2)) = 0
-        then
+       has_user_got_access_lvl(executor, path, if(
+                   (select access_lvl from boards_to_users b2u where b2u.user_id = @user_id
+                                                                 and b2u.board_id = @board_id) >= 2, 3, 2)) = 0
+    then
         select false as result;
     else
         update boards_to_users b2u set b2u.access_lvl = access_lvl where board_id = @board_id and user_id = @user_id;
@@ -87,13 +94,44 @@ create or replace procedure add_quote(in quote json, in path varchar(32), in use
 begin
     set @user_id = get_user_id(username);
     set @board_id = get_board_id(path);
-    if (select count(*) from boards b where b.id = @board_id) <> 1 or
-       (select count(*) from users u where u.id = @user_id) <> 1 or
+    if @board_id is null or @user_id is null or
        has_user_got_access_lvl(username, path, 1) = 0
     then
         select false as result;
     else
         insert into quotes(quote, board_id, user_id) value (quote, @board_id, @user_id);
+        select true as result;
+    end if;
+end;
+
+create or replace procedure remove_quote(in id bigint unsigned, in path varchar(32), in username varchar(32))
+begin
+    set @user_id = get_user_id(username);
+    set @board_id = get_board_id(path);
+    if @board_id is null or @user_id is null or
+       (select count(*) from quotes q where q.id = id) <> 1 or
+       has_user_got_access_lvl(username, path,
+                               if((select q.user_id from quotes q where q.id = id) = @user_id, 1, 2)) = 0
+    then
+        select false as result;
+    else
+        delete from quotes where quotes.id = id;
+        select true as result;
+    end if;
+end;
+
+create or replace procedure edit_quote(in id bigint unsigned, in quote json, in path varchar(32),
+                                       in username varchar(32))
+begin
+    set @user_id = get_user_id(username);
+    set @board_id = get_board_id(path);
+    if @board_id is null or @user_id is null or
+       (select count(*) from quotes q where q.id = id) <> 1 or
+       if((select q.user_id from quotes q where q.id = id) = @user_id, 1, 0) = 0
+    then
+        select false as result;
+    else
+        update quotes q set q.quote = quote where q.board_id = @board_id and q.user_id = @user_id;
         select true as result;
     end if;
 end;
@@ -134,7 +172,7 @@ begin
     if (@board_id is null or has_user_got_access_lvl(username, path, 0) = 0) then
         select false as result;
     else
-        select
+        select q.id,
                q.quote,
                u.username,
                q.created
@@ -153,8 +191,8 @@ begin
     if (@board_id is null or has_user_got_access_lvl(username, path, 2) = 0) then
         select false as result;
     else
-        select
-               u.username, b2u.access_lvl
+        select u.username,
+               b2u.access_lvl
         from boards_to_users b2u
                  join users u on b2u.user_id = u.id
         where b2u.board_id = @board_id;

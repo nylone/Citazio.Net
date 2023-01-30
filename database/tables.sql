@@ -1,9 +1,8 @@
-
 create table signup_tokens
 (
-    id         serial                                not null primary key,
-    token      varchar(32)                           not null unique key,
-    created    timestamp default current_timestamp() not null
+    id      serial                                not null primary key,
+    token   varchar(32)                           not null unique key,
+    created timestamp default current_timestamp() not null
 );
 
 create table users
@@ -30,7 +29,7 @@ create table boards_to_users
     id         serial                                not null primary key,
     board_id   bigint unsigned                       not null references boards (id),
     user_id    bigint unsigned                       not null references users (id),
-    access_lvl tinyint    default 0                   not null,
+    access_lvl tinyint   default 0                   not null,
     created    timestamp default current_timestamp() not null,
     constraint unique (board_id, user_id)
 );
