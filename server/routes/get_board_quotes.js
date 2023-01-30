@@ -13,7 +13,7 @@ module.exports = async function (fastify, opts) {
             try {
                 conn = await fastify.dbPool.getConnection();
     
-                const rows = await conn.execute('CALL get_quotes(?, ?, ?, ?)', [fs, fn, path, uname]);
+                const rows = await conn.execute('CALL get_board_quotes(?, ?, ?, ?)', [fs, fn, path, uname]);
 
                 if (rows[0][0].result) {
                     const quotes = rows[0]

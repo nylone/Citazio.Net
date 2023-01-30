@@ -86,7 +86,7 @@ begin
         and b2u.user_id = get_user_id(username);
 end;
 
-create or replace procedure get_quotes(
+create or replace procedure get_board_quotes(
     in fetch_start bigint unsigned,
     in fetch_number bigint unsigned,
     in path varchar(32),
