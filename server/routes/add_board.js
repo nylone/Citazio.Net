@@ -19,7 +19,7 @@ module.exports = async function (fastify, opts) {
                     reply.badRequest()
                 }
             } catch (err) {
-                reply.internalServerError(err);
+                reply.internalServerError();
             } finally {
                 if (conn) return conn.end();
             }
