@@ -1,10 +1,3 @@
-<script>
-  export default {
-    name: 'AuTh'
-  }
-
-</script>
-
 <template>
   <div class="theysa-flex-row">
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
@@ -70,3 +63,11 @@
         </div>
     </div>
 </template>
+
+<script>
+  export default {
+    name: 'AuTh'
+  }
+  
+
+</script>
