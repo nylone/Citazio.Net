@@ -29,14 +29,14 @@ module.exports = async function (fastify, opts) {
               reply.unauthorized();
             }
           } catch (e) {
-            reply.internalServerError();
+            reply.internalServerError(e);
           }
         } else {
           await timeout;
           reply.unauthorized();
         }
       } catch (err) {
-        reply.internalServerError();
+        reply.internalServerError(err);
       } finally {
         if (conn) return conn.end();
       }
