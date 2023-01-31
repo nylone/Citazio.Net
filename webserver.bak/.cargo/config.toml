@@ -1,2 +1,0 @@
-[env]
-DATABASE_URL = "mysql://theysaid:theysaid@localhost:3306/theysaid"

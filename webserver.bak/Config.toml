@@ -1,5 +1,0 @@
-db_url = "mysql://theysaid:theysaid@localhost:3306/theysaid"
-bindings = ["0.0.0.0:1111", "0.0.0.0:3000"]
-session_duration = { secs = 1800, nanos = 0 }
-session_secret = "we recommend using `openssl rand -base64 128` to generate a secure session cookie key :)"
-require_tokens = false
