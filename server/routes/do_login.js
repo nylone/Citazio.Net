@@ -6,8 +6,8 @@ const schema = {
     type: 'object',
     required: ['uname', 'pass'],
     properties: {
-      uname: { type: 'string', maxLength: 32 },
-      pass: { type: 'string', maxLength: 32 },
+      uname: { $ref: 'short_ascii_string' },
+      pass: { $ref: 'short_ascii_string' },
     }
   }
 }

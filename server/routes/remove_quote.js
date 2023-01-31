@@ -1,12 +1,24 @@
 'use strict'
 
-module.exports = async function (fastify, opts) {
-    fastify.delete('/board/:path/quotes', async (request, reply) => {
-        const uname = request.session.uname;
+const schema = {
+    params: {
+        $ref: 'board_path_params',
+    },
+    body: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+            id: { type: 'integer', minimum: 0 },
+        }
+    }
+}
 
-        const id = request.body?.id;
-        const path = request.body?.path;
+module.exports = async function (fastify, opts) {
+    fastify.post('/board/:path/quotes/delete', { schema }, async (request, reply) => {
+        const uname = request.session.uname;
         if (uname) {
+            const id = request.body.id;
+            const path = request.params.path;
             let conn;
             try {
                 conn = await fastify.dbPool.getConnection();

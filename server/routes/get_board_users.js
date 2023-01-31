@@ -1,7 +1,13 @@
 'use strict'
 
+const schema = {
+    params: {
+        $ref: 'board_path_params',
+    },
+}
+
 module.exports = async function (fastify, opts) {
-    fastify.get('/board/:path/users', async (request, reply) => {
+    fastify.get('/board/:path/users', { schema }, async (request, reply) => {
         const path = request.params.path;
 
         const uname = request.session.uname;

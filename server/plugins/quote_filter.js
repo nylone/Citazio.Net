@@ -16,12 +16,12 @@ module.exports = fp(async function (fastify, opts, done) {
   }
 
   function filter(input) {
-    if (typeof(input) !== "object" || !Array.isArray(input.array)) {
+    if (typeof(input) !== "object" || !Array.isArray(input.phrases)) {
       return undefined;
     }
 
     return {
-      array: input.array.map(x => {
+      phrases: input.phrases.map(x => {
         return {
           msg: string_constraint(x.msg, text_len),
           by: string_constraint(x.by, uname_len),

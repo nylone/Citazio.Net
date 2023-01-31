@@ -1,13 +1,25 @@
 'use strict'
 
-module.exports = async function (fastify, opts) {
-    fastify.post('/boards', async (request, reply) => {
-        const uname = request.session.uname;
+const schema = {
+    body: {
+      type: 'object',
+      required: ['title', 'path', 'pub'],
+      properties: {
+        title: { $ref: 'short_ascii_string' },
+        path: { $ref: 'short_ascii_string' },
+        pub: { type: 'boolean' }
+      }
+    }
+  }
 
-        const title = request.body?.title;
-        const path = request.body?.path;
-        const pub = request.body?.public;
+module.exports = async function (fastify, opts) {
+    fastify.post('/boards/add', { schema }, async (request, reply) => {
+        const uname = request.session.uname;
         if (uname) {
+            const title = request.body.title;
+            const path = request.body.path;
+            const pub = request.body.public;
+
             let conn;
             try {
                 conn = await fastify.dbPool.getConnection();
