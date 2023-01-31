@@ -33,7 +33,7 @@ module.exports = async function (fastify, opts) {
         reply.send()
       } else {
         await timeout;
-        reply.unauthorized();
+        reply.badRequest();
       }
     } catch (err) {
       reply.internalServerError();
