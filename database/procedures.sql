@@ -12,10 +12,9 @@ create or replace procedure add_user(in username varchar(32), in phc tinytext, i
 begin
     set @token_id = get_token_id(token);
     if token is not null and ((select count(*) from signup_tokens st where st.token = token) <> 1
-        or (select count(*) from users u where u.token_id = @token_id) > 0) then
-        select false as result, "token" as reason;
-    elseif (select count(*) from users u where u.username = username) > 0 then
-        select false as result, "duplicate" as reason;
+        or (select count(*) from users u where u.token_id = @token_id) > 0)
+        or (select count(*) from users u where u.username = username) > 0 then
+        select false as result;
     else
         insert into users (username, phc, token_id) value (username, phc, @token_id);
         select true as result;

@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = async function (fastify, opts) {
-    fastify.post('/board/:path/quotes', async (request, reply) => {
+    fastify.delete('/board/:path/quotes', async (request, reply) => {
         const uname = request.session.uname;
 
         const id = request.body?.id;
