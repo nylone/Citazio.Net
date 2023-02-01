@@ -8,6 +8,7 @@
                         id="luser"
                         placeholder="username"
                         required
+                        v-on:input = "check_input(this.id)"
                         type="text"
                 /><br/>
                 <input
@@ -19,6 +20,7 @@
                 /><br/>
                 <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="login()" value="SIGN IN"/>
             </form>
+            <p style="color:red" v-if="texterr">invalid char</p>
         </div>
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
             <h3 class="theysa-shadow">Sign up</h3>
@@ -46,68 +48,87 @@
                         id="cpass"
                         placeholder="confirm password"
                         required
+                        v-on:input="verify()"
                         type="password"
                 /><br/>
                 
                 <input
                         v-if="showToken"
                         class="theysa-shadow grows"
-                        name="Token"
+                        id="token"
                         placeholder="Token"
                         required
-                        type="password"
+                        type="text"
                 />
                 <input class="theysa-button theysa-shadow grows" type="submit" @click="signup()" value="SIGN UP"/>
                 
             </form>
-            <p style="color:red" v-if="err">Confirm password does not match</p>
+            <p style="color:red" v-if="err">password does not match</p>
         </div>
     </div>
 </template>
 
 <script>
-        import { ref } from 'vue'
+import { ref } from 'vue'
         export default {
         name: 'AuTh',
         setup() {
                 const showToken = ref(false)
                 const err = ref(false)
+                const texterr = ref(false)
                 function login() {
+                        texterr.value=false
                         let uname = document.getElementById("luser").value
                         let pass = document.getElementById("lpass").value
                         fetch("http://localhost:3000/login", {
-                                method: 'POST',
-                                headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({"uname": uname, "pass": pass})
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({"uname": uname, "pass": pass})
                         }).then(response => response.json())
+
                 }
                 function signup() {
                         let uname = document.getElementById("suser").value
                         let pass = document.getElementById("spass").value
-                        let cpass = document.getElementById("cpass").value
-                        if(cpass === pass) {
-                                err.value = false;
-                                fetch("http://localhost:3000/signup", {
-                                        method: 'POST',         
-                                        headers: {
-                                                'Accept': 'application/json',
-                                                'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({"uname": uname, "pass": pass})
-                                }).then(response => response.json())
+                        let token = document.getElementById("token")?.value
+                        fetch("http://localhost:3000/signup", {
+                                method: 'POST',         
+                                headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({"uname": uname, "pass": pass, "token": token})
+                        }).then(response => response.json())
+                          
+                }
+                function verify() {
+                        let pass = document.getElementById("spass")?.value
+                        let cpass = document.getElementById("cpass")?.value
+                        if(pass === cpass) {
+                                err.value = false 
                         }
                         else {
                                 err.value = true
                         }
                 }
+                function check_input(s) { 
+                        let text = document.getElementById(s)
+                        if(text.match(/[ -~]/i)) {
+                                texterr.value= true;
+                        }
+                }
                 return {
                         showToken,
                         err,
+                        texterr,
                         login,
                         signup,
+                        verify,
+                        check_input,
                 }
         }
 }
