@@ -6,8 +6,10 @@ const helmet = require('@fastify/helmet')
 module.exports = fp(async function (fastify, opts) {
   await fastify.register(
     helmet,
-    { 
-
+    // Example disables the `contentSecurityPolicy` middleware but keeps the rest.
+    {
+        contentSecurityPolicy: false,
+        crossOriginResourcePolicy: false,
     }
   )
 })
