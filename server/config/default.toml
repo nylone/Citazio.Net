@@ -8,7 +8,7 @@ port = 3306
 user ='citazionet'
 password = 'citazionet'
 database = 'citazionet'
-connectionLimit = 20
+connectionLimit = 4
 
 [sessions]
 # we recommend using `openssl rand -base64 128` to generate a secure session secret :)
@@ -19,15 +19,6 @@ secret = """swap this out!! or else i'm gonna come and get your unsafe ass"""
 maxAge = 1800000
 httpOnly = true
 secure = "auto"
-
-[sessions.storage]
-# https://www.npmjs.com/package/express-mysql-session#Options
-host = 'localhost'
-port = 3306
-user ='citazionet'
-password = 'citazionet'
-database = 'citazionet'
-connectionLimit = 1
 
 [server]
 host= 'localhost'

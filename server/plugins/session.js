@@ -9,7 +9,7 @@ module.exports = fp(async function (fastify, opts, done) {
 
     const config = fastify.config;
 
-    const options = {... config.sessions.storage,
+    const options = {... config.database,
       ... {schema: {
         tableName: 'sessions',
         columnNames: {

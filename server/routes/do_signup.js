@@ -28,14 +28,14 @@ module.exports = async function (fastify, opts) {
       const rows = await conn.execute('CALL add_user(?, ?, ?)', [uname, phc, token]);
       if (rows[0][0].result) {
         request.session.uname = uname;
-        reply.send();
+        return reply.send();
       } else {
-        reply.badRequest();
+        return reply.badRequest();
       }
     } catch (err) {
-      reply.internalServerError();
+      return reply.internalServerError();
     } finally {
-      if (conn) return conn.end();
+      if (conn) conn.end();
     }
   });
 }

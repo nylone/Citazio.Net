@@ -25,17 +25,17 @@ module.exports = async function (fastify, opts) {
                 const rows = await conn.execute('CALL remove_quote(?, ?, ?)', [id, path, uname]);
                 const row = rows[0][0]
                 if (row?.result) {
-                    reply.send()
+                    return reply.send()
                 } else {
-                    reply.badRequest()
+                    return reply.badRequest()
                 }
             } catch (err) {
-                reply.internalServerError();
+                return reply.internalServerError();
             } finally {
-                if (conn) return conn.end();
+                if (conn) conn.end();
             }
         } else {
-            reply.unauthorized()
+            return reply.unauthorized()
         }
     })
 }

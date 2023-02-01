@@ -18,14 +18,14 @@ module.exports = async function (fastify, opts) {
                 const boards_public = rows_public[0]
     
                 boards = {boards_owned, boards_public, boards_subscribed}
-                reply.send(boards)
+                return reply.send(boards)
             } catch (err) {
-                reply.internalServerError(err);
+                return reply.internalServerError(err);
             } finally {
-                if (conn) return conn.end();
+                if (conn) conn.end();
             }
         } else {
-            reply.unauthorized()
+            return reply.unauthorized()
         }
     })
 }

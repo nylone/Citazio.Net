@@ -4,6 +4,17 @@ const schema = {
     params: {
         $ref: 'board_path_params',
     },
+    response: {
+        200: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    quote: { $ref: 'quote' }
+                }
+            } ,
+        }
+    }
 }
 
 module.exports = async function (fastify, opts) {
@@ -19,18 +30,18 @@ module.exports = async function (fastify, opts) {
                 const rows = await conn.execute('CALL get_board_quotes(?, ?)', [path, uname]);
 
                 if (rows[0][0]?.result == false) {
-                    reply.unauthorized()
+                    return reply.unauthorized()
                 } else {
                     const quotes = rows[0]
-                    reply.send(quotes)
+                    return reply.send(quotes)
                 }
             } catch (err) {
-                reply.internalServerError(err);
+                return reply.internalServerError(err);
             } finally {
-                if (conn) return conn.end();
+                if (conn) conn.end();
             }
         } else {
-            reply.unauthorized()
+            return reply.unauthorized()
         }
     })
 }

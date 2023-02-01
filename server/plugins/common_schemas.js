@@ -28,14 +28,17 @@ module.exports = fp(async function (fastify, opts, done) {
     })
 
     fastify.addSchema({
+        additionalProperties: false,
         $id: 'quote',
         type: 'object',
         required: ['phrases'],
         properties: {
             phrases: {
+                additionalProperties: false,
                 type: 'array',
                 minItems: 1,
                 items: {
+                    additionalProperties: false,
                     type: 'object',
                     required: ['msg'],
                     properties: {

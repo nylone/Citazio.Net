@@ -30,17 +30,17 @@ module.exports = async function (fastify, opts) {
                 const row = rows[0][0]
                 console.log(row)
                 if (row?.result) {
-                    reply.send()
+                    return reply.send()
                 } else {
-                    reply.badRequest()
+                    return reply.badRequest()
                 }
             } catch (err) {
-                reply.internalServerError(err);
+                return reply.internalServerError(err);
             } finally {
-                if (conn) return conn.end();
+                if (conn) conn.end();
             }
         } else {
-            reply.unauthorized()
+            return reply.unauthorized()
         }
     })
 }

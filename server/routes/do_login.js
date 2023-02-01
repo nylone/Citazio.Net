@@ -30,15 +30,15 @@ module.exports = async function (fastify, opts) {
       if (rows[0][0] && await argon2.verify(rows[0][0].phc, pass)) {
         request.session.uname = uname;
         await timeout;
-        reply.send()
+        return reply.send()
       } else {
         await timeout;
-        reply.badRequest();
+        return reply.badRequest();
       }
     } catch (err) {
-      reply.internalServerError();
+      return reply.internalServerError();
     } finally {
-      if (conn) return conn.end();
+      if (conn) conn.end();
     }
   });
 }

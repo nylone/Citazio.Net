@@ -18,7 +18,7 @@ module.exports = async function (fastify, opts) {
 
         if (uname) {
             const id = request.body.id;
-            const quote = fastify.quote_filter(request.body.quote);
+            const quote = request.body.quote;
             const path = request.params.path;
 
             let conn;
@@ -27,17 +27,17 @@ module.exports = async function (fastify, opts) {
                 const rows = await conn.execute('CALL edit_quote(?, ?, ?, ?)', [id, quote, path, uname]);
                 const row = rows[0][0]
                 if (row?.result) {
-                    reply.send()
+                    return reply.send()
                 } else {
-                    reply.badRequest()
+                    return reply.badRequest()
                 }
             } catch (err) {
-                reply.internalServerError();
+                return reply.internalServerError();
             } finally {
-                if (conn) return conn.end();
+                if (conn) conn.end();
             }
         } else {
-            reply.unauthorized()
+            return reply.unauthorized()
         }
 
     })

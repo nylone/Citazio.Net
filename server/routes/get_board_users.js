@@ -19,18 +19,18 @@ module.exports = async function (fastify, opts) {
                 const rows = await conn.execute('CALL get_board_users(?, ?)', [path, uname]);
 
                 if (rows[0][0]?.result == false) {
-                    reply.unauthorized()
+                    return reply.unauthorized()
                 } else {
                     const users = rows[0]
-                    reply.send(users)
+                    return reply.send(users)
                 }
             } catch (err) {
-                reply.internalServerError(err);
+                return reply.internalServerError(err);
             } finally {
-                if (conn) return conn.end();
+                if (conn) conn.end();
             }
         } else {
-            reply.unauthorized()
+            return reply.unauthorized()
         }
     })
 }
