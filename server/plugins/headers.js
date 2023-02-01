@@ -7,7 +7,7 @@ const cors = require("@fastify/cors");
 module.exports = fp(async function (fastify, opts) {
   await fastify.register(helmet, { contentSecurityPolicy: false });
   await fastify.register(cors, {
-    origin: "*",
+    origin: true,
     allowedHeaders: [
       "Content-Type",
       "Content-Length",
@@ -15,6 +15,7 @@ module.exports = fp(async function (fastify, opts) {
       "Accept",
       "X-Requested-With",
     ],
-    methods: ["GET", "POST"],
+    credentials: true,
+    methods: ["GET", "POST", "OPTIONS"],
   });
 });
