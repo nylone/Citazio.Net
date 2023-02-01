@@ -8,8 +8,8 @@ const run = async () => {
     try {
         let gen, tables, functions, procedures;
 
-        gen = fs.readFileSync('../database/gen.sql', 'utf8');
         tables = fs.readFileSync('../database/tables.sql', 'utf8');
+        views = fs.readFileSync('../database/views.sql', 'utf8');
         functions = fs.readFileSync('../database/functions.sql', 'utf8');
         procedures = fs.readFileSync('../database/procedures.sql', 'utf8');
     
@@ -26,6 +26,7 @@ const run = async () => {
 
         await conn.query("use " + config.database + ";");
         await conn.query(tables);
+        await conn.query(views);
         await conn.query(functions);
         await conn.query(procedures);
     

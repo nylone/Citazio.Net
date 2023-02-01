@@ -135,19 +135,17 @@ begin
     end if;
 end;
 
-/* getters */
-
 create or replace procedure get_own_boards(in username varchar(32))
 begin
     select b.path, b.title
-    from boards b
+    from active_boards b
     where b.owner_id = get_user_id(username);
 end;
 
 create or replace procedure get_public_boards(in username varchar(32))
 begin
     select b.path, b.title, u.username as owner
-    from boards b
+    from active_boards b
              join users u on b.owner_id = u.id
     where b.public = 1;
 end;
@@ -156,7 +154,7 @@ create or replace procedure get_subscribed_boards(in username varchar(32))
 begin
     select b.path, b.title, u.username as owner, b2u.access_lvl
     from boards_to_users b2u
-             join boards b on
+             join active_boards b on
         b2u.board_id = b.id
              join users u on b.owner_id = u.id
         and b2u.user_id = get_user_id(username);
@@ -193,7 +191,7 @@ begin
         select u.username,
                b2u.access_lvl
         from boards_to_users b2u
-                 join users u on b2u.user_id = u.id
+                 join active_users u on b2u.user_id = u.id
         where b2u.board_id = @board_id;
     end if;
 end;
@@ -201,8 +199,6 @@ end;
 create or replace procedure get_phc_from_username(in username varchar(25))
 begin
     select phc
-    from users u
+    from active_users u
     where u.username = username;
 end;
-
-/* executors */
