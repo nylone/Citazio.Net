@@ -9,8 +9,10 @@ const schema = {
             type: 'array',
             items: {
                 type: 'object',
+                required: ['quote', 'username'],
                 properties: {
-                    quote: { $ref: 'quote' }
+                    quote: { $ref: 'quote' },
+                    username: { $ref: 'short_ascii_string' }
                 }
             } ,
         }
@@ -33,10 +35,11 @@ module.exports = async function (fastify, opts) {
                     return reply.unauthorized()
                 } else {
                     const quotes = rows[0]
+                    console.log(quotes)
                     return reply.send(quotes)
                 }
             } catch (err) {
-                return reply.internalServerError(err);
+                return reply.internalServerError();
             } finally {
                 if (conn) conn.end();
             }

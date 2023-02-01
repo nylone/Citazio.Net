@@ -1,7 +1,20 @@
 'use strict'
 
+const schema = {
+    response: {
+        200: {
+            type: 'object',
+            properties: {
+                boards_owned: { $ref: 'owned_board_array_info' },
+                boards_public: { $ref: 'public_board_array_info' },
+                boards_subscribed: { $ref: 'subscribed_board_array_info' },
+            }
+        }
+    }
+}
+
 module.exports = async function (fastify, opts) {
-    fastify.get('/boards', async (request, reply) => {
+    fastify.get('/boards', { schema }, async (request, reply) => {
         const uname = request.session.uname;
         if (uname) {
             let boards = {}
@@ -20,7 +33,7 @@ module.exports = async function (fastify, opts) {
                 boards = {boards_owned, boards_public, boards_subscribed}
                 return reply.send(boards)
             } catch (err) {
-                return reply.internalServerError(err);
+                return reply.internalServerError();
             } finally {
                 if (conn) conn.end();
             }

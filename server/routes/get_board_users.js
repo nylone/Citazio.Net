@@ -4,6 +4,19 @@ const schema = {
     params: {
         $ref: 'board_path_params',
     },
+    response: {
+        200: {
+            type: 'array',
+            items: {
+                type: 'object',
+                required: ['access_lvl', 'username'],
+                properties: {
+                    access_lvl: { $ref: 'access_lvl' },
+                    username: { $ref: 'short_ascii_string' }
+                }
+            }
+        }
+    }
 }
 
 module.exports = async function (fastify, opts) {
@@ -25,7 +38,7 @@ module.exports = async function (fastify, opts) {
                     return reply.send(users)
                 }
             } catch (err) {
-                return reply.internalServerError(err);
+                return reply.internalServerError();
             } finally {
                 if (conn) conn.end();
             }

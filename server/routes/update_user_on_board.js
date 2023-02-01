@@ -9,7 +9,7 @@ const schema = {
         required: ['uname', 'access_lvl'],
         properties: {
             uname: { $ref: 'short_ascii_string' },
-            access_lvl: { type: 'integer', minimum: 0, maximum: 2 },
+            access_lvl: { $ref: 'access_lvl'},
         }
     }
 }

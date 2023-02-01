@@ -28,6 +28,55 @@ module.exports = fp(async function (fastify, opts, done) {
     })
 
     fastify.addSchema({
+        $id: 'owned_board_array_info',
+        type: 'array',
+        items: {
+            type: 'object',
+            required: ['path', 'title'],
+            properties: {
+                path: { $ref: 'short_ascii_string' },
+                title: { $ref: 'short_ascii_string' },
+            }
+        }
+    })
+
+    fastify.addSchema({
+        $id: 'public_board_array_info',
+        type: 'array',
+        items: {
+            type: 'object',
+            required: ['path', 'title', 'owner'],
+            properties: {
+                path: { $ref: 'short_ascii_string' },
+                title: { $ref: 'short_ascii_string' },
+                owner: { $ref: 'short_ascii_string' },
+            }
+        }
+    })
+
+    fastify.addSchema({
+        $id: 'subscribed_board_array_info',
+        type: 'array',
+        items: {
+            type: 'object',
+            required: ['path', 'title', 'owner', 'access_lvl'],
+            properties: {
+                path: { $ref: 'short_ascii_string' },
+                title: { $ref: 'short_ascii_string' },
+                owner: { $ref: 'short_ascii_string' },
+                access_lvl: { $ref: 'access_lvl' },
+            }
+        }
+    })
+
+    fastify.addSchema({
+        $id: 'access_lvl',
+        type: 'integer', 
+        minimum: 0, 
+        maximum: 2 
+    })
+
+    fastify.addSchema({
         additionalProperties: false,
         $id: 'quote',
         type: 'object',
