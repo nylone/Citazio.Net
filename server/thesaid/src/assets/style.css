@@ -118,7 +118,7 @@ input, .theysa-button {
     color: var(--text-soft-color);
 }
 
-input, label {
+input {
     width: 20ch;
 }
 

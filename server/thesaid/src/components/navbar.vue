@@ -2,11 +2,16 @@
     <div>
         <h1 class="theysa-shadow">theysa.id</h1>
         <nav class="theysa-box theysa-flex-row theysa-navbar theysa-shadow">
-            <a v-bind:id=i-1 v-for="i in 3" :key="i.id" @click="get_choice(i-1)">
-                {{ options[i-1] }}
+            <a type="submit" style="margin-left: 0;" v-bind:id=i-1 v-for="i in 3" :key="i.id" @click="get_choice(i-1)">
+                {{options[i-1] }}
             </a>
         </nav>
-        <b-modal ref="my-modal"><auth/></b-modal>
+        <b-modal class="theysa-shadow" size="lg" ref="my-modal" hide-header="true">
+            <auth/>
+            <template #modal-footer="{close}">
+                <b-button size="md" variant="secondary" @click="close()">Close</b-button>
+            </template> 
+        </b-modal>
     </div>
 </template>
 
@@ -20,7 +25,7 @@
             auth,
         },
         setup() {
-            let options = ["Home", "Auth", "About"]
+            let options = ["Home |", "Auth", "| About"]
             const choice = ref('Home')
             let modalShow = ref(false)
             function get_choice(i) {
