@@ -1,6 +1,6 @@
 [app]
 logger = true
-requireTokens = true
+requireTokens = false
 
 [database]
 host = 'localhost'
