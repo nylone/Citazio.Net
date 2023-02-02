@@ -23,3 +23,8 @@ secure = "auto"
 [server]
 host= 'localhost'
 port= 3000
+
+[server.rateLimit]
+enabled = true
+maxRequests = 10
+timeWindow = 1000
