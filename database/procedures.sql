@@ -202,3 +202,56 @@ begin
     from active_users u
     where u.username = username;
 end;
+
+create or replace procedure edit_board(in path varchar(32), in title varchar(32), in public bool, in executor varchar(32))
+begin
+    set @board_id = get_board_id(path);
+    set @executor_id = get_user_id(executor);
+    if (@board_id is null or
+        @executor_id is null or
+        ((select owner_id from active_boards b where b.id = @board_id) <> @executor_id))
+    then
+        select false as result;
+    else
+        if title is not null then
+            update boards b set b.title = title where id = @board_id;
+        end if;
+        if public is not null then
+            update boards b set b.public = public where id = @board_id;
+        end if;
+        select true as result;
+    end if;
+end;
+
+create or replace procedure edit_board_owner(in path varchar(32), in new_owner varchar(32), in executor varchar(32))
+begin
+    set @board_id = get_board_id(path);
+    set @executor_id = get_user_id(executor);
+    set @new_owner_id = get_user_id(new_owner);
+    if (@board_id is null or
+        @executor_id is null or
+        @new_owner_id is null or
+        ((select owner_id from active_boards b where b.id = @board_id) <> @executor_id))
+    then
+        select false as result;
+    else
+        call remove_user_from_board(new_owner, path, executor);
+        update boards b set b.owner_id = @new_owner_id where id = @board_id;
+        select true as result;
+    end if;
+end;
+
+create or replace procedure remove_board(in path varchar(32), in executor varchar(32))
+begin
+    set @board_id = get_board_id(path);
+    set @executor_id = get_user_id(executor);
+    if (@board_id is null or
+        @executor_id is null or
+        ((select owner_id from active_boards b where b.id = @board_id) <> @executor_id))
+    then
+        select false as result;
+    else
+        update boards b set b.deleted = true where id = @board_id;
+        select true as result;
+    end if;
+end;
