@@ -59,8 +59,10 @@ begin
         username = executor or
         (select count(*) from boards_to_users b2u where b2u.user_id = @user_id and b2u.board_id = @board_id) = 0) or
        has_user_got_access_lvl(executor, path, if(
-                   (select access_lvl from boards_to_users b2u where b2u.user_id = @user_id
-                                                                 and b2u.board_id = @board_id) >= 2, 3, 2)) = 0
+                   (select access_lvl
+                    from boards_to_users b2u
+                    where b2u.user_id = @user_id
+                      and b2u.board_id = @board_id) >= 2, 3, 2)) = 0
     then
         select false as result;
     else
@@ -79,8 +81,10 @@ begin
         username = executor or
         (select count(*) from boards_to_users b2u where b2u.user_id = @user_id and b2u.board_id = @board_id) = 0) or
        has_user_got_access_lvl(executor, path, if(
-                   (select access_lvl from boards_to_users b2u where b2u.user_id = @user_id
-                                                                 and b2u.board_id = @board_id) >= 2, 3, 2)) = 0
+                   (select access_lvl
+                    from boards_to_users b2u
+                    where b2u.user_id = @user_id
+                      and b2u.board_id = @board_id) >= 2, 3, 2)) = 0
     then
         select false as result;
     else
@@ -203,7 +207,8 @@ begin
     where u.username = username;
 end;
 
-create or replace procedure edit_board(in path varchar(32), in title varchar(32), in public bool, in executor varchar(32))
+create or replace procedure edit_board(in path varchar(32), in title varchar(32), in public bool,
+                                       in executor varchar(32))
 begin
     set @board_id = get_board_id(path);
     set @executor_id = get_user_id(executor);
@@ -252,6 +257,31 @@ begin
         select false as result;
     else
         update boards b set b.deleted = true where id = @board_id;
+        select true as result;
+    end if;
+end;
+
+create or replace procedure remove_user(in username varchar(32))
+begin
+    set @user_id = get_user_id(username);
+    if (@user_id is null or
+        ((select count(*) from active_boards b where b.owner_id = @user_id) <> 0))
+    then
+        select false as result;
+    else
+        update users u set u.deleted = true where u.id = @user_id;
+        select true as result;
+    end if;
+end;
+
+create or replace procedure edit_user_phc(in username varchar(32), in phc tinytext)
+begin
+    set @user_id = get_user_id(username);
+    if (@user_id is null or phc is null)
+    then
+        select false as result;
+    else
+        update users u set u.phc = phc where u.id = @user_id;
         select true as result;
     end if;
 end;
