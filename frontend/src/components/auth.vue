@@ -8,7 +8,7 @@
                         id="luser"
                         placeholder="username"
                         required
-                        v-on:input = "check_input(this.id)"
+                        v-on:input = "check_input('luser')"
                         type="text"
                 /><br/>
                 <input
@@ -20,7 +20,7 @@
                 /><br/>
                 <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="login()" value="SIGN IN"/>
             </form>
-            <p style="color:red" v-if="texterr">invalid char</p>
+            <p style="color:red" v-if="ltexterr">Invalid char</p>
         </div>
         <div class="theysa-flex-col theysa-box theysa-shadow grows">
             <h3 class="theysa-shadow">Sign up</h3>
@@ -34,6 +34,7 @@
                         placeholder="username"
                         id="suser"
                         required
+                        v-on:input = "check_input('suser')"
                         type="text"
                 /><br/>
                 <input
@@ -64,6 +65,7 @@
                 
             </form>
             <p style="color:red" v-if="err">password does not match</p>
+            <p style="color:red" v-if="stexterr">Invalid char</p>
         </div>
     </div>
 </template>
@@ -75,12 +77,12 @@ import { ref } from 'vue'
         setup() {
                 const showToken = ref(false)
                 const err = ref(false)
-                const texterr = ref(false)
+                const ltexterr = ref(false)
+                const stexterr = ref(false)
                 function login() {
-                        texterr.value=false
                         let uname = document.getElementById("luser").value
                         let pass = document.getElementById("lpass").value
-                        fetch("http://localhost:3000/login", {
+                        fetch("/login", {
                         method: 'POST',
                         credentials: 'include',
                         headers: {
@@ -88,14 +90,21 @@ import { ref } from 'vue'
                                 'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({"uname": uname, "pass": pass})
-                        }).then(response => response.json())
-
+                        })
+                        .then(response => {
+                                if(response.status === 200) { 
+                                        this.$logged.value=true 
+                                        this.$emit("CloseModal")
+                                }
+                        })
+                        
+						
                 }
                 function signup() {
                         let uname = document.getElementById("suser").value
                         let pass = document.getElementById("spass").value
                         let token = document.getElementById("token")?.value
-                        fetch("http://localhost:3000/signup", {
+                        fetch("/signup", {
                                 method: 'POST',         
                                 headers: {
                                         'Accept': 'application/json',
@@ -103,7 +112,6 @@ import { ref } from 'vue'
                                 },
                                 body: JSON.stringify({"uname": uname, "pass": pass, "token": token})
                         }).then(response => response.json())
-                          
                 }
                 function verify() {
                         let pass = document.getElementById("spass")?.value
@@ -116,15 +124,20 @@ import { ref } from 'vue'
                         }
                 }
                 function check_input(s) { 
-                        let text = document.getElementById(s)
-                        if(text.match(/[ -~]/i)) {
-                                texterr.value= true;
+                        let text = document.getElementById(s).value
+                        let pattern = new RegExp("^[ -~]+$")
+                        if(pattern.test(text)) {
+                                s==="luser" ? ltexterr.value=false : stexterr.value=false
+                        }
+                        else {
+                                s==="luser" ? ltexterr.value=true : stexterr.value=true
                         }
                 }
                 return {
                         showToken,
                         err,
-                        texterr,
+                        ltexterr,
+                        stexterr,
                         login,
                         signup,
                         verify,
