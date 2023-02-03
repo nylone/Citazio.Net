@@ -28,3 +28,6 @@ port= 3000
 enabled = true
 maxRequests = 10
 timeWindow = 1000
+
+[server.crossOrigin]
+enable = true
