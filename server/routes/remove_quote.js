@@ -15,7 +15,7 @@ const schema = {
 
 module.exports = async function (fastify, opts) {
   fastify.post(
-    "/board/:path/quotes/delete",
+    "/board/:path/quotes/remove",
     { schema },
     async (request, reply) => {
       const uname = request.session.uname;

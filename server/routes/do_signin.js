@@ -19,7 +19,7 @@ function sleep(ms) {
 }
 
 module.exports = async function (fastify, opts) {
-  fastify.post("/login", { schema }, async (request, reply) => {
+  fastify.post("/signin", { schema }, async (request, reply) => {
     const uname = request.body.uname;
     const pass = request.body.pass;
     let conn;

@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = async function (fastify, opts) {
-  fastify.post("/logout", async (request, reply) => {
+  fastify.post("/signout", async (request, reply) => {
     try {
       await request.session.destroy();
       return reply.send();

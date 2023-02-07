@@ -14,7 +14,7 @@ const schema = {
 };
 
 module.exports = async function (fastify, opts) {
-  fastify.get("/boards", { schema }, async (request, reply) => {
+  fastify.get("/boards/get", { schema }, async (request, reply) => {
     const uname = request.session.uname;
     if (uname) {
       let boards = {};

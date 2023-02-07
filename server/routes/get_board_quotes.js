@@ -20,7 +20,7 @@ const schema = {
 };
 
 module.exports = async function (fastify, opts) {
-  fastify.get("/board/:path/quotes", { schema }, async (request, reply) => {
+  fastify.get("/board/:path/quotes/get", { schema }, async (request, reply) => {
     const path = request.params.path;
 
     const uname = request.session.uname;
