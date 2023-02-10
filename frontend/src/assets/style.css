@@ -71,7 +71,7 @@ body {
 }
 
 .theysa-navbar, a {
-    color: inherit;
+    color: var(--text-color);
     text-decoration: none;
     margin: 5px;
     text-align: center;
