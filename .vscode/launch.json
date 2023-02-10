@@ -11,5 +11,16 @@
         "restart": true,
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen"
+    },
+    {
+        "type": "node",
+        "request": "launch",
+        "name": "vue build",
+        "runtimeExecutable": "npm",
+        "cwd": "${workspaceFolder}/frontend",
+        "args": ["run", "build"],
+        "restart": true,
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen"
     }]
 }
