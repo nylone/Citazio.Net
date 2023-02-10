@@ -17,6 +17,10 @@ module.exports = async function (fastify, opts) {
   };
 
   fastify.post("/signup", { schema }, async (request, reply) => {
+
+    console.log(request.body.cf-turnstile-response);
+    console.log(await fastify.turnstile.verify(request.body.cf-turnstile-response))
+
     const uname = request.body.uname;
     const pass = request.body.pass;
     const token = request.body.token || null;
