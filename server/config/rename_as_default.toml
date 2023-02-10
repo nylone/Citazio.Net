@@ -25,6 +25,9 @@ host= 'localhost'
 port= 3000
 crossOrigin = true
 
+[turnstile]
+secret = "1x0000000000000000000000000000000AA"
+
 [server.rateLimit]
 enabled = true
 maxRequests = 10
