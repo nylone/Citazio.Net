@@ -24,6 +24,7 @@ secure = "auto"
 host= 'localhost'
 port= 3000
 crossOrigin = true
+csp = false
 
 [turnstile]
 secret = "1x0000000000000000000000000000000AA"
