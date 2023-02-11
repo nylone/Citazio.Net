@@ -33,7 +33,7 @@
                     this.$refs['my-modal'].show()
                 }
                 else if(i === 'Logout') {
-                    fetch("/logout", {
+                    fetch("http://localhost:3000/signout", {
                         method: 'POST',
                     }).then(()=> {this.$logged.value = false})
                 }

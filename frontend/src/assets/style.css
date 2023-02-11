@@ -52,6 +52,7 @@ body {
     justify-content: center;
     align-items: start;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .theysa-flex-col, .theysa-flex-row {

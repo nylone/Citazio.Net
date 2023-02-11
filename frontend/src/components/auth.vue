@@ -82,7 +82,7 @@ import { ref } from 'vue'
                 function login() {
                         let uname = document.getElementById("luser").value
                         let pass = document.getElementById("lpass").value
-                        fetch("/login", {
+                        fetch("http://localhost:3000/signin", {
                         method: 'POST',
                         credentials: 'include',
                         headers: {
@@ -95,16 +95,15 @@ import { ref } from 'vue'
                                 if(response.status === 200) { 
                                         this.$logged.value=true 
                                         this.$emit("CloseModal")
+                                        get_boards()
                                 }
-                        })
-                        
-						
+                        }) 			
                 }
                 function signup() {
                         let uname = document.getElementById("suser").value
                         let pass = document.getElementById("spass").value
                         let token = document.getElementById("token")?.value
-                        fetch("/signup", {
+                        fetch("http://localhost:3000/signup", {
                                 method: 'POST',         
                                 headers: {
                                         'Accept': 'application/json',
@@ -133,6 +132,14 @@ import { ref } from 'vue'
                                 s==="luser" ? ltexterr.value=true : stexterr.value=true
                         }
                 }
+                function get_boards() {
+                        fetch("http://localhost:3000/boards/get", {
+                                method: 'GET',
+                                credentials: 'include',
+                        })
+                        .then((response)=> response.json())
+                        .then((data) => console.log(data))
+                }
                 return {
                         showToken,
                         err,
@@ -142,6 +149,7 @@ import { ref } from 'vue'
                         signup,
                         verify,
                         check_input,
+                        get_boards,
                 }
         }
 }
