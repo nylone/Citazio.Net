@@ -18,11 +18,12 @@ module.exports = async function (fastify, opts) {
     if (uname) {
       const title = request.body.title;
       const path = request.body.path;
-      const pub = request.body.public;
+      const pub = request.body.pub;
 
       let conn;
       try {
         conn = await fastify.dbPool.getConnection();
+        console.log("hi")
         const rows = await conn.execute("CALL add_board(?, ?, ?, ?)", [
           title,
           uname,
@@ -36,6 +37,7 @@ module.exports = async function (fastify, opts) {
           return reply.badRequest();
         }
       } catch (err) {
+        console.log(err)
         return reply.internalServerError();
       } finally {
         if (conn) conn.end();
