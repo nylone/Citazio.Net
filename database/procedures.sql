@@ -141,7 +141,7 @@ end;
 
 create or replace procedure get_own_boards(in username varchar(32))
 begin
-    select b.path, b.title
+    select b.path, b.title, b.users
     from active_boards b
     where b.owner_id = get_user_id(username);
 end;
@@ -156,7 +156,7 @@ end;
 
 create or replace procedure get_subscribed_boards(in username varchar(32))
 begin
-    select b.path, b.title, u.username as owner, b2u.access_lvl
+    select b.path, b.title, u.username as owner, b2u.access_lvl, b.users
     from boards_to_users b2u
              join active_boards b on
         b2u.board_id = b.id

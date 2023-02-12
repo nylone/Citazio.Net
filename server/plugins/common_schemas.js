@@ -34,6 +34,7 @@ module.exports = fp(async function (fastify, opts, done) {
       properties: {
         path: { $ref: "short_ascii_string" },
         title: { $ref: "short_ascii_string" },
+        users: { $ref: "positive_int" },
       },
     },
   });
@@ -63,6 +64,7 @@ module.exports = fp(async function (fastify, opts, done) {
         title: { $ref: "short_ascii_string" },
         owner: { $ref: "short_ascii_string" },
         access_lvl: { $ref: "access_lvl" },
+        users: { $ref: "positive_int" },
       },
     },
   });
@@ -72,6 +74,12 @@ module.exports = fp(async function (fastify, opts, done) {
     type: "integer",
     minimum: 0,
     maximum: 2,
+  });
+
+  fastify.addSchema({
+    $id: "positive_int",
+    type: "integer",
+    minimum: 0,
   });
 
   fastify.addSchema({
