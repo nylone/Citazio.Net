@@ -89,7 +89,6 @@ module.exports = fp(async function (fastify, opts, done) {
     required: ["phrases"],
     properties: {
       phrases: {
-        additionalProperties: false,
         type: "array",
         minItems: 1,
         items: {

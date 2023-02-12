@@ -20,6 +20,8 @@ module.exports = async function (fastify, opts) {
         } finally {
           if (conn) conn.end();
         }
+    } else {
+      return reply.badRequest()
     }
   });
 };

@@ -1,7 +1,6 @@
 "use strict";
 
 const schema = {
-  additionalProperties: false,
   params: { $ref: "board_path_params" },
   body: {
     type: "object",
