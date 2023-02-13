@@ -12,10 +12,8 @@ if (config.app.logger) {
   };
 }
 
-const fastify = require('fastify')({
+const fastify = require("fastify")({
   logger: logger,
 });
 
-await require('./app')(fastify);
-
-fastify.listen(config.server);
+require("./app")(fastify).then(fastify.listen(config.server));
