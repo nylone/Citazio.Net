@@ -23,7 +23,6 @@ module.exports = async function (fastify, opts) {
       let conn;
       try {
         conn = await fastify.dbPool.getConnection();
-        console.log("hi")
         const rows = await conn.execute("CALL add_board(?, ?, ?, ?)", [
           title,
           uname,
