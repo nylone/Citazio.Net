@@ -72,6 +72,7 @@
 
 <script>
 import { ref } from 'vue'
+import { store } from './store'
         export default {
         name: 'AuTh',
         setup() {
@@ -95,7 +96,8 @@ import { ref } from 'vue'
                                 if(response.status === 200) { 
                                         this.$logged.value=true 
                                         this.$emit("CloseModal")
-                                        get_boards()
+                                        get_boards().then((res) => {store.boards=res; console.log('emitted')} )
+                                        
                                 }
                         }) 			
                 }
@@ -132,13 +134,13 @@ import { ref } from 'vue'
                                 s==="luser" ? ltexterr.value=true : stexterr.value=true
                         }
                 }
-                function get_boards() {
-                        fetch("http://localhost:3000/boards/get", {
+                async function get_boards() {
+                        let response = await fetch("http://localhost:3000/boards/get", {
                                 method: 'GET',
                                 credentials: 'include',
-                        })
-                        .then((response)=> response.json())
-                        .then((data) => console.log(data))
+                        });
+                        response = await response.json()
+                        return response
                 }
                 return {
                         showToken,
