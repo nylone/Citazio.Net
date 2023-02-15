@@ -96,7 +96,7 @@ import { store } from './store'
                                 if(response.status === 200) { 
                                         this.$logged.value=true 
                                         this.$emit("CloseModal")
-                                        get_boards().then((res) => {store.boards=res; console.log('emitted')} )
+                                        get_boards().then((res) => {store.boards=res; } )
                                         
                                 }
                         }) 			

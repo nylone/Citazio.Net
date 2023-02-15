@@ -1,20 +1,56 @@
 <template >
     <div v-if="boards.length > 0" class="theysa-flex-row">
-        <div v-for="board in boards" :key="board.id" class="theysa-flex-col theysa-box theysa-shadow grows">
-            <p> {{ board.title }} </p>
-        </div>
+        <div v-for="board in boards" :key="board.id">
+            <b-card class="theysa-shadow theysa-card grows" >
+                <b-card-header align="right" header-border-variant="white"  header-bg-variant="white">
+                    <b-icon-gear v-on:click="$refs['board-modal'].show()" type="submit"></b-icon-gear>
+                    <b-icon-trash v-on:click="RmBoard(board)"></b-icon-trash>
+                </b-card-header>
+                <b-card-body>
+                    <b-card-title >{{ board.title }}</b-card-title>
+                </b-card-body>
+                <b-card-footer align="left" style="font-size: small;">
+                    <p>Users: {{ board.users }}</p>
+                </b-card-footer>
+                    
+            </b-card>
+            
+            </div>
+            <!-- Edit Board Modal -->
+            <b-modal class="theysa-shadow" size="lg" ref="board-modal" hide-header>
+                        <editboard v-on:CloseModal="close()"/>
+                        <template #modal-footer="{close}">
+                            <b-button size="md" variant="secondary" @click="close()">Close</b-button>
+                        </template> 
+            </b-modal>
     </div>
 
     <div v-else>
         <p>No Boards to show</p>
     </div>
+
 </template>
 
 <script>
+import editboard from './EditBoard.vue'
     export default {
         name: 'OwnedBoards',
         props: {
-            boards: Object
+            boards: Array
+        },
+        components: {
+            editboard
+        },
+        setup() {
+            function RmBoard(b) {
+                let path = 'http://localhost:3000/boards/' + b.path + '/remove'
+                fetch(path, {
+                        method: 'POST',
+                    })
+            }
+            return {
+                RmBoard,
+            }
         }
         
     }
