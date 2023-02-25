@@ -134,7 +134,7 @@ begin
     then
         select false as result;
     else
-        update quotes q set q.quote = quote where q.board_id = @board_id and q.user_id = @user_id;
+        update quotes q set q.quote = quote, q.updated = current_timestamp() where q.board_id = @board_id and q.user_id = @user_id;
         select true as result;
     end if;
 end;
@@ -148,19 +148,17 @@ end;
 
 create or replace procedure get_public_boards()
 begin
-    select b.path, b.title, u.username as owner, b.last_updated
+    select b.path, b.title, b.owner, b.last_updated
     from active_boards b
-             join users u on b.owner_id = u.id
     where b.public = 1;
 end;
 
 create or replace procedure get_subscribed_boards(in username varchar(32))
 begin
-    select b.path, b.title, u.username as owner, b2u.access_lvl, b.users, b.last_updated
+    select b.path, b.title, b.owner, b2u.access_lvl, b.users, b.last_updated
     from boards_to_users b2u
              join active_boards b on
         b2u.board_id = b.id
-             join users u on b.owner_id = u.id
         and b2u.user_id = get_user_id(username);
 end;
 

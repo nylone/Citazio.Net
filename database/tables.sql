@@ -42,5 +42,6 @@ create table if not exists quotes
     board_id bigint unsigned                       not null references boards (id),
     user_id  bigint unsigned                       not null references users (id),
     quote    json                                  not null,
-    created  timestamp default current_timestamp() not null
+    created  timestamp default current_timestamp() not null,
+    updated  timestamp default null
 );
