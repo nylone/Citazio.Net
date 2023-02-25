@@ -25,16 +25,14 @@ module.exports = async function (fastify, opts) {
         const rows_owned = await conn.execute("CALL get_own_boards(?)", [
           uname,
         ]);
-        const rows_subscribed = await conn.execute(
+        const rows_subbed = await conn.execute(
           "CALL get_subscribed_boards(?)",
           [uname]
         );
-        const rows_public = await conn.execute("CALL get_public_boards(?)", [
-          uname,
-        ]);
+        const rows_public = await conn.execute("CALL get_public_boards()");
 
         const boards_owned = rows_owned[0];
-        const boards_subscribed = rows_subscribed[0];
+        const boards_subscribed = rows_subbed[0];
         const boards_public = rows_public[0];
 
         boards = { boards_owned, boards_public, boards_subscribed };

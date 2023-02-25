@@ -35,6 +35,7 @@ module.exports = fp(async function (fastify, opts, done) {
         path: { $ref: "short_ascii_string" },
         title: { $ref: "short_ascii_string" },
         users: { $ref: "positive_int" },
+        last_updated: { $ref: "short_ascii_string" },
       },
     },
   });
@@ -49,6 +50,7 @@ module.exports = fp(async function (fastify, opts, done) {
         path: { $ref: "short_ascii_string" },
         title: { $ref: "short_ascii_string" },
         owner: { $ref: "short_ascii_string" },
+        last_updated: { $ref: "short_ascii_string" },
       },
     },
   });
@@ -65,6 +67,7 @@ module.exports = fp(async function (fastify, opts, done) {
         owner: { $ref: "short_ascii_string" },
         access_lvl: { $ref: "access_lvl" },
         users: { $ref: "positive_int" },
+        last_updated: { $ref: "short_ascii_string" },
       },
     },
   });
