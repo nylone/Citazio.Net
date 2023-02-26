@@ -12,6 +12,7 @@ module.exports = async function (fastify, opts) {
     { schema },
     async (request, reply) => {
       const uname = request.session.uname;
+      const path = request.params.path;
 
       if (uname) {
         let conn;
