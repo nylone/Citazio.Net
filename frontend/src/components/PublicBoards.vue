@@ -12,6 +12,7 @@
                 <b-card-footer align="left" style="font-size: small;">
                     <p>Users: {{ board.users }}</p>
                     <p>Owner: {{ board.owner }}</p>
+                    <p>Last Update: {{ board.last_updated }}</p>
                 </b-card-footer>
                     
             </b-card>
@@ -19,7 +20,7 @@
 
         <!-- Edit Board Modal -->
         <b-modal class="theysa-shadow" size="lg" ref="board-modal" hide-header>
-            <editboard v-on:CloseModal="close()"/>
+            <editboard :board_path="path" v-on:CloseModal="close()"/>
             <template #modal-footer="{close}">
                 <b-button size="md" variant="secondary" @click="close()">Close</b-button>
             </template> 
@@ -33,6 +34,7 @@
 
 <script>
 import editboard from './EditBoard.vue'
+import { ref } from 'vue'
     export default {
         name: 'PublicBoards',
         props: {
@@ -42,14 +44,21 @@ import editboard from './EditBoard.vue'
             editboard
         },
         setup () {
+            let path = ref(" ")
+            function CallEdit(b) {
+                path.value = b.path
+                this.$refs['board-modal'].show()
+            }
             function RmBoard(b) {
-                let path = 'http://localhost:3000/boards/' + b.path + '/remove'
+                let path = 'http://localhost:3000/board/' + b.path + '/remove'
                 fetch(path, {
                         method: 'POST',
                     })
             }
             return {
-                RmBoard
+                CallEdit,
+                RmBoard,
+                path
             }
         }
 

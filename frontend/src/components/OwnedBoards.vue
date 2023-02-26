@@ -3,26 +3,27 @@
         <div v-for="board in boards" :key="board.id">
             <b-card class="theysa-shadow theysa-card grows" >
                 <b-card-header align="right" header-border-variant="white"  header-bg-variant="white">
-                    <b-icon-gear v-on:click="$refs['board-modal'].show()" type="submit"></b-icon-gear>
-                    <b-icon-trash v-on:click="RmBoard(board)"></b-icon-trash>
+                    <b-icon-gear v-on:click="CallEdit(board)" type="submit"></b-icon-gear>
+                    <b-icon-trash v-on:click="RmBoard(board)" type="submit"></b-icon-trash>
                 </b-card-header>
                 <b-card-body>
                     <b-card-title >{{ board.title }}</b-card-title>
                 </b-card-body>
                 <b-card-footer align="left" style="font-size: small;">
                     <p>Users: {{ board.users }}</p>
+                    <p>Last Update: {{ board.last_updated }}</p>
                 </b-card-footer>
                     
             </b-card>
-            
-            </div>
-            <!-- Edit Board Modal -->
-            <b-modal class="theysa-shadow" size="lg" ref="board-modal" hide-header>
-                        <editboard v-on:CloseModal="close()"/>
-                        <template #modal-footer="{close}">
-                            <b-button size="md" variant="secondary" @click="close()">Close</b-button>
-                        </template> 
-            </b-modal>
+        </div>
+
+        <!-- Edit Board Modal -->
+        <b-modal class="theysa-shadow" size="lg" ref="board-modal" hide-header>
+            <editboard :board_path="path" v-on:CloseModal="close()"/>
+            <template #modal-footer="{close}">
+                <b-button size="md" variant="secondary" @click="close()">Close</b-button>
+            </template> 
+        </b-modal>
     </div>
 
     <div v-else>
@@ -33,6 +34,7 @@
 
 <script>
 import editboard from './EditBoard.vue'
+import { ref } from 'vue'
     export default {
         name: 'OwnedBoards',
         props: {
@@ -42,14 +44,21 @@ import editboard from './EditBoard.vue'
             editboard
         },
         setup() {
+            let path = ref(" ")
+            function CallEdit(b) {
+                path.value = b.path
+                this.$refs['board-modal'].show()
+            }
             function RmBoard(b) {
-                let path = 'http://localhost:3000/boards/' + b.path + '/remove'
-                fetch(path, {
+                let delete_path = 'http://localhost:3000/board/' + b.path + '/remove'
+                fetch(delete_path, {
                         method: 'POST',
                     })
             }
             return {
+                CallEdit,
                 RmBoard,
+                path
             }
         }
         

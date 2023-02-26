@@ -36,7 +36,7 @@ import { store } from './store'
             function AddBoard() {
                 let title = document.getElementById('bname').value
                 let path = document.getElementById('bpath').value
-                let pub = (document.getElementById('pub').value === true)
+                let pub = document.getElementById('pub').value
                 
                 fetch("http://localhost:3000/boards/add", {
                         method: 'POST',

@@ -18,6 +18,14 @@
             </b-card>
         </div>
         
+        <!-- Edit Board Modal -->
+        <b-modal class="theysa-shadow" size="lg" ref="board-modal" hide-header>
+            <editboard :board_path="path" v-on:CloseModal="close()"/>
+            <template #modal-footer="{close}">
+                <b-button size="md" variant="secondary" @click="close()">Close</b-button>
+            </template> 
+        </b-modal>
+
     </div>
 
     <div v-else>
@@ -26,10 +34,29 @@
 </template>
 
 <script>
+import { ref } from 'vue'
     export default {
         name: 'SubscribedBoards',
         props: {
             boards: Array
+        },
+        setup() {
+            let path = ref(" ")
+            function CallEdit(b) {
+                path.value = b.path
+                this.$refs['board-modal'].show()
+            }
+            function RmBoard(b) {
+                let path = 'http://localhost:3000/board/' + b.path + '/remove'
+                fetch(path, {
+                        method: 'POST',
+                    })
+            }
+            return {
+                CallEdit,
+                RmBoard,
+                path
+            }
         }
         
     }

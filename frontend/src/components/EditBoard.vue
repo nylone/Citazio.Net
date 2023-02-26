@@ -15,17 +15,37 @@
                         <p style="margin-bottom: 0; ">Public</p>
                 </label>
                 
-                <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="EditBoard()" value="SUBMIT"/>
+                <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="EditBoard(board_path)" value="SUBMIT"/>
             </form>
         </div>
     </div>
 </template>
 
 <script>
+
     export default {
         name: 'EditBoard',
+        props: {
+            board_path: String
+        },
         setup() {
-            
+            function EditBoard(board_path) {
+                let title = document.getElementById("bname").value
+                let pub = document.getElementById("pub").value === "true"
+                let path = 'http://localhost:3000/board/' + board_path + '/update'
+                fetch(path, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({"title": title, "pub": pub})
+                    })
+            }
+            return {
+                EditBoard,
+            }
         }
     }
 </script>
