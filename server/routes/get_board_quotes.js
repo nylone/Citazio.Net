@@ -42,6 +42,7 @@ module.exports = async function (fastify, opts) {
           return reply.send(quotes);
         }
       } catch (err) {
+        console.log(err);
         return reply.internalServerError();
       } finally {
         if (conn) conn.end();

@@ -38,6 +38,7 @@ module.exports = async function (fastify, opts) {
         boards = { boards_owned, boards_public, boards_subscribed };
         return reply.send(boards);
       } catch (err) {
+        console.log(err);
         return reply.internalServerError();
       } finally {
         if (conn) conn.end();

@@ -41,7 +41,8 @@ module.exports = async function (fastify, opts) {
             return reply.badRequest();
           }
         } catch (err) {
-          return reply.internalServerError(err);
+          console.log(err);
+          return reply.internalServerError();
         } finally {
           if (conn) conn.end();
         }
