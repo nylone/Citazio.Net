@@ -24,7 +24,7 @@
 	}
 
 	button:hover {
-		color: var(--special-text-color);
+		color: var(--special-bg-color);
 	}
 
 	button {
