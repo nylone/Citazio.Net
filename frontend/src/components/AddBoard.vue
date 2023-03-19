@@ -18,7 +18,7 @@
                         type="text"
                 />
                 <label class="theysa-flex-row" style="align-items: center;" for="checkbox">
-                        <input id="pub" type="checkbox" style="width: auto;" value="true"/>
+                        <input id="pub" name="checkbox" type="checkbox" style="width: auto;" value="true"/>
                         <p style="margin-bottom: 0; ">Public</p>
                 </label>
                 
@@ -30,13 +30,15 @@
 
 <script>
 import { store } from './store'
+import { GetBoards, refresh } from './Boards'
     export default {
         name: 'AddBoard',
         setup() {
             function AddBoard() {
                 let title = document.getElementById('bname').value
                 let path = document.getElementById('bpath').value
-                let pub = document.getElementById('pub').value
+                let pub = document.querySelector("#pub").checked
+                let res
                 
                 fetch("http://localhost:3000/boards/add", {
                         method: 'POST',
@@ -48,16 +50,20 @@ import { store } from './store'
                         body: JSON.stringify({"title": title, "path": path, "pub": pub})
                         })
                         .then(response => {
-                                if(response.status === 200) { 
+                                res = response.status
+                                if(res === 200) { 
                                         this.$logged.value=true 
                                         this.$emit("CloseModal")
-                                        
+                                        GetBoards().then((res) => {store.boards=res; } )
                                 }
-                        }) 			    
+                        })
+                        
             }          
             return {
                 AddBoard,
-                store
+                GetBoards,
+                store,
+                refresh
             }
         }
     }

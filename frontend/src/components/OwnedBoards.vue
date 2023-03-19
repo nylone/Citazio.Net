@@ -34,6 +34,7 @@
 
 <script>
 import editboard from './EditBoard.vue'
+import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
     export default {
         name: 'OwnedBoards',
@@ -49,16 +50,11 @@ import { ref } from 'vue'
                 path.value = b.path
                 this.$refs['board-modal'].show()
             }
-            function RmBoard(b) {
-                let delete_path = 'http://localhost:3000/board/' + b.path + '/remove'
-                fetch(delete_path, {
-                        method: 'POST',
-                    })
-            }
             return {
                 CallEdit,
                 RmBoard,
-                path
+                GetBoards,
+                path,
             }
         }
         

@@ -11,7 +11,7 @@
                         type="text"
                 />
                 <label class="theysa-flex-row" style="align-items: center;" for="checkbox">
-                        <input id="pub" type="checkbox" style="width: auto;" value="true"/>
+                        <input id="pub" name="checkbox" type="checkbox" style="width: auto;" value="true"/>
                         <p style="margin-bottom: 0; ">Public</p>
                 </label>
                 
@@ -31,7 +31,7 @@
         setup() {
             function EditBoard(board_path) {
                 let title = document.getElementById("bname").value
-                let pub = document.getElementById("pub").value === "true"
+                let pub = document.querySelector("#pub")
                 let path = 'http://localhost:3000/board/' + board_path + '/update'
                 fetch(path, {
                         method: 'POST',
@@ -40,7 +40,7 @@
                                 'Accept': 'application/json',
                                 'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({"title": title, "pub": pub})
+                        body: JSON.stringify({"title": title, "pub": pub.checked})
                     })
             }
             return {

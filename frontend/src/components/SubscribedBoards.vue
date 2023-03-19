@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
     export default {
         name: 'SubscribedBoards',
@@ -46,15 +47,10 @@ import { ref } from 'vue'
                 path.value = b.path
                 this.$refs['board-modal'].show()
             }
-            function RmBoard(b) {
-                let path = 'http://localhost:3000/board/' + b.path + '/remove'
-                fetch(path, {
-                        method: 'POST',
-                    })
-            }
             return {
                 CallEdit,
                 RmBoard,
+                GetBoards,
                 path
             }
         }

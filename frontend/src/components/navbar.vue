@@ -39,6 +39,7 @@
     import auth from './auth.vue'
     import board from './AddBoard.vue'
     import { ref } from 'vue'
+    import { Logout } from './Boards'
     export default {
         name: 'NavBar',
         components: {
@@ -47,11 +48,7 @@
         },
         setup() {
             let modalShow = ref(false)
-            function Logout() {
-                fetch("http://localhost:3000/signout", {
-                        method: 'POST',
-                    }).then(()=> {this.$logged.value = false})
-            }
+
             function close() {
                 this.$refs['auth-modal'].hide()
                 this.$refs['board-modal'].hide()
