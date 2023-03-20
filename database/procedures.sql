@@ -112,13 +112,13 @@ begin
     set @user_id = get_user_id(username);
     set @board_id = get_board_id(path);
     if @board_id is null or @user_id is null or
-       (select count(*) from quotes q where q.id = id) <> 1 or
+       (select count(*) from active_quotes q where q.id = id) <> 1 or
        has_user_got_access_lvl(username, path,
                                if((select q.user_id from quotes q where q.id = id) = @user_id, 1, 2)) = 0
     then
         select false as result;
     else
-        delete from quotes where quotes.id = id;
+        update quotes q set q.deleted = current_timestamp() where q.id = id;
         select true as result;
     end if;
 end;
@@ -129,7 +129,7 @@ begin
     set @user_id = get_user_id(username);
     set @board_id = get_board_id(path);
     if @board_id is null or @user_id is null or
-       (select count(*) from quotes q where q.id = id) <> 1 or
+       (select count(*) from active_quotes q where q.id = id) <> 1 or
        if((select q.user_id from quotes q where q.id = id) = @user_id, 1, 0) = 0
     then
         select false as result;
@@ -175,7 +175,7 @@ begin
                q.quote,
                u.username,
                q.created
-        from quotes q
+        from active_quotes q
                  join users u on q.user_id = u.id
         where q.board_id = @board_id;
     end if;
@@ -254,7 +254,7 @@ begin
     then
         select false as result;
     else
-        update boards b set b.deleted = true where id = @board_id;
+        update boards b set b.deleted = current_timestamp() where id = @board_id;
         select true as result;
     end if;
 end;
@@ -267,7 +267,7 @@ begin
     then
         select false as result;
     else
-        update users u set u.deleted = true where u.id = @user_id;
+        update users u set u.deleted = current_timestamp() where u.id = @user_id;
         select true as result;
     end if;
 end;
