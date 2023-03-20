@@ -40,7 +40,7 @@ test("cannot add board", async (t) => {
     url: "/boards/add",
     payload: {
       title: "test board",
-      path: "can't add",
+      path: "cant_add",
       pub: false,
     },
   });
