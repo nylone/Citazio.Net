@@ -12,7 +12,7 @@ const schema = {
         required: ["quote", "username"],
         properties: {
           quote: { $ref: "quote" },
-          username: { $ref: "short_ascii_string" },
+          username: { $ref: "short_identifiable_string" },
         },
       },
     },

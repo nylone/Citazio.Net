@@ -8,7 +8,7 @@ const schema = {
     type: "object",
     required: ["uname"],
     properties: {
-      uname: { $ref: "short_ascii_string" },
+      uname: { $ref: "short_identifiable_string" },
     },
   },
 };

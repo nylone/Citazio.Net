@@ -7,7 +7,14 @@ module.exports = fp(async function (fastify, opts, done) {
     $id: "short_ascii_string",
     type: "string",
     maxLength: 32,
-    pattern: "[ -~]",
+    pattern: "^[ -~]{3,32}$",
+  });
+
+  fastify.addSchema({
+    $id: "short_identifiable_string",
+    type: "string",
+    maxLength: 32,
+    pattern: "^[a-z0-9_-]{3,32}$",
   });
 
   fastify.addSchema({
@@ -21,7 +28,17 @@ module.exports = fp(async function (fastify, opts, done) {
     type: "object",
     required: ["path"],
     properties: {
-      path: { $ref: "short_ascii_string" },
+      path: { $ref: "short_identifiable_string" },
+    },
+  });
+
+  fastify.addSchema({
+    $id: "board_path_user_params",
+    type: "object",
+    required: ["path", "uname"],
+    properties: {
+      path: { $ref: "short_identifiable_string" },
+      uname: { $ref: "short_identifiable_string" },
     },
   });
 
@@ -32,7 +49,7 @@ module.exports = fp(async function (fastify, opts, done) {
       type: "object",
       required: ["path", "title"],
       properties: {
-        path: { $ref: "short_ascii_string" },
+        path: { $ref: "short_identifiable_string" },
         title: { $ref: "short_ascii_string" },
         users: { $ref: "positive_int" },
         last_updated: { $ref: "short_ascii_string" },
@@ -47,9 +64,9 @@ module.exports = fp(async function (fastify, opts, done) {
       type: "object",
       required: ["path", "title", "owner"],
       properties: {
-        path: { $ref: "short_ascii_string" },
+        path: { $ref: "short_identifiable_string" },
         title: { $ref: "short_ascii_string" },
-        owner: { $ref: "short_ascii_string" },
+        owner: { $ref: "short_identifiable_string" },
         last_updated: { $ref: "short_ascii_string" },
       },
     },
@@ -62,9 +79,9 @@ module.exports = fp(async function (fastify, opts, done) {
       type: "object",
       required: ["path", "title", "owner", "access_lvl"],
       properties: {
-        path: { $ref: "short_ascii_string" },
+        path: { $ref: "short_identifiable_string" },
         title: { $ref: "short_ascii_string" },
-        owner: { $ref: "short_ascii_string" },
+        owner: { $ref: "short_identifiable_string" },
         access_lvl: { $ref: "access_lvl" },
         users: { $ref: "positive_int" },
         last_updated: { $ref: "short_ascii_string" },
@@ -100,7 +117,7 @@ module.exports = fp(async function (fastify, opts, done) {
           required: ["msg"],
           properties: {
             msg: { $ref: "long_string" },
-            by: { $ref: "short_ascii_string" },
+            by: { $ref: "short_identifiable_string" },
             ctx: { $ref: "long_string" },
           },
           maxProperties: 3,

@@ -2,27 +2,19 @@
 
 const schema = {
   params: {
-    $ref: "board_path_params",
-  },
-  body: {
-    type: "object",
-    required: ["uname"],
-    properties: {
-      uname: { $ref: "short_ascii_string" },
-    },
+    $ref: "board_path_user_params",
   },
 };
 
 module.exports = async function (fastify, opts) {
   fastify.post(
-    "/board/:path/users/remove",
+    "/board/:path/user/:uname/remove",
     { schema },
     async (request, reply) => {
       const session_uname = request.session.uname;
 
       const path = request.params.path;
-
-      const uname = request.body.uname;
+      const uname = request.params.uname;
 
       if (session_uname) {
         let conn;

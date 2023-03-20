@@ -9,7 +9,7 @@ module.exports = async function (fastify, opts) {
       type: "object",
       required: requireTokens ? ["uname", "pass", "token"] : ["uname", "pass"],
       properties: {
-        uname: { $ref: "short_ascii_string" },
+        uname: { $ref: "short_identifiable_string" },
         pass: { $ref: "short_ascii_string" },
         token: { $ref: "short_ascii_string" },
       },

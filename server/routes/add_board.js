@@ -6,7 +6,7 @@ const schema = {
     required: ["title", "path", "pub"],
     properties: {
       title: { $ref: "short_ascii_string" },
-      path: { $ref: "short_ascii_string" },
+      path: { $ref: "short_identifiable_string" },
       pub: { type: "boolean" },
     },
   },

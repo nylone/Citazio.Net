@@ -6,7 +6,7 @@ const schema = {
     type: "object",
     required: ["uname", "pass"],
     properties: {
-      uname: { $ref: "short_ascii_string" },
+      uname: { $ref: "short_identifiable_string" },
       pass: { $ref: "short_ascii_string" },
     },
   },

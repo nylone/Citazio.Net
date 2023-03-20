@@ -8,7 +8,7 @@ const schema = {
     type: "object",
     required: ["uname", "access_lvl"],
     properties: {
-      uname: { $ref: "short_ascii_string" },
+      uname: { $ref: "short_identifiable_string" },
       access_lvl: { type: "integer", minimum: 0, maximum: 2 },
     },
   },
@@ -31,7 +31,6 @@ module.exports = async function (fastify, opts) {
           session_uname,
         ]);
         const row = rows[0][0];
-        console.log(row);
         if (row?.result) {
           return reply.send();
         } else {

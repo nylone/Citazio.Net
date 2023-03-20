@@ -12,7 +12,7 @@ const schema = {
         required: ["access_lvl", "username"],
         properties: {
           access_lvl: { $ref: "access_lvl" },
-          username: { $ref: "short_ascii_string" },
+          username: { $ref: "short_identifiable_string" },
         },
       },
     },
