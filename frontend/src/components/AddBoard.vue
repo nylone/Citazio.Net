@@ -52,8 +52,7 @@ import { GetBoards, refresh } from './Boards'
                         .then(response => {
                                 res = response.status
                                 if(res === 200) { 
-                                        this.$logged.value=true 
-                                        this.$emit("CloseModal")
+                                        this.$emit("close-modal")
                                         GetBoards().then((res) => {store.boards=res; } )
                                 }
                         })

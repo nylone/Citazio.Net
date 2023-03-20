@@ -22,29 +22,17 @@
 </template>
 
 <script>
-
+import { EditBoard, GetBoards } from './Boards';
     export default {
         name: 'EditBoard',
         props: {
             board_path: String
         },
         setup() {
-            function EditBoard(board_path) {
-                let title = document.getElementById("bname").value
-                let pub = document.querySelector("#pub")
-                let path = 'http://localhost:3000/board/' + board_path + '/update'
-                fetch(path, {
-                        method: 'POST',
-                        credentials: 'include',
-                        headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({"title": title, "pub": pub.checked})
-                    })
-            }
+            
             return {
                 EditBoard,
+                GetBoards
             }
         }
     }

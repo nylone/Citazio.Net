@@ -18,7 +18,7 @@
 
         <!-- Auth Modal -->
         <b-modal class="theysa-shadow" size="lg" ref="auth-modal" hide-header>
-            <auth v-on:CloseModal="close()"/>
+            <auth v-on:close-modal="close()"/>
             <template #modal-footer="{close}">
                 <b-button size="md" variant="secondary" @click="close()">Close</b-button>
             </template> 
@@ -26,7 +26,7 @@
 
         <!-- Add Board Modal -->
         <b-modal class="theysa-shadow" size="lg" ref="board-modal" hide-header>
-            <board v-on:CloseModal="close()"/>
+            <board v-on:close-modal="close()"/>
             <template #modal-footer="{close}">
                 <b-button size="md" variant="secondary" @click="close()">Close</b-button>
             </template> 

@@ -13,6 +13,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(ModalPlugin)
 Vue.prototype.$logged = ref(false)
+Vue.prototype.$user = ref("")
 Vue.config.productionTip = false
 
 new Vue({

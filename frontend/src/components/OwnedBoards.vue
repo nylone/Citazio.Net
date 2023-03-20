@@ -3,6 +3,7 @@
         <div v-for="board in boards" :key="board.id">
             <b-card class="theysa-shadow theysa-card grows" >
                 <b-card-header align="right" header-border-variant="white"  header-bg-variant="white">
+                    <b-icon-pencil-square v-on:click="CallAddQuote(board)" type="submit"></b-icon-pencil-square>
                     <b-icon-gear v-on:click="CallEdit(board)" type="submit"></b-icon-gear>
                     <b-icon-trash v-on:click="RmBoard(board)" type="submit"></b-icon-trash>
                 </b-card-header>
@@ -19,11 +20,21 @@
 
         <!-- Edit Board Modal -->
         <b-modal class="theysa-shadow" size="lg" ref="board-modal" hide-header>
-            <editboard :board_path="path" v-on:CloseModal="close()"/>
+            <editboard :board_path="path" v-on:close-modal="close()"/>
             <template #modal-footer="{close}">
                 <b-button size="md" variant="secondary" @click="close()">Close</b-button>
             </template> 
         </b-modal>
+
+        <!-- Add Quote Modal -->
+        <b-modal class="theysa-shadow" size="lg" ref="quote-modal" hide-header>
+            <addquote :board_path="path" v-on:close-modal="close()"/>
+            <template #modal-footer="{close}">
+                <b-button size="md" variant="secondary" @click="close()">Close</b-button>
+            </template> 
+        </b-modal>
+
+        
     </div>
 
     <div v-else>
@@ -34,6 +45,7 @@
 
 <script>
 import editboard from './EditBoard.vue'
+import addquote from './AddQuote.vue'
 import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
     export default {
@@ -42,7 +54,8 @@ import { ref } from 'vue'
             boards: Array
         },
         components: {
-            editboard
+            editboard,
+            addquote
         },
         setup() {
             let path = ref(" ")
@@ -50,11 +63,21 @@ import { ref } from 'vue'
                 path.value = b.path
                 this.$refs['board-modal'].show()
             }
+            function CallAddQuote(b) {
+                path.value = b.path
+                this.$refs['quote-modal'].show()
+            }
+            function close() {
+                this.$refs['board-modal'].hide()
+                this.$refs['quote-modal'].hide()
+            }
             return {
                 CallEdit,
                 RmBoard,
                 GetBoards,
                 path,
+                CallAddQuote,
+                close
             }
         }
         
