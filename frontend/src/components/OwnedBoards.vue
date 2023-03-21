@@ -4,6 +4,7 @@
             <b-card class="theysa-shadow theysa-card grows" >
                 <b-card-header align="right" header-border-variant="white"  header-bg-variant="white">
                     <b-icon-pencil-square v-on:click="CallAddQuote(board)" type="submit"></b-icon-pencil-square>
+                    <b-icon-arrow-left-right v-on:click="CallTransferBoard(board)" type="submit"></b-icon-arrow-left-right>
                     <b-icon-gear v-on:click="CallEdit(board)" type="submit"></b-icon-gear>
                     <b-icon-trash v-on:click="RmBoard(board)" type="submit"></b-icon-trash>
                 </b-card-header>
@@ -34,6 +35,14 @@
             </template> 
         </b-modal>
 
+        <!-- Transfer Board Modal -->
+        <b-modal class="theysa-shadow" size="lg" ref="transfer-modal" hide-header>
+            <transferboard :board_path="path" v-on:close-modal="close()"/>
+            <template #modal-footer="{close}">
+                <b-button size="md" variant="secondary" @click="close()">Close</b-button>
+            </template> 
+        </b-modal>
+
         
     </div>
 
@@ -46,6 +55,7 @@
 <script>
 import editboard from './EditBoard.vue'
 import addquote from './AddQuote.vue'
+import transferboard from './TransferBoard.vue'
 import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
     export default {
@@ -55,7 +65,8 @@ import { ref } from 'vue'
         },
         components: {
             editboard,
-            addquote
+            addquote,
+            transferboard
         },
         setup() {
             let path = ref(" ")
@@ -67,6 +78,10 @@ import { ref } from 'vue'
                 path.value = b.path
                 this.$refs['quote-modal'].show()
             }
+            function CallTransferBoard(b) {
+                path.value = b.path
+                this.$refs['transfer-modal'].show()
+            }
             function close() {
                 this.$refs['board-modal'].hide()
                 this.$refs['quote-modal'].hide()
@@ -77,6 +92,7 @@ import { ref } from 'vue'
                 GetBoards,
                 path,
                 CallAddQuote,
+                CallTransferBoard,
                 close
             }
         }

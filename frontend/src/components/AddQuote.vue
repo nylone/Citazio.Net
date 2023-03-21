@@ -17,7 +17,7 @@
                 />
             </form>
             <b-icon-clipboard-plus style="margin:5px;" v-on:click="AddField()" ></b-icon-clipboard-plus>
-            <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="AddQuote(board_path)" value="SUBMIT"/>
+            <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="AddQuote(board_path, count)" value="SUBMIT"/>
             
         </div>
     </div>
@@ -25,21 +25,22 @@
 
 <script>
 import {AddQuote} from './Quotes'
+import {ref} from 'vue'
     export default {
+        name: 'AddQuote',
         props: {
             board_path: String
         },
         setup() {
-            let count = 1
+            let count = ref(1)
             function AddField() {
-                count++
                 let field = document.createElement("input")
                 field.className="theysa-shadow grows"
-                field.placeholder="msg" + count.toString()
-                field.id="msg" + count.toString() 
-
+                field.placeholder=`msg${count.value}`
+                field.id=`msg${count.value}`
                 let form = document.getElementById("form")
                 form.appendChild(field)
+                count.value = count.value + 1
             }
             return {
                 AddQuote,

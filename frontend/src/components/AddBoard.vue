@@ -30,7 +30,7 @@
 
 <script>
 import { store } from './store'
-import { GetBoards, refresh } from './Boards'
+import { GetBoards } from './Boards'
     export default {
         name: 'AddBoard',
         setup() {
@@ -62,7 +62,6 @@ import { GetBoards, refresh } from './Boards'
                 AddBoard,
                 GetBoards,
                 store,
-                refresh
             }
         }
     }
