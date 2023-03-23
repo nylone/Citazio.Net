@@ -52,4 +52,36 @@ export function TransferBoard(board_path) {
         },
         body: JSON.stringify({"uname": uname})
     })
+    .then(response => {
+        if(response.status === 200) {
+            GetBoards().then((res) => {store.boards=res; } )
+        }
+    })
+}
+
+export function AddUserBoard(board_path) {
+    let uname = document.getElementById("uname").value
+    let access_lvl = 0
+    // determines the access lvl
+    let temp = document.querySelectorAll("#accesslvl")
+    for(let i = 0; i < 3; i++) {
+        console.log(temp[i].checked)
+        if(temp[i].checked) {
+            access_lvl = i
+        }
+    }
+    fetch(`http://localhost:3000/board/${board_path}/users/add`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"uname": uname, "access_lvl": access_lvl})
+    })
+    .then(response => {
+        if(response.status === 200) {
+            GetBoards().then((res) => {store.boards=res; } )
+        }
+    })
 }

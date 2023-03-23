@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { TransferBoard } from './Boards';
+import { TransferBoard, GetBoards } from './Boards';
     export default {
         name: 'TransferBoard',
         props: {
@@ -22,7 +22,8 @@ import { TransferBoard } from './Boards';
         },
         setup() {
             return {
-                TransferBoard
+                TransferBoard,
+                GetBoards
             }
         }
 

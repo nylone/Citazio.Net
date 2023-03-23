@@ -3,6 +3,7 @@
         <div v-for="board in boards" :key="board.id">
             <b-card class="theysa-shadow theysa-card grows" >
                 <b-card-header align="right" header-border-variant="white"  header-bg-variant="white">
+                    <b-icon-person-plus-fill v-on:click="CallAddUser(board)" type="submit"></b-icon-person-plus-fill>
                     <b-icon-pencil-square v-on:click="CallAddQuote(board)" type="submit"></b-icon-pencil-square>
                     <b-icon-arrow-left-right v-on:click="CallTransferBoard(board)" type="submit"></b-icon-arrow-left-right>
                     <b-icon-gear v-on:click="CallEdit(board)" type="submit"></b-icon-gear>
@@ -15,7 +16,6 @@
                     <p>Users: {{ board.users }}</p>
                     <p>Last Update: {{ board.last_updated }}</p>
                 </b-card-footer>
-                    
             </b-card>
         </div>
 
@@ -43,6 +43,14 @@
             </template> 
         </b-modal>
 
+         <!-- AddUser Modal -->
+         <b-modal class="theysa-shadow" size="lg" ref="adduser-modal" hide-header>
+            <adduserboard :board_path="path" v-on:close-modal="close()"/>
+            <template #modal-footer="{close}">
+                <b-button size="md" variant="secondary" @click="close()">Close</b-button>
+            </template> 
+        </b-modal>
+
         
     </div>
 
@@ -56,6 +64,7 @@
 import editboard from './EditBoard.vue'
 import addquote from './AddQuote.vue'
 import transferboard from './TransferBoard.vue'
+import adduserboard from './AddUserBoard.vue'
 import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
     export default {
@@ -66,7 +75,8 @@ import { ref } from 'vue'
         components: {
             editboard,
             addquote,
-            transferboard
+            transferboard,
+            adduserboard
         },
         setup() {
             let path = ref(" ")
@@ -82,9 +92,15 @@ import { ref } from 'vue'
                 path.value = b.path
                 this.$refs['transfer-modal'].show()
             }
+            function CallAddUser(b) {
+                path.value = b.path
+                this.$refs['adduser-modal'].show()
+            }
             function close() {
                 this.$refs['board-modal'].hide()
                 this.$refs['quote-modal'].hide()
+                this.$refs['transfer-modal'].hide()
+                this.$refs['adduser-modal'].hide()
             }
             return {
                 CallEdit,
@@ -93,6 +109,7 @@ import { ref } from 'vue'
                 path,
                 CallAddQuote,
                 CallTransferBoard,
+                CallAddUser,
                 close
             }
         }
