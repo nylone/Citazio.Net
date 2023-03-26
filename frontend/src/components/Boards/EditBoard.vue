@@ -15,7 +15,7 @@
                         <p style="margin-bottom: 0; ">Public</p>
                 </label>
                 
-                <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="EditBoard(board_path)" value="SUBMIT"/>
+                <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="EditBoard(board_path);" value="SUBMIT"/>
             </form>
         </div>
     </div>

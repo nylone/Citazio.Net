@@ -33,7 +33,7 @@ export function AddQuote(board_path, field_count) {
     })
     .then(response => {
         if(response.status === 200) {
-            this.$emit("close-modal")
+            this.$emit("close:addquote")
         }
     })
 }

@@ -30,7 +30,7 @@
 
 <script>
 import { store } from './store'
-import { GetBoards } from './Boards'
+import { GetBoards } from './Boards/Boards'
     export default {
         name: 'AddBoard',
         setup() {

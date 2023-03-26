@@ -1,4 +1,4 @@
-import { store } from './store'
+import { store } from '../store'
 
 export async function GetBoards() {
     let response = await fetch("http://localhost:3000/boards/get", {
@@ -23,7 +23,7 @@ export function EditBoard(board_path) {
         })
         .then(response => {
             if(response.status === 200) {
-                this.$emit("close-modal") 
+                this.$emit('close:edit') 
                 GetBoards().then((res) => {store.boards=res; } )
             }
         })
@@ -55,6 +55,7 @@ export function TransferBoard(board_path) {
     .then(response => {
         if(response.status === 200) {
             GetBoards().then((res) => {store.boards=res; } )
+            this.$emit('close:transfer')
         }
     })
 }
@@ -82,6 +83,7 @@ export function AddUserBoard(board_path) {
     .then(response => {
         if(response.status === 200) {
             GetBoards().then((res) => {store.boards=res; } )
+            this.$emit('close:adduser')
         }
     })
 }
