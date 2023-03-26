@@ -238,8 +238,11 @@ begin
     then
         select false as result;
     else
-        call remove_user_from_board(new_owner, path, executor);
+        if ((select count(*) from boards_to_users where user_id = @new_owner_id and board_id = @board_id) > 0) then
+                    call remove_user_from_board(new_owner, path, executor);
+        end if;
         update boards b set b.owner_id = @new_owner_id where id = @board_id;
+        call add_user_to_board(executor, path, 2, new_owner);
         select true as result;
     end if;
 end;
