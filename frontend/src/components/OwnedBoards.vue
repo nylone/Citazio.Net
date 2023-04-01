@@ -1,6 +1,6 @@
 <template >
-    <div v-if="boards.length > 0" class="theysa-flex-row">
-        <div v-for="board in boards" :key="board.id">
+    <div v-if="boards.length > 0 && (typeof boards != undefined)" class="theysa-flex-row">
+        <div v-for="board in boards" :key="board.name">
             <b-card class="theysa-shadow theysa-card grows" >
                 <b-card-header align="right" header-border-variant="white"  header-bg-variant="white">
                     <b-icon-person-plus-fill v-on:click="Call(board, 'AddUser')" type="submit"></b-icon-person-plus-fill>
@@ -33,6 +33,7 @@
 
 </template>
 
+
 <script>
 import editboardmodal from './Modals/EditBoardModal.vue'
 import addquotemodal from './Modals/AddQuoteModal.vue'
@@ -40,10 +41,16 @@ import transferboardmodal from './Modals/TransferBoardModal.vue'
 import addusermodal from './Modals/AddUserBoardModal.vue'
 import { RmBoard, GetBoards } from './Boards/Boards'
 import { ref } from 'vue'
-    export default {
+export default {
         name: 'OwnedBoards',
         props: {
-            boards: Array
+            boards: {
+                type: Array,
+                required: true,
+                default() {
+                    return []
+                }
+            }
         },
         components: {
             addquotemodal,
@@ -51,6 +58,7 @@ import { ref } from 'vue'
             transferboardmodal,
             addusermodal
         },
+        
         setup() {
             let edit = ref(false)
             let quote = ref(false)
@@ -81,8 +89,8 @@ import { ref } from 'vue'
                 edit,
                 quote,
                 transfer,
-                adduser
+                adduser,
             }
-        }
+        },
     }
 </script>

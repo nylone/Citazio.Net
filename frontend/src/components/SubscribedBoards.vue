@@ -43,9 +43,15 @@ import addusermodal from './Modals/AddUserBoardModal.vue'
 import { RmBoard, GetBoards } from './Boards/Boards'
 import { ref } from 'vue'
     export default {
-        name: 'OwnedBoards',
+        name: 'SubscribedBoards',
         props: {
-            boards: Array
+            boards: {
+                type: Array,
+                required: true,
+                default() {
+                    return []
+                }
+            }
         },
         components: {
             addquotemodal,

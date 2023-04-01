@@ -97,7 +97,7 @@ import { GetBoards } from './Boards/Boards'
                                 if(response.status === 200) { 
                                         this.$logged.value=true 
                                         this.$user.value=uname
-                                        this.$emit("close-modal")
+                                        this.$emit("close:auth")
                                         GetBoards().then((res) => {store.boards=res; } )
                                 }
                         }) 			

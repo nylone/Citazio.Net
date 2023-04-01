@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { store } from './store'
-import { GetBoards } from './Boards/Boards'
+import { store } from '../store'
+import { GetBoards } from './Boards'
     export default {
         name: 'AddBoard',
         setup() {
@@ -52,7 +52,7 @@ import { GetBoards } from './Boards/Boards'
                         .then(response => {
                                 res = response.status
                                 if(res === 200) { 
-                                        this.$emit("close-modal")
+                                        this.$emit("close:addboard")
                                         GetBoards().then((res) => {store.boards=res; } )
                                 }
                         })

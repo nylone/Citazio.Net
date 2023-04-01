@@ -4,65 +4,53 @@
 
         <!-- Navbar -->
         <nav class="theysa-box theysa-flex-row theysa-navbar theysa-shadow" style="align-items: center;">
-            <a type="submit" v-on:click="get_choice('Home')">Home</a>
+            <a type="submit">Home</a>
             <a>|</a>
-            <a type="submit" v-if="!this.$logged.value" v-on:click="$refs['auth-modal'].show()">Auth</a>
+            <a type="submit" v-if="!this.$logged.value" v-on:click="auth=true">Auth</a>
             <div v-else >
                 <a type="submit" v-on:click="Logout()">Logout</a>
                 <a>|</a>
-                <a type="submit" v-on:click="$refs['board-modal'].show()" >Add Board</a>
+                <a type="submit" v-on:click="addboard=true" >Add Board</a>
             </div>
             <a>|</a>
-            <a type="submit" v-on:click="get_choice('About')">About</a>
+            <a type="submit">About</a>
         </nav>
 
         <!-- Auth Modal -->
-        <b-modal class="theysa-shadow" size="lg" ref="auth-modal" hide-header>
-            <auth v-on:close-modal="close()"/>
-            <template #modal-footer="{close}">
-                <b-button size="md" variant="secondary" @click="close()">Close</b-button>
-            </template> 
-        </b-modal>
+        <authmodal :show="auth" @close:auth="auth=false" />
 
         <!-- Add Board Modal -->
-        <b-modal class="theysa-shadow" size="lg" ref="board-modal" hide-header>
-            <board v-on:close-modal="close()"/>
-            <template #modal-footer="{close}">
-                <b-button size="md" variant="secondary" @click="close()">Close</b-button>
-            </template> 
-        </b-modal>
+        <addboardmodal :show="addboard" @close:addboard="addboard=false" />
 
     </div>
 </template>
 
 <script>
-    import auth from './auth.vue'
-    import board from './AddBoard.vue'
-    import { ref } from 'vue'
-    export default {
-        name: 'NavBar',
-        components: {
+import addboardmodal from './Modals/AddBoardModal.vue'
+import authmodal from './Modals/AuthModal.vue'
+import { ref } from 'vue'
+export default {
+    name: 'NavBar',
+    components: {
+        authmodal,
+        addboardmodal
+    },
+    setup() {
+        let auth = ref(false)
+        let addboard = ref(false)
+        function Logout() {
+            fetch("http://localhost:3000/signout", {
+                method: 'POST',
+            })
+            .then(()=> {this.$logged.value = false})
+        }
+        return {
+            addboard,
             auth,
-            board
-        },
-        setup() {
-            let modalShow = ref(false)
-            function close() {
-                this.$refs['auth-modal'].hide()
-                this.$refs['board-modal'].hide()
-            }
-            function Logout() {
-                fetch("http://localhost:3000/signout", {
-                    method: 'POST',
-                })
-                .then(()=> {this.$logged.value = false})
-            }
-            return {
-                modalShow,
-                Logout,
-                close,
-            }
-        },
-    }
+            Logout,
+            close,
+        }
+    },
+}
     
 </script>
