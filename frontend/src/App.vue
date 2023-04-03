@@ -1,42 +1,55 @@
 <template>
-  <div>
-    <navbar />
-    <div v-if="this.$logged.value" class="theysa-box theysa-flex-col theysa-navbar theysa-shadow" style="padding-top:0">
-      <h5>Owned Boards</h5>
-      <ownedboards :boards="store.boards.boards_owned" />
+    <div>
+        <h1 class="theysa-shadow" style="margin-top: 0;">theysa.id</h1>
+        <navbar :logged="logged" @close:successauth="logged = true" @logout="logged = false" />
+        <component :board_path=path @onpath="(board_path) => path=board_path" v-if="logged" :is="currentView" />
     </div>
-    <div v-if="this.$logged.value" class="theysa-box theysa-flex-col theysa-navbar theysa-shadow" style="padding-top:0">
-      <h5>Public Boards</h5>
-      <publicboards :boards="store.boards.boards_public"/>
-    </div>
-    <div v-if="this.$logged.value" class="theysa-box theysa-flex-col theysa-navbar theysa-shadow" style="padding-top:0">
-      <h5>Subscribed Boards</h5>
-      <subscribedboards :boards="store.boards.boards_subscribed"/>
-    </div>
-  </div>
-  
 </template>
 
 <script>
 import navbar from './components/navbar.vue'
-import { store } from './components/store'
-import subscribedboards from './components/SubscribedBoards.vue'
-import publicboards from './components/PublicBoards.vue'
-import ownedboards from './components/OwnedBoards.vue'
+import boards from './components/Boards/Boards.vue';
+import quotes from './components/Quotes/Quotes.vue';
+import { ref } from 'vue'
+
+const routes = {
+    '/': boards,
+    '/quotes': quotes,
+}
 
 export default {
-  name: 'App',
-  components: {
-    navbar,
-    publicboards,
-    subscribedboards,
-    ownedboards,
-    
-  },
-  setup() {
-    return {
-      store,
+    name: 'App',
+    components: {
+        navbar,
+        boards,
+        quotes
+
+    },
+    data() {
+        let logged = ref(false)
+        let path = ref('')
+        return {
+            logged,
+            path,
+            currentPath: window.location.hash
+        }
+    },
+    computed: {
+        currentView() {
+            return routes[this.currentPath.slice(1) || '/']
+        }
+    },
+
+    watch: {
+        currentPath() {
+            this.currentView
+        }
+    },
+
+    mounted() {
+        window.addEventListener('hashchange', () => {
+            this.currentPath = window.location.hash
+        })
     }
-  }
 }
 </script>

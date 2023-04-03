@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal class="theysa-shadow" size="lg" v-model="value" hide-header>
-            <auth @close:auth="$emit('close:auth')" />
+            <auth @close:successauth="$emit('close:successauth')" />
             <template #modal-footer>
                 <b-button size="md" variant="secondary" @click="$emit('close:auth')" >Close</b-button>
             </template> 

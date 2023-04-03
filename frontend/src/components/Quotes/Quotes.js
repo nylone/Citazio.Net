@@ -1,3 +1,4 @@
+export let quotes;
 export function AddQuote(board_path, field_count) {
     let text = document.getElementById("msg").value
     let context = document.getElementById("ctx").value
@@ -37,3 +38,15 @@ export function AddQuote(board_path, field_count) {
         }
     })
 }
+
+export async function GetQuotes(board_path) {
+    let response = await fetch(`http://localhost:3000/board/${board_path}/quotes/get`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+    response = await response.json()
+    console.log(response[0].quote.phrases[0])
+    
+    return response
+}
+

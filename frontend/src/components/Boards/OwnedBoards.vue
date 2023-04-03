@@ -2,21 +2,24 @@
     <div v-if="boards.length > 0 && (typeof boards != undefined)" class="theysa-flex-row">
         <div v-for="board in boards" :key="board.name">
             <b-card class="theysa-shadow theysa-card grows" >
-                <b-card-header align="right" header-border-variant="white"  header-bg-variant="white">
+                <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"  header-bg-variant="white">
                     <b-icon-person-plus-fill v-on:click="Call(board, 'AddUser')" type="submit"></b-icon-person-plus-fill>
                     <b-icon-pencil-square v-on:click="Call(board, 'AddQuote')" type="submit"></b-icon-pencil-square>
                     <b-icon-arrow-left-right v-on:click="Call(board, 'Transfer')" type="submit"></b-icon-arrow-left-right>
                     <b-icon-gear v-on:click="Call(board, 'Edit')" type="submit"></b-icon-gear>
                     <b-icon-trash v-on:click="RmBoard(board)" type="submit"></b-icon-trash>
                 </b-card-header>
-                <b-card-body>
-                    <b-card-title >{{ board.title }}</b-card-title>
-                </b-card-body>
-                <b-card-footer align="left" style="font-size: small;">
+                <a href="#/quotes" @click="$emit('onpath', board.path)" class="theysa-card-body" style="margin:0"> 
+                    <b-card-body class="theysa-card-body">
+                        <b-card-title>{{ board.title }}</b-card-title>
+                    </b-card-body>
+                </a>
+                <b-card-footer align="left" class="theysa-card-footer">
                     <p>Users: {{ board.users }}</p>
                     <p>Last Update: {{ board.last_updated }}</p>
                 </b-card-footer>
-            </b-card>
+            </b-card> 
+            
         </div>
 
         <!-- Modals -->
@@ -33,13 +36,12 @@
 
 </template>
 
-
 <script>
-import editboardmodal from './Modals/EditBoardModal.vue'
-import addquotemodal from './Modals/AddQuoteModal.vue'
-import transferboardmodal from './Modals/TransferBoardModal.vue'
-import addusermodal from './Modals/AddUserBoardModal.vue'
-import { RmBoard, GetBoards } from './Boards/Boards'
+import editboardmodal from '../Modals/EditBoardModal.vue'
+import addquotemodal from '../Modals/AddQuoteModal.vue'
+import transferboardmodal from '../Modals/TransferBoardModal.vue'
+import addusermodal from '../Modals/AddUserBoardModal.vue'
+import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
 export default {
         name: 'OwnedBoards',

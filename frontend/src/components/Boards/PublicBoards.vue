@@ -35,11 +35,11 @@
 </template>
 
 <script>
-import editboardmodal from './Modals/EditBoardModal.vue'
-import addquotemodal from './Modals/AddQuoteModal.vue'
-import transferboardmodal from './Modals/TransferBoardModal.vue'
-import addusermodal from './Modals/AddUserBoardModal.vue'
-import { RmBoard, GetBoards } from './Boards/Boards'
+import editboardmodal from '../Modals/EditBoardModal.vue'
+import addquotemodal from '../Modals/AddQuoteModal.vue'
+import transferboardmodal from '../Modals/TransferBoardModal.vue'
+import addusermodal from '../Modals/AddUserBoardModal.vue'
+import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
     export default {
         name: 'PublicBoards',

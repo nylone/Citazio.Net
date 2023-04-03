@@ -1,12 +1,10 @@
 <template>
     <div>
-        <h1 class="theysa-shadow" style="margin-top: 0;">theysa.id</h1>
-
         <!-- Navbar -->
         <nav class="theysa-box theysa-flex-row theysa-navbar theysa-shadow" style="align-items: center;">
             <a type="submit">Home</a>
             <a>|</a>
-            <a type="submit" v-if="!this.$logged.value" v-on:click="auth=true">Auth</a>
+            <a type="submit" v-if="!logged" v-on:click="auth=true">Auth</a>
             <div v-else >
                 <a type="submit" v-on:click="Logout()">Logout</a>
                 <a>|</a>
@@ -16,10 +14,8 @@
             <a type="submit">About</a>
         </nav>
 
-        <!-- Auth Modal -->
-        <authmodal :show="auth" @close:auth="auth=false" />
-
-        <!-- Add Board Modal -->
+        <!-- Modals -->
+        <authmodal :show="auth" @close:auth="auth=false" @close:successauth="$emit('close:successauth'); auth=false"/>
         <addboardmodal :show="addboard" @close:addboard="addboard=false" />
 
     </div>
@@ -35,6 +31,12 @@ export default {
         authmodal,
         addboardmodal
     },
+    props: {
+        logged: {
+            type: Boolean,
+            default: false
+        }
+    },
     setup() {
         let auth = ref(false)
         let addboard = ref(false)
@@ -42,7 +44,7 @@ export default {
             fetch("http://localhost:3000/signout", {
                 method: 'POST',
             })
-            .then(()=> {this.$logged.value = false})
+            .then(()=> {this.$emit('logout')})
         }
         return {
             addboard,
@@ -51,6 +53,7 @@ export default {
             close,
         }
     },
+
 }
     
 </script>
