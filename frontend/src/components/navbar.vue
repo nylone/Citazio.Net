@@ -16,7 +16,7 @@
 
         <!-- Modals -->
         <authmodal :show="auth" @close:auth="auth=false" @close:successauth="$emit('close:successauth'); auth=false"/>
-        <addboardmodal :show="addboard" @close:addboard="addboard=false" />
+        <addboardmodal :show="addboard" @added="$emit('refresh')" @close:addboard="addboard=false" />
 
     </div>
 </template>
@@ -37,22 +37,22 @@ export default {
             default: false
         }
     },
-    setup() {
+    data() {
         let auth = ref(false)
         let addboard = ref(false)
-        function Logout() {
+        return {
+            addboard,
+            auth,
+        }
+    },
+    methods: {
+        Logout() {
             fetch("http://localhost:3000/signout", {
                 method: 'POST',
             })
             .then(()=> {this.$emit('logout')})
         }
-        return {
-            addboard,
-            auth,
-            Logout,
-            close,
-        }
-    },
+    }
 
 }
     

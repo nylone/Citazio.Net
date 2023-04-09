@@ -28,7 +28,7 @@ import { AddUserBoard, GetBoards } from './Boards';
         props: {
             board_path: String,
         },
-        setup() {
+        data() {
             return {
                 AddUserBoard,
                 GetBoards

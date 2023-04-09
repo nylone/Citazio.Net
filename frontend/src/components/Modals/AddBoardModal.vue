@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal class="theysa-shadow" size="lg" v-model="value" hide-header>
-            <addboard @close:addboard="$emit('close:addboard')" />
+            <addboard @close:added="$emit('added')" @close:addboard="$emit('close:addboard')" />
             <template #modal-footer>
                 <b-button size="md" variant="secondary" @click="$emit('close:addboard')" >Close</b-button>
             </template> 

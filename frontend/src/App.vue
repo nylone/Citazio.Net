@@ -2,7 +2,7 @@
     <div>
         <h1 class="theysa-shadow" style="margin-top: 0;">theysa.id</h1>
         <navbar :logged="logged" @close:successauth="logged = true" @logout="logged = false" />
-        <component :board_path=path @onpath="(board_path) => path=board_path" v-if="logged" :is="currentView" />
+        <component :board_title=title :board_path=path @onpath="(board_path, board_title) => setData(board_path, board_title)" v-if="logged" :is="currentView" />
     </div>
 </template>
 
@@ -28,10 +28,18 @@ export default {
     data() {
         let logged = ref(false)
         let path = ref('')
+        let title = ref('')
         return {
             logged,
             path,
+            title,
             currentPath: window.location.hash
+        }
+    },
+    methods: {
+        setData(board_path, board_title) {
+            this.path=board_path
+            this.title = board_title
         }
     },
     computed: {

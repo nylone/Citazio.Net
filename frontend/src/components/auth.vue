@@ -35,7 +35,6 @@
 
 <script>
 import { ref } from 'vue'
-import { store } from './store'
 import { GetBoards } from './Boards/Boards'
 export default {
     name: 'AuTh',
@@ -60,7 +59,6 @@ export default {
                     if (response.status === 200) {
                         this.$user.value = uname
                         this.$emit("close:successauth")
-                        GetBoards().then((res) => { store.boards = res; })
                     }
                 })
         }

@@ -45,7 +45,6 @@ export async function GetQuotes(board_path) {
         credentials: 'include'
     });
     response = await response.json()
-    console.log(response[0].quote.phrases[0])
     
     return response
 }
