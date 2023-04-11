@@ -11,6 +11,7 @@ const schema = {
         type: "object",
         required: ["quote", "username"],
         properties: {
+          id: { type: "number" },
           quote: { $ref: "quote" },
           username: { $ref: "short_identifiable_string" },
         },
@@ -38,7 +39,6 @@ module.exports = async function (fastify, opts) {
           return reply.unauthorized();
         } else {
           const quotes = rows[0];
-          console.log(quotes);
           return reply.send(quotes);
         }
       } catch (err) {
