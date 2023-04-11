@@ -20,7 +20,10 @@ import { ref } from 'vue'
 export default {
     name: 'AddQuote',
     props: {
-        board_path: String
+        board_path: {
+            type: String,
+            default: ''
+        },
     },
     data() {
         let count = ref(1)

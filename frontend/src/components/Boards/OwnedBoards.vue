@@ -5,7 +5,7 @@
                 <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"
                     header-bg-variant="white">
                     <b-dropdown id="dropdown-dropup" dropup variant="text-color" no-caret
-                        toggle-class="text-decoration-none" style="z-index: 3;">
+                        toggle-class="text-decoration-none">
                         <template #button-content>
                             <b-icon-list />
                         </template>
