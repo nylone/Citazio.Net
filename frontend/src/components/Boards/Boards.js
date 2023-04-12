@@ -85,7 +85,6 @@ export function AddUserBoard(board_path) {
     // determines the access lvl
     let temp = document.querySelectorAll("#accesslvl")
     for (let i = 0; i < 3; i++) {
-        console.log(temp[i].checked)
         if (temp[i].checked) {
             access_lvl = i
         }
@@ -104,4 +103,17 @@ export function AddUserBoard(board_path) {
                 this.$emit('close:adduser')
             }
         })
+}
+
+export function RmUserBoard(board_path) {
+    let uname = document.getElementById('user').value
+    fetch(`http://localhost:3000/board/${board_path}/user/${uname}/remove`, {
+        method: 'POST',
+        credentials: 'include'
+    })
+    .then(response => {
+        if(response.status === 200) {
+            this.$emit('close:rmuser')
+        }
+    })
 }

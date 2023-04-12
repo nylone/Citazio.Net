@@ -30,9 +30,9 @@
 
         <editquotemodal :board_path="board_path" :quote_id="quote_id" :show="editquote" @success="refresh(); editquote=false" @close:editquote="editquote=false" />
         </div>
-        <div align="center"  v-else>
+        <b-card align="center" class="theysa-quote-card" v-else>
             <p>No quotes to show</p>
-        </div>
+        </b-card>
     </div>
     
     

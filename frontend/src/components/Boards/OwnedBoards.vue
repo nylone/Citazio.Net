@@ -9,15 +9,23 @@
                         <template #button-content>
                             <b-icon-list />
                         </template>
-                        <b-dropdown-item v-on:click="RmBoard(board); $emit('reload')"> <b-icon-trash /> Remove Board
+                        <b-dropdown-item v-on:click="RmBoard(board); $emit('reload')"> 
+                            <b-icon-trash /> Remove Board
                         </b-dropdown-item>
-                        <b-dropdown-item v-on:click="Call(board, 'AddUser')"> <b-icon-person-plus-fill /> Add User
+                        <b-dropdown-item v-on:click="Call(board, 'AddUser')"> 
+                            <b-icon-person-plus-fill /> Add User
                         </b-dropdown-item>
-                        <b-dropdown-item v-on:click="Call(board, 'AddQuote')"> <b-icon-pencil-square /> Add Quote
+                        <b-dropdown-item v-on:click="Call(board, 'RmUser')">
+                            <b-icon-person-dash-fill /> Remove User
                         </b-dropdown-item>
-                        <b-dropdown-item v-on:click="Call(board, 'Transfer')"> <b-icon-arrow-left-right /> Transfer Board
+                        <b-dropdown-item v-on:click="Call(board, 'AddQuote')"> 
+                            <b-icon-pencil-square /> Add Quote
                         </b-dropdown-item>
-                        <b-dropdown-item v-on:click="Call(board, 'Edit')"> <b-icon-gear /> Edit Board </b-dropdown-item>
+                        <b-dropdown-item v-on:click="Call(board, 'Transfer')"> 
+                            <b-icon-arrow-left-right /> Transfer Board
+                        </b-dropdown-item>
+                        <b-dropdown-item v-on:click="Call(board, 'Edit')"> 
+                            <b-icon-gear /> Edit Board </b-dropdown-item>
                     </b-dropdown>
 
                 </b-card-header>
@@ -40,6 +48,7 @@
         <addquotemodal :board_path="path" :show=quote @close:addquote="$emit('reload'); quote = false" />
         <transferboardmodal :board_path="path" :show=transfer @close:transfer="$emit('reload'); transfer = false" />
         <addusermodal :board_path="path" :show=adduser @close:adduser="$emit('reload'); adduser = false" />
+        <rmuserboardmodal :board_path="path" :show="rmuser" @close:rmuser="$emit('reload'); rmuser=false" />
 
     </div>
 
@@ -53,6 +62,7 @@ import editboardmodal from '../Modals/EditBoardModal.vue'
 import addquotemodal from '../Modals/AddQuoteModal.vue'
 import transferboardmodal from '../Modals/TransferBoardModal.vue'
 import addusermodal from '../Modals/AddUserBoardModal.vue'
+import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
 import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
 export default {
@@ -70,7 +80,8 @@ export default {
         addquotemodal,
         editboardmodal,
         transferboardmodal,
-        addusermodal
+        addusermodal,
+        rmuserboardmodal
     },
 
     data() {
@@ -78,12 +89,14 @@ export default {
         let quote = ref(false)
         let transfer = ref(false)
         let adduser = ref(false)
+        let rmuser = false
         let path = ref(" ")
         return {
             edit,
             quote,
             transfer,
             adduser,
+            rmuser,
             path,
             RmBoard,
             GetBoards,
@@ -104,6 +117,9 @@ export default {
             }
             else if (option === 'AddUser') {
                 this.adduser = true
+            }
+            else if (option === 'RmUser') {
+                this.rmuser = true
             }
         },
     }

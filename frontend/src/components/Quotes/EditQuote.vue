@@ -18,7 +18,7 @@
             ></b-form-input>
             
         </b-form>
-        <center><b-icon-clipboard-plus type="submit" v-on:click="AddField()" /> </center>
+        <center><b-icon-clipboard-plus type="submit" v-on:click="AddField()" /> Add Message </center>
         <center>
             <input 
             class="theysa-button theysa-shadow theysa-grows" 
