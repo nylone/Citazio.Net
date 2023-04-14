@@ -7,9 +7,8 @@ export async function GetBoards() {
     return response
 }
 
-export function EditBoard(board_path) {
+export function EditBoard(board_path, pub) {
     let title = document.getElementById("bname").value
-    let pub = document.querySelector("#pub")
     fetch(`http://localhost:3000/board/${board_path}/update`, {
         method: 'POST',
         credentials: 'include',
@@ -17,7 +16,7 @@ export function EditBoard(board_path) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ "title": title, "pub": pub.checked })
+        body: JSON.stringify({ "title": title, "pub": pub })
     })
         .then(response => {
             if (response.status === 200) {
@@ -26,10 +25,9 @@ export function EditBoard(board_path) {
         })
 }
 
-export function AddBoard() {
+export function AddBoard(pub) {
     let title = document.getElementById('bname').value
     let path = document.getElementById('bpath').value
-    let pub = document.querySelector("#pub").checked
 
     fetch("http://localhost:3000/boards/add", {
         method: 'POST',
@@ -79,16 +77,18 @@ export function TransferBoard(board_path) {
         })
 }
 
-export function AddUserBoard(board_path) {
+export function AddUserBoard(board_path, lvl) {
     let uname = document.getElementById("uname").value
-    let access_lvl = 0
-    // determines the access lvl
-    let temp = document.querySelectorAll("#accesslvl")
-    for (let i = 0; i < 3; i++) {
-        if (temp[i].checked) {
-            access_lvl = i
-        }
+    let access_lvl
+
+    // checks if the lvl is a valid number
+    if(lvl === null) {
+        access_lvl = 0
     }
+    else {
+        access_lvl = lvl
+    }
+
     fetch(`http://localhost:3000/board/${board_path}/users/add`, {
         method: 'POST',
         credentials: 'include',

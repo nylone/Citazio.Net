@@ -1,5 +1,5 @@
 export function AddQuote(board_path, field_count) {
-    let text = document.getElementById("msg").value
+    let text = document.getElementById("msg-1").value
     let context = document.getElementById("ctx").value
     let general_ctx = context
     const d = new Date();
@@ -16,8 +16,8 @@ export function AddQuote(board_path, field_count) {
         date: time
     }
     if(field_count > 1) {
-        for(let i = 1; i < field_count; i++) {
-            let additional_text = document.getElementById(`msg${i}`).value
+        for(let i = 2; i <= field_count; i++) {
+            let additional_text = document.getElementById(`msg-${i}`).value
             quote.phrases.push({msg: additional_text})
         }
     }

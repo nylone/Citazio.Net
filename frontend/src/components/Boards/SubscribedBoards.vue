@@ -1,52 +1,82 @@
 <template >
-    <div v-if="boards.length > 0 && (typeof boards != undefined)" class="theysa-flex-row">
-        <div v-for="board in boards" :key="board.name">
-            <b-card class="theysa-shadow theysa-card">
-                <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"
-                    header-bg-variant="white">
-                    <b-dropdown id="dropdown-dropup" dropup variant="text-color" no-caret
-                        toggle-class="text-decoration-none" style="z-index: 3;">
-                        <template #button-content>
-                            <b-icon-list />
-                        </template>
-                        <b-dropdown-item v-on:click="RmBoard(board); $emit('reload')"> <b-icon-trash /> Remove Board
-                        </b-dropdown-item>
-                        <b-dropdown-item v-on:click="Call(board, 'AddUser')"> <b-icon-person-plus-fill /> Add User
-                        </b-dropdown-item>
-                        <b-dropdown-item v-on:click="Call(board, 'AddQuote')"> <b-icon-pencil-square /> Add Quote
-                        </b-dropdown-item>
-                        <b-dropdown-item v-on:click="Call(board, 'Transfer')"> <b-icon-arrow-left-right /> Transfer Board
-                        </b-dropdown-item>
-                        <b-dropdown-item v-on:click="Call(board, 'Edit')"> <b-icon-gear /> Edit Board </b-dropdown-item>
-                    </b-dropdown>
+    <div v-if="boards.length > 0 && (typeof boards != undefined)">
+        <b-container fluid>
+            <b-row  align-h="center" align-content="center">
+                <b-col style="max-width: 300px" col v-for="board in boards" :key="board.name">
+                    <b-card class="theysa-shadow theysa-border" >
+                        <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"
+                            header-bg-variant="white">
+                            <b-dropdown id="dropdown-dropup" dropup variant="text-color" no-caret
+                                toggle-class="text-decoration-none">
+                                <template #button-content>
+                                    <b-icon-list />
+                                </template>
+                                <b-dropdown-item v-on:click="RmBoard(board); $emit('reload')">
+                                    <b-icon-trash /> Remove Board
+                                </b-dropdown-item>
+                                <b-dropdown-item v-on:click="Call(board, 'AddUser')">
+                                    <b-icon-person-plus-fill /> Add User
+                                </b-dropdown-item>
+                                <b-dropdown-item v-on:click="Call(board, 'RmUser')">
+                                    <b-icon-person-dash-fill /> Remove User
+                                </b-dropdown-item>
+                                <b-dropdown-item v-on:click="Call(board, 'AddQuote')">
+                                    <b-icon-pencil-square /> Add Quote
+                                </b-dropdown-item>
+                                <b-dropdown-item v-on:click="Call(board, 'Transfer')">
+                                    <b-icon-arrow-left-right /> Transfer Board
+                                </b-dropdown-item>
+                                <b-dropdown-item v-on:click="Call(board, 'Edit')">
+                                    <b-icon-gear /> Edit Board </b-dropdown-item>
+                            </b-dropdown>
 
-                </b-card-header>
-                <a href="#/quotes" @click="$emit('onpath', board.path, board.title)" class="theysa-card-body"
-                    style="margin:0">
-                    <b-card-title class="theysa-card-body">
-                        {{ board.title }}
-                    </b-card-title>
-                </a>
-                <b-card-footer align="left" class="theysa-card-footer">
-                    <p>Users: {{ board.users }}</p>
-                    <p>Owner: {{ board.owner }}</p>
-                    <p>Access Level: {{ board.access_lvl }}</p>
-                    <p>Last Update: {{ board.last_updated }}</p>
-                </b-card-footer>
-            </b-card>
+                        </b-card-header>
+                        <a href="#/quotes" @click="$emit('onpath', board.path, board.title)"
+                            style="margin:0">
+                            <b-card-title>
+                                {{ board.title }}
+                            </b-card-title>
+                        </a>
+                        <b-card-footer align="left" class="theysa-card-footer">
+                            <b-row>
+                                <b-col>
+                                    <p>Users: {{ board.users }}</p>
+                                </b-col>
 
-        </div>
+                                <b-col>
+                                    <p>Owner: {{ board.owner }}</p>
+                                </b-col>
+                            </b-row>
+
+                            <b-row>
+                                <b-col>
+                                    <p>Last Update: {{ board.last_updated }}</p>
+                                </b-col>
+                                <b-col>
+                                    <p>Permissions: {{ board.access_lvl }}</p>
+                                </b-col>
+                            </b-row>
+                            
+                        </b-card-footer>
+                    </b-card>
+
+                </b-col>
+            </b-row>
+
+        </b-container>
+
 
         <!-- Modals -->
         <editboardmodal :board_path="path" :show=edit @close:edit="$emit('reload'); edit = false" />
         <addquotemodal :board_path="path" :show=quote @close:addquote="$emit('reload'); quote = false" />
         <transferboardmodal :board_path="path" :show=transfer @close:transfer="$emit('reload'); transfer = false" />
         <addusermodal :board_path="path" :show=adduser @close:adduser="$emit('reload'); adduser = false" />
+        <rmuserboardmodal :board_path="path" :show="rmuser" @close:rmuser="$emit('reload'); rmuser = false" />
 
     </div>
 
     <div v-else>
-        <p>No Boards to show</p>
+        <center><p>No Boards to show</p> </center>
     </div>
 </template>
 
@@ -55,10 +85,11 @@ import editboardmodal from '../Modals/EditBoardModal.vue'
 import addquotemodal from '../Modals/AddQuoteModal.vue'
 import transferboardmodal from '../Modals/TransferBoardModal.vue'
 import addusermodal from '../Modals/AddUserBoardModal.vue'
+import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
 import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
 export default {
-    name: 'OwnedBoards',
+    name: 'SubscribedBoards',
     props: {
         boards: {
             type: Array,
@@ -72,7 +103,8 @@ export default {
         addquotemodal,
         editboardmodal,
         transferboardmodal,
-        addusermodal
+        addusermodal,
+        rmuserboardmodal
     },
 
     data() {
@@ -80,12 +112,14 @@ export default {
         let quote = ref(false)
         let transfer = ref(false)
         let adduser = ref(false)
+        let rmuser = ref(false)
         let path = ref(" ")
         return {
             edit,
             quote,
             transfer,
             adduser,
+            rmuser,
             path,
             RmBoard,
             GetBoards,
@@ -106,6 +140,9 @@ export default {
             }
             else if (option === 'AddUser') {
                 this.adduser = true
+            }
+            else if (option === 'RmUser') {
+                this.rmuser = true
             }
         },
     }

@@ -1,21 +1,39 @@
 <template>
     <div>
-        <h3 class="theysa-shadow"> Remove User </h3>
-        <b-form id="form">
-            <b-form-input 
-                placeholder="Username" 
-                type="text"
-                id="user"
-                size="lg"
-                required
-            ></b-form-input>
-        </b-form>
+        <b-container>
+            <b-row>
+                <b-col>
+                    <h3 class="theysa-shadow"> Remove User </h3>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col>
+                    <b-form id="form">
+                        <b-form-input 
+                        placeholder="Username" 
+                        type="text"
+                        id="user"
+                        size="lg"
+                        required
+                        >
+                        </b-form-input>
+                    </b-form>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col align="center">
+                    <input 
+                    class="theysa-button theysa-shadow inputButton" 
+                    type="submit" @click="RmUserBoard(board_path)"
+                    value="SUBMIT" 
+                    />
+                </b-col>
+            </b-row>
+        </b-container>
+        
+        
         <center>
-            <input 
-            class="theysa-button theysa-shadow theysa-grows" 
-            type="submit" @click="RmUserBoard(board_path)"
-            value="SUBMIT" 
-        />
+
         </center>
     </div>
 </template>

@@ -1,11 +1,32 @@
 <template>
-    <div class="theysa-flex-col">
-        <h3 class="theysa-shadow">Transfer Board</h3>
-        <form id="form" action="javascript:void(0);" class="theysa-flex-col">
-            <input class="theysa-shadow grows" id="uname" placeholder="name" type="text" />
-        </form>
-        <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="TransferBoard(board_path)"
-            value="SUBMIT" />
+    <div >
+        <b-container>
+            <b-row>
+                <b-col>
+                    <h3 class="theysa-shadow">Transfer Board</h3>
+                </b-col>
+            </b-row>
+
+            <b-row>
+                <b-col>
+                    <b-form>
+                        <b-form-input 
+                            placeholder="Username" 
+                            type="text" 
+                            id="uname" 
+                            size="lg" 
+                            required>
+                        </b-form-input>
+                    </b-form>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col align="center">
+                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="AddBoard(status)" value="SUBMIT" />
+                </b-col>
+            </b-row>
+        </b-container>
+
     </div>
 </template>
 

@@ -21,7 +21,7 @@
         <center><b-icon-clipboard-plus type="submit" v-on:click="AddField()" /> Add Message </center>
         <center>
             <input 
-            class="theysa-button theysa-shadow theysa-grows" 
+            class="theysa-button theysa-shadow inputButton" 
             type="submit" @click="UpdateQuote(board_path, count, quote_id)"
             value="SUBMIT" 
         />

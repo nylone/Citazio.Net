@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import auth from '../auth.vue'
+import auth from '../User/auth.vue'
     export default {
         name: 'AuthModal',
         props: {

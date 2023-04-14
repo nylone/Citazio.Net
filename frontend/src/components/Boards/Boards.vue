@@ -1,30 +1,52 @@
 <template>
-    <div id="bodytest">
-        <div class="theysa-box theysa-flex-col theysa-navbar theysa-shadow" style="padding-top:0">
-            <h5>Owned Boards</h5>
-            <ownedboards 
+    <b-container fluid>
+        <div class="theysa-box">
+            <b-row > 
+                <b-col >
+                    <center><h5 class="w-50">Owned Boards</h5></center>
+                </b-col> 
+            </b-row>
+            <b-row align-h="center" align-content="center"> 
+                <ownedboards 
                 @reload="refresh()" 
                 @onpath="(board_path, board_title) => $emit('onpath', board_path, board_title)"
                 :boards="boards.boards_owned" 
-            />
+                />
+            </b-row>
         </div>
-        <div class="theysa-box theysa-flex-col theysa-navbar theysa-shadow" style="padding-top:0">
-            <h5>Public Boards</h5>
-            <publicboards 
+
+        <div class="theysa-box">
+            <b-row>
+                <b-col>
+                    <center><h5 class="w-50">Public Boards</h5></center>
+                </b-col> 
+            </b-row>
+            <b-row>
+                <publicboards 
                 @reload="refresh()"
                 @onpath="(board_path, board_title) => $emit('onpath', board_path, board_title)"
                 :boards="boards.boards_public" 
-            />
+                />
+                
+            </b-row>
+            
         </div>
-        <div class="theysa-box theysa-flex-col theysa-navbar theysa-shadow" style="padding-top:0">
-            <h5>Subscribed Boards</h5>
-            <subscribedboards 
+        <div class="theysa-box">
+            <b-row>
+                <b-col>
+                <center><h5 class="w-50">Subscribed Boards</h5></center>
+                </b-col> 
+            </b-row>
+            <b-row> 
+                <subscribedboards 
                 @reload="refresh()"
                 @onpath="(board_path, board_title) => $emit('onpath', board_path, board_title)"
                 :boards="boards.boards_subscribed" 
-            />
+                /> 
+            </b-row>
+            
         </div>
-    </div>
+    </b-container>
 </template>
 
 <script>

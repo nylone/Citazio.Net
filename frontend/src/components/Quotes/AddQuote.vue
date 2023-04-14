@@ -1,16 +1,57 @@
 <template>
     <div>
-        <div class="theysa-flex-col">
-            <h3 class="theysa-shadow">Add Quote</h3>
-            <form id="form" action="javascript:void(0);" class="theysa-flex-col">
-                <input class="theysa-shadow grows" id="ctx" placeholder="context" type="text" />
-                <input class="theysa-shadow grows" id="msg" placeholder="msg" type="text" />
-            </form>
-            <b-icon-clipboard-plus style="margin:5px;" v-on:click="AddField()"></b-icon-clipboard-plus>
-            <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="AddQuote(board_path, count)"
-                value="SUBMIT" />
+        <b-container>
+            <b-row align-content="center">
+                <b-col>
+                    <h3 class="theysa-shadow">Add Quote</h3>
+                </b-col>
+            </b-row>
+            
+            <!-- Fields -->
+            <b-row align-content="center">
+                <b-col>
+                    <b-form id="form">
+                        <b-form-input 
+                            placeholder="context" 
+                            type="text"
+                            id="ctx"
+                            size="lg"
+                            required>
+                            </b-form-input>
 
-        </div>
+                            <b-form-input 
+                            placeholder="Message 1" 
+                            type="text"
+                            id="msg-1" 
+                            size="lg"
+                            required
+                            >
+                        </b-form-input>
+                    </b-form>
+                </b-col>
+            </b-row>
+
+            <!-- Add Field option-->
+            <b-row>
+                <b-col align="center">
+                    <b-icon-clipboard-plus style="margin:5px;" v-on:click="AddField()"></b-icon-clipboard-plus>
+                </b-col>
+            </b-row>
+
+            <!-- Submit button-->
+            <b-row >
+                <b-col align="center">
+                    <input 
+                    class="theysa-button theysa-shadow inputButton" 
+                    type="submit" @click="AddQuote()"
+                    value="SUBMIT" 
+                    />
+                </b-col>
+            </b-row>
+            
+            
+
+        </b-container>
     </div>
 </template>
 
@@ -34,13 +75,14 @@ export default {
     },
     methods: {
         AddField() {
+            this.$data.count = this.$data.count + 1
             let field = document.createElement("input")
-            field.className = "theysa-shadow grows"
-            field.placeholder = `msg${this.$data.count}`
-            field.id = `msg${this.$data.count}`
+            field.placeholder = `Message ${this.$data.count}`
+            field.className="form-control form-control-lg"
+            field.id = `msg-${this.$data.count}`
+            field.ariaRequired='true'
             let form = document.getElementById("form")
             form.appendChild(field)
-            this.$data.count = this.$data.count + 1
         }
     }
 

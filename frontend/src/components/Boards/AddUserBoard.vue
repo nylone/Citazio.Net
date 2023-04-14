@@ -1,37 +1,56 @@
 <template>
-    <div class="theysa-flex-col">
-        <h3 class="theysa-shadow">Add User To Board</h3>
-        <form id="form" action="javascript:void(0);" class="theysa-flex-col">
-            <input
-                class="theysa-shadow grows"
-                id="uname"
-                placeholder="name"
-                type="text"
-            />
-            <label class="theysa-flex-row" style="align-items: center;" for="checkbox">
-                <input id="accesslvl" name="checkbox" type="checkbox" style="width: auto;" value="true"/>
-                <p style="margin-bottom: 0; ">0</p>
-                <input id="accesslvl" name="checkbox" type="checkbox" style="width: auto;" value="true"/>
-                <p style="margin-bottom: 0; ">1</p>
-                <input id="accesslvl" name="checkbox" type="checkbox" style="width: auto;" value="true"/>
-                <p style="margin-bottom: 0; ">2</p>
-            </label>
-        </form>
-        <input class="theysa-button theysa-shadow theysa-grows" type="submit" @click="AddUserBoard(board_path)" value="SUBMIT"/>
+    <div>
+        <b-container>
+            <b-row>
+                <b-col>
+                    <h3>Add User </h3>
+                </b-col>
+            </b-row>
+
+
+            <!-- Fields -->
+            <b-row>
+                <b-col align="center">
+                    <b-form>
+                        <b-form-input 
+                            placeholder="Username" 
+                            type="text" 
+                            id="uname" 
+                            size="lg" 
+                            required>
+                        </b-form-input>
+                        <b-form-select v-model="selected" :options="levels"></b-form-select>
+                    </b-form>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col align="center">
+                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="AddUserBoard(board_path, selected)" value="SUBMIT" />
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 
 <script>
-import { AddUserBoard, GetBoards } from './Boards';
+import { AddUserBoard} from './Boards';
     export default {
         name: "AddUserBoard",
         props: {
             board_path: String,
         },
         data() {
+            let selected = null
+            let levels = [
+                {value: null, text: ' Select a Role'},
+                {value: 0, text: 'Read Only'},
+                {value: 1, text: 'Read and Write'},
+                {value: 2, text: 'Moderator'}
+            ]
             return {
+                selected,
+                levels,
                 AddUserBoard,
-                GetBoards
             }
         }
     }

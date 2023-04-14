@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Navbar -->
-        <nav class="theysa-box theysa-flex-row theysa-navbar theysa-shadow" style="align-items: center;">
+        <b-navbar class="theysa-box theysa-flex-row theysa-navbar theysa-shadow" style="align-items: center;">
             <a type="submit">Home</a>
             <a>|</a>
             <a type="submit" v-if="!logged" v-on:click="auth=true">Auth</a>
@@ -12,7 +12,7 @@
             </div>
             <a>|</a>
             <a type="submit">About</a>
-        </nav>
+        </b-navbar>
 
         <!-- Modals -->
         <authmodal :show="auth" @close:auth="auth=false" @close:successauth="$emit('close:successauth'); auth=false"/>

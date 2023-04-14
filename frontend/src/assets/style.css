@@ -31,33 +31,23 @@ body {
 /* === THEYSA- CLASSES === */
 
 .theysa-box {
-    padding: 20px;
-    margin: 15px;
+    padding: 15px;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 
 .theysa-button {
     font-weight: bold;
+    display: flex;
     color: var(--text-soft-color);
     border-color: var(--border-color);
     background-color: var(--mark-color);
 }
 
-.theysa-flex-col {
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
-}
-
-.theysa-flex-row {
-    justify-content: center;
-    align-items: start;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.theysa-flex-col, .theysa-flex-row {
-    display: flex;
-    flex-wrap: wrap;
+.theysa-border {
+    border-color: var(--border-color);
+    max-width: 300px;
+    height: 100%;
 }
 
 .theysa-footer {
@@ -103,12 +93,9 @@ body {
 }
 
 .theysa-card {
-    margin-right:15px; 
     border-color: var(--border-color);
-    max-width: 20vw; 
-    max-height: 20vw;
-    min-width: 10vw;
-    min-height: 10vw;
+    width: 30px;
+    height: 30px;
 }
 
 .theysa-quote-card {
@@ -142,13 +129,13 @@ p, label {
     color: var(--text-color);
 }
 
-input, .theysa-button {
+.inputButton, .theysa-button {
     text-align: center;
     align-content: center;
     color: var(--text-soft-color);
 }
 
-input {
+.inputButton {
     width: 20ch;
 }
 
@@ -161,7 +148,8 @@ h1, h2, h3, h5, h6 {
 
 h1, h2, h3, h5, h6 {
     padding: 10px;
-    margin: 15px;
+    margin-top: 5px;
+    margin-bottom: 15px;
     border-width: 0;
     border-style: solid;
     border-radius: 5px;
