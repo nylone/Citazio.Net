@@ -2,11 +2,11 @@
     <div>
         <!-- Navbar -->
         <b-navbar class="theysa-box theysa-flex-row theysa-navbar theysa-shadow" style="align-items: center;">
-            <a type="submit">Home</a>
+            <a href="#/" type="submit">Home</a>
             <a>|</a>
             <a type="submit" v-if="!logged" v-on:click="auth=true">Auth</a>
             <div v-else >
-                <a type="submit" v-on:click="Logout()">Logout</a>
+                <a type="submit" v-on:click="signout()">Logout</a>
                 <a>|</a>
                 <a type="submit" v-on:click="addboard=true" >Add Board</a>
             </div>
@@ -24,6 +24,7 @@
 <script>
 import addboardmodal from './Modals/AddBoardModal.vue'
 import authmodal from './Modals/AuthModal.vue'
+import {signout} from './User/user'
 import { ref } from 'vue'
 export default {
     name: 'NavBar',
@@ -43,16 +44,9 @@ export default {
         return {
             addboard,
             auth,
+            signout,
         }
     },
-    methods: {
-        Logout() {
-            fetch("http://localhost:3000/signout", {
-                method: 'POST',
-            })
-            .then(()=> {this.$emit('logout')})
-        }
-    }
 
 }
     

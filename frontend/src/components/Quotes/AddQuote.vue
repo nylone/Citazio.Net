@@ -43,7 +43,7 @@
                 <b-col align="center">
                     <input 
                     class="theysa-button theysa-shadow inputButton" 
-                    type="submit" @click="AddQuote()"
+                    type="submit" @click="AddQuote(board_path, count)"
                     value="SUBMIT" 
                     />
                 </b-col>

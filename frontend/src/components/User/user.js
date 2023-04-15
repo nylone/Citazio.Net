@@ -36,5 +36,36 @@ export function signup() {
         if(response.status === 200) {
             response.json()
         }    
-        })
+    })
+}
+
+export function signout() {
+    fetch("http://localhost:3000/signout", {
+        method: 'POST',
+    })
+    .then(()=> {this.$emit('logout')})
+}
+
+export function compare() {
+    let pass = document.getElementById('signup_pass')?.value
+    let confirmpass = document.getElementById('signup_confirmpass')?.value
+
+    if(pass === confirmpass || confirmpass === '') {  
+        return true
+    }
+    else {
+        return false
+    }
+}
+
+export function check_input(Id) {
+    let input = document.getElementById(Id)?.value
+
+    let pattern = new RegExp("^[ -~]{3,32}$")
+    if(pattern.test(input)) {
+        return true
+    }
+    else {
+        return false
+    }
 }

@@ -6,27 +6,27 @@
                     <b-card class="theysa-shadow theysa-border" >
                         <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"
                             header-bg-variant="white">
-                            <b-dropdown id="dropdown-dropup" dropup variant="text-color" no-caret
+                            <b-dropdown v-if="board.access_lvl > 0" id="dropdown-dropup" dropup variant="text-color" no-caret
                                 toggle-class="text-decoration-none">
                                 <template #button-content>
                                     <b-icon-list />
                                 </template>
-                                <b-dropdown-item v-on:click="RmBoard(board); $emit('reload')">
+                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="RmBoard(board); $emit('reload')">
                                     <b-icon-trash /> Remove Board
                                 </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'AddUser')">
+                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'AddUser')">
                                     <b-icon-person-plus-fill /> Add User
                                 </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'RmUser')">
+                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'RmUser')">
                                     <b-icon-person-dash-fill /> Remove User
                                 </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'AddQuote')">
+                                <b-dropdown-item :disabled="board.access_lvl < 1" v-on:click="Call(board, 'AddQuote')">
                                     <b-icon-pencil-square /> Add Quote
                                 </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'Transfer')">
+                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'Transfer')">
                                     <b-icon-arrow-left-right /> Transfer Board
                                 </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'Edit')">
+                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'Edit')">
                                     <b-icon-gear /> Edit Board </b-dropdown-item>
                             </b-dropdown>
 
@@ -86,7 +86,7 @@ import addquotemodal from '../Modals/AddQuoteModal.vue'
 import transferboardmodal from '../Modals/TransferBoardModal.vue'
 import addusermodal from '../Modals/AddUserBoardModal.vue'
 import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
-import { RmBoard, GetBoards } from './Boards'
+import { RmBoard } from './Boards'
 import { ref } from 'vue'
 export default {
     name: 'SubscribedBoards',
@@ -122,7 +122,6 @@ export default {
             rmuser,
             path,
             RmBoard,
-            GetBoards,
         }
     },
 
@@ -145,6 +144,9 @@ export default {
                 this.rmuser = true
             }
         },
+        test() {
+            return "disabled"
+        }
     }
 }
 </script>

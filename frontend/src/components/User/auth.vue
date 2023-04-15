@@ -30,7 +30,7 @@
                                 </b-form-input>
                             </b-form>
                         </b-card-body>
-                        <b-card-footer>
+                        <b-card-footer align="center">
                             <input class="theysa-button theysa-shadow inputButton" type="submit" @click="signin()"
                                 value="SUBMIT" />
                         </b-card-footer>
@@ -48,10 +48,14 @@
                                 placeholder="Username" 
                                 type="text" 
                                 id="signup_user" 
+                                v-on:input = "signup_input = check_input('signup_user')"
                                 size="lg" 
                                 required>
-
                                 </b-form-input>
+
+                                <b-form-invalid-feedback :state="signup_input">
+                                There are invalid characters
+                                </b-form-invalid-feedback>
 
                                 <b-form-input 
                                 placeholder="Password" 
@@ -66,10 +70,15 @@
                                 placeholder="Confirm Password" 
                                 type="password" 
                                 id="signup_confirmpass" 
+                                v-on:input="verify = compare()"
                                 size="lg" 
                                 required>
 
                                 </b-form-input>
+
+                                <b-form-invalid-feedback :state="verify">
+                                Password does not match
+                                </b-form-invalid-feedback>
 
                                 <!-- Token -->
                                 <b-form-input
@@ -92,7 +101,7 @@
                                 </b-form-checkbox>
                             </b-form>
                         </b-card-body>
-                        <b-card-footer>
+                        <b-card-footer align="center">
                             <input class="theysa-button theysa-shadow inputButton" type="submit" @click="signup()"
                                 value="SUBMIT" />
                         </b-card-footer>
@@ -104,18 +113,25 @@
 </template>
 
 <script>
-import { signin, signup } from './user'
+import { signin, signup, compare, check_input } from './user'
 
 export default {
     name: 'UserAuth',
     data() {
         let status = false
+        let verify
+        let signin_input 
+        let signup_input
         return {
             status,
+            verify,
+            signin_input,
+            signup_input,
             signin,
-            signup
+            signup,
+            compare,
+            check_input
         }
-    }
-
+    },
 }
 </script>
