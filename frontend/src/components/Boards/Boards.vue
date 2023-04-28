@@ -9,7 +9,7 @@
             <b-row align-h="center" align-content="center"> 
                 <ownedboards 
                 @reload="refresh()" 
-                @onpath="(board_path, board_title) => $emit('onpath', board_path, board_title)"
+                @onpath="(board_path, board_title, board_owner) => $emit('onpath', board_path, board_title, board_owner)"
                 :boards="boards.boards_owned" 
                 />
             </b-row>
@@ -24,7 +24,7 @@
             <b-row>
                 <publicboards 
                 @reload="refresh()"
-                @onpath="(board_path, board_title) => $emit('onpath', board_path, board_title)"
+                @onpath="(board_path, board_title, board_owner) => $emit('onpath', board_path, board_title, board_owner)"
                 :boards="boards.boards_public" 
                 />
                 
@@ -40,7 +40,7 @@
             <b-row> 
                 <subscribedboards 
                 @reload="refresh()"
-                @onpath="(board_path, board_title) => $emit('onpath', board_path, board_title)"
+                @onpath="(board_path, board_title, board_owner) => $emit('onpath', board_path, board_title, board_owner)"
                 :boards="boards.boards_subscribed" 
                 /> 
             </b-row>

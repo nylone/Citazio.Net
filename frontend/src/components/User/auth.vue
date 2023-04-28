@@ -15,19 +15,30 @@
                                 placeholder="Username" 
                                 type="text" 
                                 id="signin_user" 
+                                v-on:input = "signin_input = check_input('signin_user')"
                                 size="lg" 
                                 required>
 
                                 </b-form-input>
+
+                                <b-form-invalid-feedback :state="signin_input">
+                                There are invalid characters
+                                </b-form-invalid-feedback>
 
                                 <b-form-input 
                                 placeholder="Password" 
                                 type="password" 
                                 id="signin_pass" 
+                                v-on:input = "signin_pass = check_input('signin_pass')"
                                 size="lg" 
                                 required>
 
                                 </b-form-input>
+
+                                <b-form-invalid-feedback :state="signin_pass">
+                                There are invalid characters
+                                </b-form-invalid-feedback>
+
                             </b-form>
                         </b-card-body>
                         <b-card-footer align="center">
@@ -61,6 +72,7 @@
                                 placeholder="Password" 
                                 type="password" 
                                 id="signup_pass" 
+                                v-on:input = "signup_pass = check_input('signup_pass')"
                                 size="lg" 
                                 required>
 
@@ -76,6 +88,10 @@
 
                                 </b-form-input>
 
+                                <b-form-invalid-feedback :state="signup_pass">
+                                There are invalid characters
+                                </b-form-invalid-feedback>
+
                                 <b-form-invalid-feedback :state="verify">
                                 Password does not match
                                 </b-form-invalid-feedback>
@@ -86,10 +102,15 @@
                                 type="text" 
                                 :disabled=!status
                                 id="signup_token" 
+                                v-on:input = "signup_token = check_input('signup_token')"
                                 size="lg" 
                                 required>
 
                                 </b-form-input>
+
+                                <b-form-invalid-feedback :state="signup_token">
+                                There are invalid characters
+                                </b-form-invalid-feedback>
 
                                 <b-form-checkbox
                                 v-model="status"
@@ -120,13 +141,19 @@ export default {
     data() {
         let status = false
         let verify
-        let signin_input 
+        let signin_input
+        let signin_pass 
         let signup_input
+        let signup_pass
+        let signup_token
         return {
             status,
             verify,
             signin_input,
+            signin_pass, 
             signup_input,
+            signup_pass,
+            signup_token,
             signin,
             signup,
             compare,

@@ -3,8 +3,11 @@
         <h1 class="theysa-shadow" style="margin-top: 0;">theysa.id</h1>
         <navbar @refresh="update=true" :logged="logged" @close:successauth="logged = true" @logout="logged = false" />
         <component 
-            :update=update :board_title=title :board_path=path 
-            @onpath="(board_path, board_title) => setData(board_path, board_title)"
+            :update=update 
+            :board_title=title 
+            :board_path=path 
+            :board_owner = owner
+            @onpath="(board_path, board_title, board_owner) => setData(board_path, board_title, board_owner)"
             @rmquote:success="update=true"
             @done:update="update=false" 
             v-if="logged" 
@@ -36,19 +39,22 @@ export default {
         let logged = ref(false)
         let path = ref('')
         let title = ref('')
+        let owner = ref('')
         let update = ref(false)
         return {
             logged,
             path,
             title,
+            owner,
             update,
             currentPath: window.location.hash
         }
     },
     methods: {
-        setData(board_path, board_title) {
-            this.path=board_path
+        setData(board_path, board_title, board_owner) {
+            this.path= board_path
             this.title = board_title
+            this.owner = board_owner
         }
     },
     computed: {

@@ -6,10 +6,10 @@
             <div v-if="quote.quote != undefined">
                 <b-card-header>
                     <b-button-group >
-                        <b-button @click="RmQuote(board_path, quote.id)" variant="text-color">Remove Quote 
+                        <b-button :disabled="board_owner===quote.username" @click="RmQuote(board_path, quote.id)" variant="text-color">Remove Quote 
                             <b-icon-trash />
                         </b-button>
-                        <b-button @click="editquote=true; quote_id=quote.id" variant="text-color">Update Quote <b-icon-gear /></b-button>
+                        <b-button :disabled="board_owner===quote.username" @click="editquote=true; quote_id=quote.id" variant="text-color">Update Quote <b-icon-gear /></b-button>
                     </b-button-group>
                 </b-card-header>
                 <b-card-body >
@@ -50,6 +50,10 @@ export default {
             default: ""
         },
         board_title: {
+            type: String,
+            default: ""
+        },
+        board_owner: {
             type: String,
             default: ""
         },

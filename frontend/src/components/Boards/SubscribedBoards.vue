@@ -6,7 +6,7 @@
                     <b-card class="theysa-shadow theysa-border" >
                         <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"
                             header-bg-variant="white">
-                            <b-dropdown v-if="board.access_lvl > 0" id="dropdown-dropup" dropup variant="text-color" no-caret
+                            <b-dropdown id="dropdown-dropup" dropup variant="text-color" no-caret
                                 toggle-class="text-decoration-none">
                                 <template #button-content>
                                     <b-icon-list />
@@ -31,7 +31,7 @@
                             </b-dropdown>
 
                         </b-card-header>
-                        <a href="#/quotes" @click="$emit('onpath', board.path, board.title)"
+                        <a href="#/quotes" @click="$emit('onpath', board.path, board.title, board.owner)"
                             style="margin:0">
                             <b-card-title>
                                 {{ board.title }}

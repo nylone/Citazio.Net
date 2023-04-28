@@ -31,7 +31,7 @@
                             </b-dropdown>
 
                         </b-card-header>
-                        <a href="#/quotes" @click="$emit('onpath', board.path, board.title)" style="margin:0">
+                        <a href="#/quotes" @click="$emit('onpath', board.path, board.title, board.owner)" style="margin:0">
                             <b-card-title>
                                 {{ board.title }}
                             </b-card-title>

@@ -22,7 +22,6 @@ export function signup() {
     let uname = document.getElementById("signup_user").value
     let pass = document.getElementById("signup_pass").value
     let token = document.getElementById("signup_token")?.value
-    console.log(token)
 
     fetch("http://localhost:3000/signup", {
         method: 'POST',
@@ -60,12 +59,27 @@ export function compare() {
 
 export function check_input(Id) {
     let input = document.getElementById(Id)?.value
+    let pattern
 
-    let pattern = new RegExp("^[ -~]{3,32}$")
-    if(pattern.test(input)) {
-        return true
+    // Checks short_identifiable_string
+    if(Id === "signup_user" || Id === "signin_user") {
+        pattern = new RegExp("^[a-z0-9_-]{3,32}$")
+        if(pattern.test(input) || input === '') {
+            return true
+        }
+        else {
+            return false
+        }
     }
-    else {
-        return false
+
+    // Checks short_ascii_string
+    else if(Id === "signup_pass" || Id === "signin_pass" || Id === "signup_token") {
+        pattern = new RegExp("^[ -~]{3,32}$")
+        if(pattern.test(input) || input === '') {
+            return true
+        }
+        else {
+            return false
+        }
     }
 }
