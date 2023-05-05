@@ -6,8 +6,7 @@
             :update=update 
             :board_title=title 
             :board_path=path 
-            :board_owner = owner
-            @onpath="(board_path, board_title, board_owner) => setData(board_path, board_title, board_owner)"
+            @onpath="(board_path, board_title) => setData(board_path, board_title)"
             @rmquote:success="update=true"
             @done:update="update=false" 
             v-if="logged" 
@@ -18,6 +17,7 @@
 
 <script>
 import navbar from './components/navbar.vue'
+import notfound from './components/NotFound.vue'
 import boards from './components/Boards/Boards.vue';
 import quotes from './components/Quotes/Quotes.vue';
 import { ref } from 'vue'
@@ -32,40 +32,33 @@ export default {
     components: {
         navbar,
         boards,
-        quotes
+        quotes,
+        notfound
 
     },
     data() {
         let logged = ref(false)
         let path = ref('')
         let title = ref('')
-        let owner = ref('')
         let update = ref(false)
         return {
             logged,
             path,
             title,
-            owner,
             update,
             currentPath: window.location.hash
         }
     },
     methods: {
-        setData(board_path, board_title, board_owner) {
+        setData(board_path, board_title) {
             this.path= board_path
             this.title = board_title
-            this.owner = board_owner
         }
     },
     computed: {
         currentView() {
-            return routes[this.currentPath.slice(1) || '/']
-        }
-    },
-
-    watch: {
-        currentPath() {
-            this.currentView
+            let route = routes[this.currentPath.slice(1) || '/'] || notfound
+            return route
         }
     },
 

@@ -6,17 +6,17 @@
             <div v-if="quote.quote != undefined">
                 <b-card-header>
                     <b-button-group >
-                        <b-button :disabled="board_owner===quote.username" @click="RmQuote(board_path, quote.id)" variant="text-color">Remove Quote 
+                        <b-button :disabled="access_lvl < 1" @click="RmQuote(board_path, quote.id)" variant="text-color">Remove Quote 
                             <b-icon-trash />
                         </b-button>
-                        <b-button :disabled="board_owner===quote.username" @click="editquote=true; quote_id=quote.id" variant="text-color">Update Quote <b-icon-gear /></b-button>
+                        <b-button :disabled="access_lvl < 1" @click="editquote=true; quote_id=quote.id" variant="text-color">Update Quote <b-icon-gear /></b-button>
                     </b-button-group>
                 </b-card-header>
                 <b-card-body >
                     <b-container fluid>
                         <b-row>
-                            <b-col><p align="left">ctx: {{ quote.quote.ctx }} </p></b-col>
-                            <b-col><p align="right">By: {{ quote.username }}</p></b-col>
+                            <b-col><p align="left"> <b> ctx </b>: {{ quote.quote.ctx }} </p></b-col>
+                            <b-col><p align="right"> <b>By </b>: {{ quote.username }}</p></b-col>
                         </b-row>
                     </b-container>
                     <div v-for="phrase in quote.quote.phrases" :key="phrase.count">
@@ -40,6 +40,7 @@
 
 <script>
 import { GetQuotes, RmQuote } from './Quotes'
+import { GetBoardUsers } from '../Boards/Boards'
 import editquotemodal from '../Modals/EditQuoteModal.vue'
 
 export default {
@@ -50,10 +51,6 @@ export default {
             default: ""
         },
         board_title: {
-            type: String,
-            default: ""
-        },
-        board_owner: {
             type: String,
             default: ""
         },
@@ -69,16 +66,20 @@ export default {
         let quotes = {}
         let quote_id = -1
         let editquote = false
+        let access_lvl
         return {
             GetQuotes,
             RmQuote,
+            GetBoardUsers,
             editquote,
             quote_id,
             quotes,
+            access_lvl
         }
     },
     created: async function () {
         this.refresh()
+        this.access_lvl = await GetBoardUsers(this.board_path, this.$user)
     },
     methods: {
         async refresh() {

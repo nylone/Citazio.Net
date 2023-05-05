@@ -117,3 +117,20 @@ export function RmUserBoard(board_path) {
         }
     })
 }
+
+
+export async function GetBoardUsers(board_path, user) {
+    let users = await fetch(`http://localhost:3000/board/${board_path}/users/get`, {
+        method: 'GET',
+        credentials: 'include',
+    })
+    users = await users.json();
+    console.log(users)
+    if(users === null) {
+        return 0
+    }
+    else {
+        return users.find(o => o.username === user.value).access_lvl
+    }
+
+}
