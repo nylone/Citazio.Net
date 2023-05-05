@@ -195,6 +195,10 @@ begin
         from boards_to_users b2u
                  join active_users u on b2u.user_id = u.id
         where b2u.board_id = @board_id;
+        union
+        select b.owner as username, "2" as access_lvl
+        from active_boards b
+        where b.board_id = @board_id;
     end if;
 end;
 
