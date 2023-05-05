@@ -187,7 +187,7 @@ create or replace procedure get_board_users(
 )
 begin
     set @board_id = get_board_id(path);
-    if (@board_id is null or has_user_got_access_lvl(username, path, 2) = 0) then
+    if (@board_id is null or has_user_got_access_lvl(username, path, 0) = 0) then
         select false as result;
     else
         select u.username,
