@@ -190,15 +190,15 @@ begin
     if (@board_id is null or has_user_got_access_lvl(username, path, 0) = 0) then
         select false as result;
     else
-        select u.username,
+        (select u.username,
                b2u.access_lvl
         from boards_to_users b2u
                  join active_users u on b2u.user_id = u.id
-        where b2u.board_id = @board_id;
+        where b2u.board_id = @board_id)
         union
-        select b.owner as username, "2" as access_lvl
+        (select b.owner as username, "2" as access_lvl
         from active_boards b
-        where b.board_id = @board_id;
+        where b.board_id = @board_id);
     end if;
 end;
 
