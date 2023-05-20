@@ -198,7 +198,7 @@ begin
         union
         (select b.owner as username, "2" as access_lvl
         from active_boards b
-        where b.board_id = @board_id);
+        where b.id = @board_id);
     end if;
 end;
 
