@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="theysa-shadow" style="margin-top: 0;">theysa.id</h1>
+        <h1 class="theysa-shadow" style=" margin-top: 0;"> citazio.net<b-badge variant="info">Beta </b-badge> </h1>
         <navbar @refresh="update=true" :logged="logged" @close:successauth="logged = true" @logout="logged = false" />
         <component 
             :update=update 

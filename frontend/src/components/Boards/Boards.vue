@@ -3,7 +3,7 @@
         <div class="theysa-box">
             <b-row > 
                 <b-col >
-                    <center><h5 class="w-50">Owned Boards</h5></center>
+                    <center><h5 class="w-50">Your Boards</h5></center>
                 </b-col> 
             </b-row>
             <b-row align-h="center" align-content="center"> 
@@ -34,7 +34,7 @@
         <div class="theysa-box">
             <b-row>
                 <b-col>
-                <center><h5 class="w-50">Subscribed Boards</h5></center>
+                <center><h5 class="w-50">Friends Boards</h5></center>
                 </b-col> 
             </b-row>
             <b-row> 
@@ -92,6 +92,7 @@ export default {
                 this.$emit('done:update')
             }
         }
-    }
+    },
+
 }
 </script>

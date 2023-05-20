@@ -125,12 +125,17 @@ export async function GetBoardUsers(board_path, user) {
         credentials: 'include',
     })
     users = await users.json();
-    console.log(users)
     if(users === null) {
         return 0
     }
     else {
-        return users.find(o => o.username === user.value).access_lvl
+        let usersmap = new Map(users.map(e => [e.username, true]))
+        if(usersmap.get(user.value)) {
+            return users.find(o => o.username === user.value).access_lvl
+        }
+        else {
+            return 0
+        }
     }
 
 }

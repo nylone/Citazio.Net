@@ -1,33 +1,16 @@
 <template >
     <div v-if="boards.length > 0 && (typeof boards != undefined)">
         <b-container fluid>
-            <b-row align-h="center">
-                <b-col style="max-width: 350px" v-for="board in boards" :key="board.name">
+            <b-row cols="1" cols-md="3" align-h="center" align-content="center">
+                <b-col style="max-width: 350px; margin-top: 10px;" col v-for="board in boards" :key="board.name">
                     <b-card class="theysa-shadow theysa-border">
                         <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"
                             header-bg-variant="white">
-                            <b-dropdown id="dropdown-dropup" dropup variant="text-color" no-caret
-                                toggle-class="text-decoration-none">
-                                <template #button-content>
-                                    <b-icon-list />
+                            <b-dropdown disabled id="dropdown-dropup" dropup variant="text-color" no-caret
+                                toggle-class="text-decoration-none border-light: white">
+                                <template #button-content >
+                                    <b-icon-list style="border: none"/>
                                 </template>
-                                <b-dropdown-item v-on:click="RmBoard(board); $emit('reload')">
-                                    <b-icon-trash /> Remove Board
-                                </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'AddUser')">
-                                    <b-icon-person-plus-fill /> Add User
-                                </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'RmUser')">
-                                    <b-icon-person-dash-fill /> Remove User
-                                </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'AddQuote')">
-                                    <b-icon-pencil-square /> Add Quote
-                                </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'Transfer')">
-                                    <b-icon-arrow-left-right /> Transfer Board
-                                </b-dropdown-item>
-                                <b-dropdown-item v-on:click="Call(board, 'Edit')">
-                                    <b-icon-gear /> Edit Board </b-dropdown-item>
                             </b-dropdown>
 
                         </b-card-header>

@@ -121,10 +121,14 @@
                                     Use Token
                                 </b-form-checkbox>
                             </b-form>
+                            
                         </b-card-body>
+                        <b-form-invalid-feedback :state="response">
+                            Service may also require token based authentication. <br />If so contact the admin.
+                        </b-form-invalid-feedback>
                         <b-card-footer align="center">
-                            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="signup()"
-                                value="SUBMIT" />
+                            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="get_response()" value="SUBMIT" />
+                                
                         </b-card-footer>
                     </b-card>
                 </b-col>
@@ -140,6 +144,7 @@ export default {
     name: 'UserAuth',
     data() {
         let status = false
+        let response = true
         let verify
         let signin_input
         let signin_pass 
@@ -148,6 +153,7 @@ export default {
         let signup_token
         return {
             status,
+            response,
             verify,
             signin_input,
             signin_pass, 
@@ -160,5 +166,10 @@ export default {
             check_input
         }
     },
+    methods: {
+        async get_response() {
+            this.response= await signup()
+        }
+    }
 }
 </script>

@@ -1,9 +1,9 @@
 <template >
     <div v-if="boards.length > 0 && (typeof boards != undefined)">
         <b-container >
-            <b-row align-h="center" align-content="center">
-                <b-col style="max-width: 350px" col v-for="board in boards" :key="board.name">
-                    <b-card class="theysa-shadow theysa-border" >
+            <b-row cols="1" cols-md="3" align-h="center" align-content="center">
+                <b-col style="max-width: 350px; margin-top: 10px;" col v-for="board in boards" :key="board.name">
+                    <b-card class="theysa-shadow theysa-border">
                         <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"
                             header-bg-variant="white">
                             <b-dropdown id="dropdown-dropup" dropup variant="text-color" no-caret
@@ -50,7 +50,6 @@
                                     <p v-else> None</p>
                                 </b-col>
                             </b-row>
-
                         </b-card-footer>
                     </b-card>
 
@@ -98,7 +97,7 @@ export default {
         editboardmodal,
         transferboardmodal,
         addusermodal,
-        rmuserboardmodal
+        rmuserboardmodal,
     },
 
     data() {
@@ -106,7 +105,7 @@ export default {
         let quote = ref(false)
         let transfer = ref(false)
         let adduser = ref(false)
-        let rmuser = false
+        let rmuser = ref(false)
         let path = ref(" ")
         return {
             edit,
@@ -139,6 +138,7 @@ export default {
                 this.rmuser = true
             }
         },
-    }
+    },
+
 }
 </script>

@@ -28,6 +28,7 @@
       --outline-color-rgb: 184,166,245;
       --dark-color-rgb: 74,65,101;
       --light-color-rgb: 245,242,255;
+      --bs-btn-disabled-border-color: rgba(255,255,255, 1);
     }
   }
     

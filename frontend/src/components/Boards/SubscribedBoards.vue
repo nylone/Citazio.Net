@@ -1,8 +1,8 @@
 <template >
     <div v-if="boards.length > 0 && (typeof boards != undefined)">
         <b-container fluid>
-            <b-row  align-h="center" align-content="center">
-                <b-col style="max-width: 350px" col v-for="board in boards" :key="board.name">
+            <b-row cols="1" cols-md="3" align-h="center" align-content="center">
+                <b-col style="max-width: 350px; margin-top: 10px;" col v-for="board in boards" :key="board.name">
                     <b-card class="theysa-shadow theysa-border" >
                         <b-card-header class="theysa-card-actions" align="right" header-border-variant="white"
                             header-bg-variant="white">

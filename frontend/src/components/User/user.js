@@ -18,12 +18,12 @@ export function signin() {
     })
 }
 
-export function signup() {
+export async function signup() {
     let uname = document.getElementById("signup_user").value
     let pass = document.getElementById("signup_pass").value
     let token = document.getElementById("signup_token")?.value
 
-    fetch("http://localhost:3000/signup", {
+    let response = await fetch("http://localhost:3000/signup", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -31,11 +31,13 @@ export function signup() {
         },
         body: JSON.stringify({ "uname": uname, "pass": pass, "token": token })
     })
-    .then(response => {
-        if(response.status === 200) {
-            response.json()
-        }    
-    })
+    if(response.status === 200) {
+        return true
+    }
+    else {
+        return false
+    }
+    
 }
 
 export function signout() {
