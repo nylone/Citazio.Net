@@ -13,6 +13,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(ModalPlugin)
 Vue.prototype.$user = ref("")
+Vue.prototype.$path = window.location.protocol + "//" + window.location.hostname + ":3000"
 Vue.config.productionTip = false
 
 new Vue({

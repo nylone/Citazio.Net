@@ -1,5 +1,5 @@
 export async function GetBoards() {
-    let response = await fetch("http://localhost:3000/boards/get", {
+    let response = await fetch(`${this.$path}/boards/get`, {
         method: 'GET',
         credentials: 'include',
     });
@@ -9,7 +9,7 @@ export async function GetBoards() {
 
 export function EditBoard(board_path, pub) {
     let title = document.getElementById("bname").value
-    fetch(`http://localhost:3000/board/${board_path}/update`, {
+    fetch(`${this.$path}/board/${board_path}/update`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -29,7 +29,7 @@ export function AddBoard(pub) {
     let title = document.getElementById('bname').value
     let path = document.getElementById('bpath').value
 
-    fetch("http://localhost:3000/boards/add", {
+    fetch(`${this.$path}/boards/add`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -48,7 +48,7 @@ export function AddBoard(pub) {
 
 
 export function RmBoard(board) {
-    fetch(`http://localhost:3000/board/${board.path}/remove`, {
+    fetch(`${this.$path}/board/${board.path}/remove`, {
         method: 'POST',
         credentials: 'include',
     })
@@ -61,7 +61,7 @@ export function RmBoard(board) {
 
 export function TransferBoard(board_path) {
     let uname = document.getElementById("uname").value
-    fetch(`http://localhost:3000/board/${board_path}/transfer`, {
+    fetch(`${this.$path}/board/${board_path}/transfer`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -89,7 +89,7 @@ export function AddUserBoard(board_path, lvl) {
         access_lvl = lvl
     }
 
-    fetch(`http://localhost:3000/board/${board_path}/users/add`, {
+    fetch(`${this.$path}/board/${board_path}/users/add`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -107,7 +107,7 @@ export function AddUserBoard(board_path, lvl) {
 
 export function RmUserBoard(board_path) {
     let uname = document.getElementById('user').value
-    fetch(`http://localhost:3000/board/${board_path}/user/${uname}/remove`, {
+    fetch(`${this.$path}/board/${board_path}/user/${uname}/remove`, {
         method: 'POST',
         credentials: 'include'
     })
@@ -120,7 +120,7 @@ export function RmUserBoard(board_path) {
 
 
 export async function GetBoardUsers(board_path, user) {
-    let users = await fetch(`http://localhost:3000/board/${board_path}/users/get`, {
+    let users = await fetch(`${this.$path}/board/${board_path}/users/get`, {
         method: 'GET',
         credentials: 'include',
     })

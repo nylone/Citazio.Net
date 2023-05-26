@@ -2,6 +2,7 @@
     <div>
         <h1 class="theysa-shadow" style=" margin-top: 0;"> citazio.net<b-badge variant="info">Beta </b-badge> </h1>
         <navbar @refresh="update=true" :logged="logged" @close:successauth="logged = true" @logout="logged = false" />
+        <center><cookiebanner /></center>
         <component 
             :update=update 
             :board_title=title 
@@ -12,6 +13,7 @@
             v-if="logged" 
             :is="currentView" 
         />
+        
     </div>
 </template>
 
@@ -20,6 +22,7 @@ import navbar from './components/navbar.vue'
 import notfound from './components/NotFound.vue'
 import boards from './components/Boards/Boards.vue';
 import quotes from './components/Quotes/Quotes.vue';
+import cookiebanner from './components/User/cookiebanner.vue'
 import { ref } from 'vue'
 
 const routes = {
@@ -33,7 +36,8 @@ export default {
         navbar,
         boards,
         quotes,
-        notfound
+        notfound,
+        cookiebanner
 
     },
     data() {

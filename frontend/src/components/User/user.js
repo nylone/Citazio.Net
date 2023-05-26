@@ -1,7 +1,7 @@
 export function signin() {
     let uname = document.getElementById("signin_user").value
     let pass = document.getElementById("signin_pass").value
-    fetch("http://localhost:3000/signin", {
+    fetch(`${this.$path}/signin`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -23,7 +23,7 @@ export async function signup() {
     let pass = document.getElementById("signup_pass").value
     let token = document.getElementById("signup_token")?.value
 
-    let response = await fetch("http://localhost:3000/signup", {
+    let response = await fetch(`${this.$path}/signup`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -41,7 +41,7 @@ export async function signup() {
 }
 
 export function signout() {
-    fetch("http://localhost:3000/signout", {
+    fetch(`${this.$path}/signout`, {
         method: 'POST',
     })
     .then(()=> {this.$emit('logout')})

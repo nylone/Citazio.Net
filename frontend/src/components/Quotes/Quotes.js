@@ -22,7 +22,7 @@ export function AddQuote(board_path, field_count) {
         }
     }
 
-    fetch(`http://localhost:3000/board/${board_path}/quotes/add`, {
+    fetch(`${this.$path}/board/${board_path}/quotes/add`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -39,7 +39,7 @@ export function AddQuote(board_path, field_count) {
 }
 
 export async function GetQuotes(board_path) {
-    let response = await fetch(`http://localhost:3000/board/${board_path}/quotes/get`, {
+    let response = await fetch(`${this.$path}/board/${board_path}/quotes/get`, {
         method: 'GET',
         credentials: 'include'
     });
@@ -49,7 +49,7 @@ export async function GetQuotes(board_path) {
 }
 
 export function RmQuote(board_path, quote_id) {
-    fetch(`http://localhost:3000/board/${board_path}/quotes/remove`, {
+    fetch(`${this.$path}/board/${board_path}/quotes/remove`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -88,7 +88,7 @@ export function UpdateQuote(board_path, field_count, quote_id) {
         }
     }
 
-    fetch(`http://localhost:3000/board/${board_path}/quotes/update`, {
+    fetch(`${this.$path}/board/${board_path}/quotes/update`, {
         method: 'POST',
         credentials: 'include',
         headers: {
