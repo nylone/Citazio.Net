@@ -14,7 +14,7 @@ module.exports = fp(async function (fastify, opts, done) {
     $id: "short_identifiable_string",
     type: "string",
     maxLength: 32,
-    pattern: "^[a-z0-9_-]{3,32}$",
+    pattern: "^[a-zA-Z0-9_-]{3,32}$",
   });
 
   fastify.addSchema({
