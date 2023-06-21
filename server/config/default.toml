@@ -18,7 +18,8 @@ secret = """swap this out!! or else i'm gonna come and get your unsafe ass"""
 # https://github.com/fastify/session#cookie
 maxAge = 1800000
 httpOnly = true
-secure = "auto"
+secure = true
+sameSite = "Lax"
 
 [server]
 host= 'localhost'
