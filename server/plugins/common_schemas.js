@@ -7,7 +7,7 @@ module.exports = fp(async function (fastify, opts, done) {
     $id: "short_ascii_string",
     type: "string",
     maxLength: 32,
-    pattern: "^[ -~]{3,32}$",
+    pattern: "^[ -~]{1,32}$",
   });
 
   fastify.addSchema({
@@ -117,7 +117,7 @@ module.exports = fp(async function (fastify, opts, done) {
           required: ["msg"],
           properties: {
             msg: { $ref: "long_string" },
-            by: { $ref: "short_identifiable_string" },
+            by: { $ref: "short_ascii_string" },
             ctx: { $ref: "long_string" },
           },
           maxProperties: 3,
