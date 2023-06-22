@@ -22,6 +22,11 @@ export async function signup() {
     let uname = document.getElementById("signup_user").value
     let pass = document.getElementById("signup_pass").value
     let token = document.getElementById("signup_token")?.value
+    let body
+    if (token !== "")
+        body = JSON.stringify({ "uname": uname, "pass": pass, "token": token })
+    else
+        body = JSON.stringify({ "uname": uname, "pass": pass})
 
     let response = await fetch(`${this.$path}/signup`, {
         method: 'POST',
@@ -29,7 +34,7 @@ export async function signup() {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ "uname": uname, "pass": pass, "token": token })
+        body: body
     })
     if(response.status === 200) {
         return true

@@ -168,7 +168,7 @@ export default {
     },
     methods: {
         async get_response() {
-            this.response= await signup()
+            this.response = await this.signup();
         }
     }
 }
