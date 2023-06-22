@@ -82,7 +82,7 @@ export default {
     },
     methods: {
         async refresh() {
-            this.$data.boards = await GetBoards();
+            this.$data.boards = await this.GetBoards();
         }
     },
     watch: {
