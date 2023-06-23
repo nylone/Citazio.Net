@@ -25,7 +25,6 @@ module.exports = async function (fastify, opts) {
             [uname, path, session_uname]
           );
           const row = rows[0][0];
-          console.log(row);
           if (row?.result) {
             return reply.send();
           } else {
