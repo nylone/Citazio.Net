@@ -11,6 +11,13 @@ module.exports = fp(async function (fastify, opts, done) {
   });
 
   fastify.addSchema({
+    $id: "password",
+    type: "string",
+    maxLength: 32,
+    minLength: 1,
+  });
+
+  fastify.addSchema({
     $id: "short_identifiable_string",
     type: "string",
     maxLength: 32,

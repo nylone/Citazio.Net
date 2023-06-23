@@ -7,7 +7,7 @@ const schema = {
     required: ["uname", "pass"],
     properties: {
       uname: { $ref: "short_identifiable_string" },
-      pass: { $ref: "short_ascii_string" },
+      pass: { $ref: "password" },
     },
   },
 };

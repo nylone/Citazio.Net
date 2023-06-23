@@ -5,9 +5,9 @@ module.exports = async function (fastify, opts) {
   const schema = {
     body: {
       type: "object",
-      required: "pass",
+      required: ["pass",],
       properties: {
-        pass: { $ref: "short_ascii_string" },
+        pass: { $ref: "password" },
       },
     },
   };
