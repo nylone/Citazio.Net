@@ -26,7 +26,7 @@ module.exports = async function (fastify, opts) {
     try {
       conn = await fastify.dbPool.getConnection();
       const rows = await conn.execute("CALL get_phc_from_username(?)", [uname]);
-      const timeout = sleep(500);
+      const timeout = sleep(100);
       if (rows[0][0] && (await argon2.verify(rows[0][0].phc, pass))) {
         request.session.uname = uname;
         await timeout;
