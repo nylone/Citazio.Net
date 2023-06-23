@@ -79,11 +79,11 @@ export default {
     },
     created: async function () {
         this.refresh()
-        this.access_lvl = await GetBoardUsers(this.board_path, this.$user)
+        this.access_lvl = await this.GetBoardUsers(this.board_path, this.$user)
     },
     methods: {
         async refresh() {
-            this.$data.quotes= await GetQuotes(this.$props.board_path)
+            this.$data.quotes= await this.GetQuotes(this.$props.board_path)
         }
     },
     watch: {
