@@ -11,7 +11,7 @@
                 <a type="submit" v-on:click="addboard=true" >Add Board</a>
             </div>
             <a>|</a>
-            <a type="submit">About</a>
+            <a href="https://github.com/nylone/citazio.net" type="submit">About</a>
         </b-navbar>
 
         <!-- Modals -->

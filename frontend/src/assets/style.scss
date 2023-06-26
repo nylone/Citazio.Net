@@ -1,4 +1,26 @@
-@import "colours.css";
+// Custom Bootstrap variables
+
+// Modals
+$modal-content-bg: var(--subtle-color);
+$modal-border-color: var(--border-color);
+$modal-footer-border-color: var(--border-color);
+
+// Cards
+$card-bg: var(--subtle-color);
+$card-border-color: var(--border-color);
+
+// Forms
+$form-text-color: var(--input-color);
+
+$form-check-input-bg: var(--subtle-color);
+
+//Inputs
+$input-border-color: var(--border-color);
+$input-bg: var(--subtle-color);
+$input-disabled-bg: var(--mark-color);
+
+@import '../../node_modules/bootstrap/scss/bootstrap';
+@import "./colours.css";
 
 html {
     color: var(--text-color);
