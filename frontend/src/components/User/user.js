@@ -64,13 +64,50 @@ export function compare() {
     }
 }
 
+
+// Validates the password security level
+function validate_password(password) {
+    /* This variables hold the patterns required for a strong or medium password. 
+        The requirements are:
+
+            STRONG PASSWORD
+            - at least one uppercase and lowercase letter
+            - at least one special character
+            - at least one digit
+            - at least 8 characters long
+
+            MEDIUM PASSWORD
+            - at least one uppercase and lowercase letter
+            - at least 6 characters long
+            - at least one special character
+            - there are no digits AND all the previous requirements are met
+
+        Source: https://stackoverflow.com/questions/5142103/regex-to-validate-password-strength
+    */
+    let StrongPattern = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+
+    let MediumPattern = new RegExp('((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{6,}))')
+    
+    if(StrongPattern.test(password)) {
+        return 3  // Strong
+    }
+    else if(MediumPattern.test(password)) {
+        return 2  // Medium
+    }
+    else {
+        return 1  // Weak
+    }
+}
+
+
+// Checks if the input is valid
 export function check_input(Id) {
-    let input = document.getElementById(Id)?.value
-    let pattern
+    let input = document.getElementById(Id)?.value  // The element that needs to be checked
+    let pattern  // variable used for storing the RegEx pattern
 
     // Checks short_identifiable_string
     if(Id === "signup_user" || Id === "signin_user") {
-        pattern = new RegExp("^[a-z0-9_-]{3,32}$")
+        pattern = new RegExp("^[a-zA-Z0-9_-]{3,32}$")
         if(pattern.test(input) || input === '') {
             return true
         }
@@ -80,8 +117,8 @@ export function check_input(Id) {
     }
 
     // Checks short_ascii_string
-    else if(Id === "signup_pass" || Id === "signin_pass" || Id === "signup_token") {
-        pattern = new RegExp("^[ -~]{3,32}$")
+    else if(Id === "signup_token") {
+        pattern = new RegExp("^[ -~]{1,32}$")
         if(pattern.test(input) || input === '') {
             return true
         }
@@ -89,4 +126,15 @@ export function check_input(Id) {
             return false
         }
     }
+
+    else if(Id === "signup_pass" || Id === "signin_pass" ) {
+        if(input.length > 32) {
+            return 0;
+        }
+        else {
+            return validate_password(input)
+        }
+    }
 }
+
+

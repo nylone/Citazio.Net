@@ -24,6 +24,7 @@ import boards from './components/Boards/Boards.vue';
 import quotes from './components/Quotes/Quotes.vue';
 import cookiebanner from './components/User/cookiebanner.vue'
 import { ref } from 'vue'
+import { check_session } from './components/User/user';
 
 const routes = {
     '/': boards,
@@ -50,7 +51,8 @@ export default {
             path,
             title,
             update,
-            currentPath: window.location.hash
+            currentPath: window.location.hash,
+            check_session,
         }
     },
     methods: {
@@ -69,7 +71,9 @@ export default {
     mounted() {
         window.addEventListener('hashchange', () => {
             this.currentPath = window.location.hash
-        })
+        });
+        this.check_session()
+
     }
 }
 </script>

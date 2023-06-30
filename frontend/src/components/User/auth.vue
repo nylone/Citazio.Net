@@ -55,6 +55,7 @@
                         </b-card-header>
                         <b-card-body>
                             <b-form>
+                                <!-- Username  -->
                                 <b-form-input 
                                 placeholder="Username" 
                                 type="text" 
@@ -68,6 +69,7 @@
                                 There are invalid characters
                                 </b-form-invalid-feedback>
 
+                                <!-- Password -->
                                 <b-form-input 
                                 placeholder="Password" 
                                 type="password" 
@@ -77,7 +79,14 @@
                                 required>
 
                                 </b-form-input>
+                                
+                                <b-progress :max="3"  >
+                                    <b-progress-bar :value="signup_pass" :variant="security_level.variant[signup_pass]">
+                                        {{ security_level.level[signup_pass] }}
+                                    </b-progress-bar>
+                                </b-progress>
 
+                                <!-- Confirm Password -->
                                 <b-form-input 
                                 placeholder="Confirm Password" 
                                 type="password" 
@@ -112,6 +121,7 @@
                                 There are invalid characters
                                 </b-form-invalid-feedback>
 
+                                <!-- Token Checkbox -->
                                 <b-form-checkbox
                                 v-model="status"
                                 type="text"
@@ -151,6 +161,9 @@ export default {
         let signup_input
         let signup_pass
         let signup_token
+        let security_level = {
+            level: ["Error", "Weak", "Medium", "Strong"], variant: ["info", "danger", "warning", "success"]
+        }
         return {
             status,
             response,
@@ -160,6 +173,7 @@ export default {
             signup_input,
             signup_pass,
             signup_token,
+            security_level,
             signin,
             signup,
             compare,
