@@ -7,7 +7,7 @@ const schema = {
     required: [],
     properties: {
       title: { $ref: "short_ascii_string" },
-      public: { type: "boolean" },
+      pub: { type: "boolean" },
     },
   },
 };
@@ -18,7 +18,7 @@ module.exports = async function (fastify, opts) {
 
     if (uname) {
       const title = request.body.title || null;
-      const public_flag = request.body.public || null;
+      const public_flag = request.body.pub || null;
       const path = request.params.path;
 
       let conn;
