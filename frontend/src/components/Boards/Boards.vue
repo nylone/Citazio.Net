@@ -34,7 +34,7 @@
         <div class="theysa-box">
             <b-row>
                 <b-col>
-                <center><h5 class="w-50">Friends Boards</h5></center>
+                <center><h5 class="w-50">Friends' Boards</h5></center>
                 </b-col> 
             </b-row>
             <b-row> 

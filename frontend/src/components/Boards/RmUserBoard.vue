@@ -17,6 +17,9 @@
                         required
                         >
                         </b-form-input>
+                        <b-form-invalid-feedback :state="NotError">
+                            There was an error while removing the user from the board. Check if the user exists, otherwise contact the admin.
+                        </b-form-invalid-feedback>
                     </b-form>
                 </b-col>
             </b-row>
@@ -24,7 +27,7 @@
                 <b-col align="center">
                     <input 
                     class="theysa-button theysa-shadow inputButton" 
-                    type="submit" @click="RmUserBoard(board_path)"
+                    type="submit" @click="NotError = RmUserBoard(board_path)"
                     value="SUBMIT" 
                     />
                 </b-col>
@@ -49,7 +52,9 @@ import { RmUserBoard } from './Boards';
             }
         },
         data() {
+            let NotError = true
             return {
+                NotError,
                 RmUserBoard
             }
         }

@@ -22,11 +22,16 @@ export function EditBoard(board_path, pub) {
         },
         body
     })
-        .then(response => {
-            if (response.status === 200) {
-                this.$emit('close:edit')
-            }
-        })
+    .then(response => {
+        if (response.status === 200) {
+            this.$emit('close:edit')
+            return true
+        }
+        else {
+            return false
+        }
+    })
+    return false
 }
 
 export function AddBoard(pub) {
@@ -42,16 +47,16 @@ export function AddBoard(pub) {
         },
         body: JSON.stringify({ "title": title, "path": path, "pub": pub })
     })
-        .then(response => {
-            if (response.status === 200) {
-                this.$emit("close:addboard")
-                this.$emit("close:added")
-                return true
-            }
-            else {
-                return false
-            }
-        })
+    .then(response => {
+        if (response.status === 200) {
+            this.$emit("close:addboard")
+            this.$emit("close:added")
+            return true
+        }
+        else {
+            return false
+        }
+    })
 
     return false
 }
@@ -62,11 +67,11 @@ export function RmBoard(board) {
         method: 'POST',
         credentials: 'include',
     })
-        .then(response => {
-            if (response.status === 200) {
-                this.$emit("rmboardsuccess")
-            }
-        })
+    .then(response => {
+        if (response.status === 200) {
+            this.$emit("rmboardsuccess")
+        }
+    })
 }
 
 export function TransferBoard(board_path) {
@@ -80,15 +85,15 @@ export function TransferBoard(board_path) {
         },
         body: JSON.stringify({ "uname": uname })
     })
-        .then(response => {
-            if (response.status === 200) {
-                this.$emit('close:transfer')
-                return true
-            }
-            else {
-                return false;
-            }
-        })
+    .then(response => {
+        if (response.status === 200) {
+            this.$emit('close:transfer')
+            return true
+        }
+        else {
+            return false;
+        }
+    })
     return false
 }
 
@@ -105,15 +110,15 @@ export function AddUserBoard(board_path, lvl) {
         },
         body: JSON.stringify({ "uname": uname, "access_lvl": access_lvl })
     })
-        .then(response => {
-            if (response.status === 200) {
-                this.$emit('close:adduser')
-                return true
-            }
-            else {
-                return false
-            }
-        })
+    .then(response => {
+        if (response.status === 200) {
+            this.$emit('close:adduser')
+            return true
+        }
+        else {
+            return false
+        }
+    })
     return false
 }
 
@@ -126,8 +131,13 @@ export function RmUserBoard(board_path) {
     .then(response => {
         if(response.status === 200) {
             this.$emit('close:rmuser')
+            return true
+        }
+        else {
+            return false
         }
     })
+    return false
 }
 
 

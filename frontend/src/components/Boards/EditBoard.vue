@@ -27,12 +27,16 @@
                         size="lg">
                         Public
                         </b-form-checkbox>
+
+                        <b-form-invalid-feedback :state="NotError">
+                            An error occured. 
+                        </b-form-invalid-feedback>
                     </b-form>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col align="center">
-                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="EditBoard(board_path, status)" value="SUBMIT" />
+                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="NotError = EditBoard(board_path, status)" value="SUBMIT" />
                 </b-col>
             </b-row>
         </b-container>
@@ -48,8 +52,10 @@ export default {
         board_path: String
     },
     data() {
+        let NotError = true
         let status = ref(false)
         return {
+            NotError,
             status,
             EditBoard,
         }
