@@ -1,15 +1,20 @@
+@import "./colours.css";
+
 // Custom Bootstrap variables
 
-//Alert
+/* Custom SASS variables*/
+
+// Alert
 $alert-padding-y: 0.75rem;
 $alert-padding-x: 1.25rem;
-
-// Buttons
-
 
 // Cards
 $card-bg: var(--subtle-color);
 $card-border-color: var(--border-color);
+
+// Dropdowns
+$dropdown-bg: var(--subtle-color);
+$dropdown-border-color: var(--border-color);
 
 // Forms
 $form-check-input-bg: var(--subtle-color);
@@ -30,8 +35,46 @@ $modal-border-color: var(--border-color);
 $modal-content-bg: var(--subtle-color);
 $modal-footer-border-color: var(--border-color);
 
-@import '../../node_modules/bootstrap/scss/bootstrap';
-@import "./colours.css";
+@import '../../node_modules/bootstrap/scss/bootstrap';  // Overwrites the default variables
+
+// Custom CSS
+
+
+// Buttons
+.btn {
+    --#{$prefix}btn-disabled-border-color: var(--subtle-color);
+}
+
+.btn-secondary {
+    color: var(--text-color);
+    background-color: inherit;
+    border-color: var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--special-color);
+}
+
+.dropdown-item {
+    color: var(--text-color);
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    padding: .75rem 1.25rem;
+    color: inherit;
+    background-color: inherit;
+    border: 0;
+}
+
+.b-icon {
+    color: var(--text-color);
+}
+
+// End of Custom Bootstrap variables
 
 html {
     color: var(--text-color);
@@ -224,25 +267,4 @@ input:focus, input:hover {
     color: var(--special-text-color);
     border-color: var(--special-bg-color);
     background-color: var(--special-bg-color);
-}
-
-.btn-secondary {
-    color: var(--text-color);
-    background-color: inherit;
-    border-color: var(--border-color);
-}
-
-.btn-secondary:hover {
-    background-color: var(--special-color);
-}
-
-.close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
-    padding: .75rem 1.25rem;
-    color: inherit;
-    background-color: inherit;
-    border: 0;
 }

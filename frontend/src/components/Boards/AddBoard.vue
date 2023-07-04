@@ -4,6 +4,9 @@
         <b-form >
             <b-form-input size="lg" id="bname" placeholder="Board name" required type="text" />
             <b-form-input size="lg" id="bpath" placeholder="path" required type="text" />
+            <b-form-invalid-feedback :state="NotError">
+                Could not add board. Maybe the path already exists. If that's not the case, please contact the admin.
+            </b-form-invalid-feedback>
             <div align="center" style="margin: 5px">
                 <b-form-checkbox
                     id="public"
@@ -19,7 +22,7 @@
         </b-form>
         
         <center>
-            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="AddBoard(status)" value="SUBMIT" />
+            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="NotError = AddBoard(status);" value="SUBMIT" />
         </center>
     </div>
 </template>
@@ -29,8 +32,12 @@ import { GetBoards, AddBoard } from './Boards'
 export default {
     name: 'AddBoard',
     data() {
+        let status = false
+        let NotError = true
+
         return {
-            status: false,
+            status,
+            NotError,
             AddBoard,
             GetBoards,
         }

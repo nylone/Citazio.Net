@@ -13,7 +13,7 @@
                         <b-form-input 
                             placeholder="New Name" 
                             type="text" 
-                            id="uname" 
+                            id="bname" 
                             size="lg" 
                             required>
                         </b-form-input>

@@ -6,7 +6,6 @@
                     <h3 class="theysa-shadow">Transfer Board</h3>
                 </b-col>
             </b-row>
-
             <b-row>
                 <b-col>
                     <b-form>
@@ -17,12 +16,15 @@
                             size="lg" 
                             required>
                         </b-form-input>
+                        <b-form-invalid-feedback :state="NotError">
+                            There was an error while transfering the board. Check if the user exists, otherwise contact the admin.
+                        </b-form-invalid-feedback>
                     </b-form>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col align="center">
-                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="AddBoard(status)" value="SUBMIT" />
+                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="NotError = TransferBoard(board_path)" value="SUBMIT" />
                 </b-col>
             </b-row>
         </b-container>
@@ -38,7 +40,9 @@ export default {
         board_path: String
     },
     data() {
+        let NotError = true
         return {
+            NotError,
             TransferBoard,
             GetBoards
         }

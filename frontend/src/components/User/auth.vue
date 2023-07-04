@@ -22,7 +22,7 @@
                                 </b-form-input>
 
                                 <b-form-invalid-feedback :state="signin_input">
-                                There are invalid characters
+                                Invalid input
                                 </b-form-invalid-feedback>
 
                                 <b-form-input 
@@ -36,7 +36,7 @@
                                 </b-form-input>
 
                                 <b-form-invalid-feedback :state="signin_pass">
-                                There are invalid characters
+                                Invalid input
                                 </b-form-invalid-feedback>
 
                             </b-form>
@@ -66,7 +66,7 @@
                                 </b-form-input>
 
                                 <b-form-invalid-feedback :state="signup_input">
-                                There are invalid characters
+                                Invalid input
                                 </b-form-invalid-feedback>
 
                                 <!-- Password -->
@@ -98,7 +98,7 @@
                                 </b-form-input>
 
                                 <b-form-invalid-feedback :state="signup_pass">
-                                There are invalid characters
+                                Invalid input
                                 </b-form-invalid-feedback>
 
                                 <b-form-invalid-feedback :state="verify">
@@ -118,7 +118,7 @@
                                 </b-form-input>
 
                                 <b-form-invalid-feedback :state="signup_token">
-                                There are invalid characters
+                                Invalid input
                                 </b-form-invalid-feedback>
 
                                 <!-- Token Checkbox -->

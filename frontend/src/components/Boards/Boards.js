@@ -9,6 +9,10 @@ export async function GetBoards() {
 
 export function EditBoard(board_path, pub) {
     let title = document.getElementById("bname").value
+    let body
+    if (title !== "") body= JSON.stringify({"pub": pub, "title": title})
+    else body = JSON.stringify({"pub": pub})
+
     fetch(`${this.$path}/board/${board_path}/update`, {
         method: 'POST',
         credentials: 'include',
@@ -16,7 +20,7 @@ export function EditBoard(board_path, pub) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ "title": title, "pub": pub })
+        body
     })
         .then(response => {
             if (response.status === 200) {
@@ -42,8 +46,14 @@ export function AddBoard(pub) {
             if (response.status === 200) {
                 this.$emit("close:addboard")
                 this.$emit("close:added")
+                return true
+            }
+            else {
+                return false
             }
         })
+
+    return false
 }
 
 
@@ -73,21 +83,18 @@ export function TransferBoard(board_path) {
         .then(response => {
             if (response.status === 200) {
                 this.$emit('close:transfer')
+                return true
+            }
+            else {
+                return false;
             }
         })
+    return false
 }
 
 export function AddUserBoard(board_path, lvl) {
     let uname = document.getElementById("uname").value
-    let access_lvl
-
-    // checks if the lvl is a valid number
-    if(lvl === null) {
-        access_lvl = 0
-    }
-    else {
-        access_lvl = lvl
-    }
+    let access_lvl = lvl
 
     fetch(`${this.$path}/board/${board_path}/users/add`, {
         method: 'POST',
@@ -101,8 +108,13 @@ export function AddUserBoard(board_path, lvl) {
         .then(response => {
             if (response.status === 200) {
                 this.$emit('close:adduser')
+                return true
+            }
+            else {
+                return false
             }
         })
+    return false
 }
 
 export function RmUserBoard(board_path) {
