@@ -68,11 +68,11 @@ export default {
         }
     },
 
-    mounted() {
+    async mounted() {
         window.addEventListener('hashchange', () => {
             this.currentPath = window.location.hash
         });
-        this.check_session()
+        this.logged = await this.check_session()
 
     }
 }

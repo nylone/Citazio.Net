@@ -37,6 +37,7 @@ export async function signup() {
         body: body
     })
     if(response.status === 200) {
+        this.$emit("close:successauth")
         return true
     }
     else {
@@ -136,5 +137,20 @@ export function check_input(Id) {
         }
     }
 }
+
+// Checks if the cookie is still valid
+export async function check_session() {
+    let response = await fetch(`${this.$path}/session/check`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+    if(response.status === 200) {
+        return true
+    }
+    else {
+        return false
+    }
+}
+
 
 
