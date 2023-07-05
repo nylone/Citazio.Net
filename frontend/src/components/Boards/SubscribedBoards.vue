@@ -16,6 +16,9 @@
                                 <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'AddUser')">
                                     <b-icon-person-plus-fill /> Add User
                                 </b-dropdown-item>
+                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'EditUser')">
+                                    <b-icon-file-earmark-person /> Edit User 
+                                </b-dropdown-item>
                                 <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'RmUser')">
                                     <b-icon-person-dash-fill /> Remove User
                                 </b-dropdown-item>
@@ -71,7 +74,7 @@
         <editboardmodal :board_path="path" :show=edit @close:edit="$emit('reload'); edit = false" />
         <addquotemodal :board_path="path" :show=quote @close:addquote="$emit('reload'); quote = false" />
         <transferboardmodal :board_path="path" :show=transfer @close:transfer="$emit('reload'); transfer = false" />
-        <addusermodal :board_path="path" :show=adduser @close:adduser="$emit('reload'); adduser = false" />
+        <addeditusermodal :board_path="path" :show=addedituser @close:AddEdituser="$emit('reload'); addedituser = false" />
         <rmuserboardmodal :board_path="path" :show="rmuser" @close:rmuser="$emit('reload'); rmuser = false" />
 
     </div>
@@ -85,7 +88,7 @@
 import editboardmodal from '../Modals/EditBoardModal.vue'
 import addquotemodal from '../Modals/AddQuoteModal.vue'
 import transferboardmodal from '../Modals/TransferBoardModal.vue'
-import addusermodal from '../Modals/AddUserBoardModal.vue'
+import addeditusermodal from '../Modals/AddEditUserBoardModal.vue'
 import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
 import { RmBoard } from './Boards'
 import { ref } from 'vue'
@@ -104,7 +107,7 @@ export default {
         addquotemodal,
         editboardmodal,
         transferboardmodal,
-        addusermodal,
+        addeditusermodal,
         rmuserboardmodal
     },
 
@@ -112,9 +115,10 @@ export default {
         let edit = ref(false)
         let quote = ref(false)
         let transfer = ref(false)
-        let adduser = ref(false)
+        let addedituser = ref(false)
         let rmuser = ref(false)
         let path = ref(" ")
+        let operation
         const levels = Object.freeze({
             0: "Read-Only",
             1: "Read/Write",
@@ -124,9 +128,10 @@ export default {
             edit,
             quote,
             transfer,
-            adduser,
+            addedituser,
             rmuser,
             path,
+            operation,
             levels,
             RmBoard,
         }
@@ -145,10 +150,15 @@ export default {
                 this.transfer = true
             }
             else if (option === 'AddUser') {
-                this.adduser = true
+                this.addedituser = true
+                this.operation = 'Add'
             }
             else if (option === 'RmUser') {
                 this.rmuser = true
+            }
+            else if (option === 'Edituser') {
+                this.addedituser = true
+                this.operation = 'Edit'
             }
         },
         test() {

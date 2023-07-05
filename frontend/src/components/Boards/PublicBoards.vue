@@ -40,14 +40,6 @@
 
         </b-container>
 
-
-        <!-- Modals -->
-        <editboardmodal :board_path="path" :show=edit @close:edit="$emit('reload'); edit = false" />
-        <addquotemodal :board_path="path" :show=quote @close:addquote="$emit('reload'); quote = false" />
-        <transferboardmodal :board_path="path" :show=transfer @close:transfer="$emit('reload'); transfer = false" />
-        <addusermodal :board_path="path" :show=adduser @close:adduser="$emit('reload'); adduser = false" />
-        <rmuserboardmodal :board_path="path" :show="rmuser" @close:rmuser="$emit('reload'); rmuser = false" />
-
     </div>
 
     <div v-else>
@@ -57,12 +49,6 @@
     </div>
 </template>
 <script>
-import editboardmodal from '../Modals/EditBoardModal.vue'
-import addquotemodal from '../Modals/AddQuoteModal.vue'
-import transferboardmodal from '../Modals/TransferBoardModal.vue'
-import addusermodal from '../Modals/AddUserBoardModal.vue'
-import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
-import { RmBoard, GetBoards } from './Boards'
 import { ref } from 'vue'
 export default {
     name: 'PublicBoards',
@@ -75,52 +61,11 @@ export default {
             }
         }
     },
-    components: {
-        addquotemodal,
-        editboardmodal,
-        transferboardmodal,
-        addusermodal,
-        rmuserboardmodal
-    },
-
     data() {
-        let edit = ref(false)
-        let quote = ref(false)
-        let transfer = ref(false)
-        let adduser = ref(false)
-        let rmuser = ref(false)
         let path = ref(" ")
         return {
-            edit,
-            quote,
-            transfer,
-            adduser,
-            rmuser,
             path,
-            RmBoard,
-            GetBoards,
         }
     },
-
-    methods: {
-        Call(board, option) {
-            this.path = board.path
-            if (option === 'Edit') {
-                this.edit = true
-            }
-            else if (option === 'AddQuote') {
-                this.quote = true
-            }
-            else if (option === 'Transfer') {
-                this.transfer = true
-            }
-            else if (option === 'AddUser') {
-                this.adduser = true
-            }
-            else if (option === 'RmUser') {
-                this.rmuser = true
-            }
-        },
-    }
 }
 </script>

@@ -101,7 +101,7 @@ export async function AddUserBoard(board_path, lvl) {
         body: JSON.stringify({ "uname": uname, "access_lvl": access_lvl })
     })
     if(response.status === 200) {
-        this.$emit('close:adduser')
+        this.$emit('close:AddEdituser')
         return null
     }
     else {
@@ -117,6 +117,27 @@ export async function RmUserBoard(board_path) {
     })
     if(response.status === 200) {
         this.$emit('close:rmuser')
+        return null
+    }
+    else {
+        return false
+    }
+}
+
+
+export async function EditUserBoard(board_path, access_lvl) {
+    let uname = document.getElementById('uname').value
+    let response = await fetch(`${this.$path}/board/${board_path}/user/${uname}/update`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"access_lvl": access_lvl })
+    })
+    if(response.status === 200) {
+        this.$emit('close:AddEdituser')
         return null
     }
     else {

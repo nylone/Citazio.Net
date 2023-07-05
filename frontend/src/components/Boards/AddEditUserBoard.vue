@@ -3,7 +3,8 @@
         <b-container>
             <b-row>
                 <b-col>
-                    <h3>Add User </h3>
+                    <h3 v-if="operation === 'Add'">Add User </h3>
+                    <h3 v-if="operation === 'Edit'">Edit User </h3>
                 </b-col>
             </b-row>
 
@@ -37,11 +38,12 @@
 </template>
 
 <script>
-import { AddUserBoard} from './Boards';
+import { AddUserBoard, EditUserBoard} from './Boards';
     export default {
-        name: "AddUserBoard",
+        name: "AddEditUserBoard",
         props: {
             board_path: String,
+            operation: String,
         },
         data() {
             let selected = 0
@@ -50,17 +52,21 @@ import { AddUserBoard} from './Boards';
                 {value: 1, text: 'Read and Write'},
                 {value: 2, text: 'Moderator'}
             ]
-            let NotError = null
+            let NotError
             return {
                 selected,
                 levels,
                 NotError,
                 AddUserBoard,
+                EditUserBoard,
             }
         },
         methods: {
             async get_res() {
-                this.NotError = await this.AddUserBoard(this.board_path, this.selected);
+                if(this.operation === 'Add')
+                    this.NotError = await this.AddUserBoard(this.board_path, this.selected)
+                else if(this.operation === 'Edit')
+                    this.NotError = await this.EditUserBoard(this.board_path, this.selected)
             }
         }
     }
