@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal class="theysa-shadow" size="lg" v-model="value" hide-header>
-            <rmuserboard @close:adduser="$emit('close:rmuser')" :board_path="board_path" />
+            <rmuserboard @close:rmuser="$emit('close:rmuser')" :board_path="board_path" />
             <template #modal-footer>
                 <b-button size="md" variant="secondary" @click="$emit('close:rmuser')" >Close</b-button>
             </template> 

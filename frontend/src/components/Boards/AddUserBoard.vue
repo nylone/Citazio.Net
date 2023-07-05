@@ -17,10 +17,11 @@
                             type="text" 
                             id="uname" 
                             size="lg" 
+                            :state="NotError"
                             required>
                         </b-form-input>
                         <b-form-select v-model="selected" :options="levels"></b-form-select>
-                        <b-form-invalid-feedback :state="NotError">
+                        <b-form-invalid-feedback :state=NotError>
                             There was an error while adding the user to the board. Check if the user exists, otherwise contact the admin.
                         </b-form-invalid-feedback>
                     </b-form>
@@ -28,7 +29,7 @@
             </b-row>
             <b-row>
                 <b-col align="center">
-                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="NotError = AddUserBoard(board_path, selected)" value="SUBMIT" />
+                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="get_res" value="SUBMIT" />
                 </b-col>
             </b-row>
         </b-container>
@@ -49,12 +50,17 @@ import { AddUserBoard} from './Boards';
                 {value: 1, text: 'Read and Write'},
                 {value: 2, text: 'Moderator'}
             ]
-            let NotError = true
+            let NotError = null
             return {
                 selected,
                 levels,
                 NotError,
                 AddUserBoard,
+            }
+        },
+        methods: {
+            async get_res() {
+                this.NotError = await this.AddUserBoard(this.board_path, this.selected);
             }
         }
     }

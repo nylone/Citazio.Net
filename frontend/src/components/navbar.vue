@@ -16,7 +16,7 @@
 
         <!-- Modals -->
         <authmodal :show="auth" @close:auth="auth=false" @close:successauth="$emit('close:successauth'); auth=false"/>
-        <addboardmodal :show="addboard" @added="$emit('refresh')" @close:addboard="addboard=false" />
+        <addboardmodal :show="addboard" @added="$emit('refresh'); addboard=false" @close:addboard="addboard=false"/>
 
     </div>
 </template>

@@ -3,7 +3,7 @@
         <h3 class="theysa-shadow">Add Board</h3>
         <b-form >
             <b-form-input size="lg" id="bname" placeholder="Board name" required type="text" />
-            <b-form-input size="lg" id="bpath" placeholder="path" required type="text" />
+            <b-form-input size="lg" :state="NotError" id="bpath" placeholder="path" required type="text" />
             <b-form-invalid-feedback :state="NotError">
                 Could not add board. Maybe the path already exists. If that's not the case, please contact the admin.
             </b-form-invalid-feedback>
@@ -22,7 +22,7 @@
         </b-form>
         
         <center>
-            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="NotError = AddBoard(status);" value="SUBMIT" />
+            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="get_res" value="SUBMIT" />
         </center>
     </div>
 </template>
@@ -33,13 +33,18 @@ export default {
     name: 'AddBoard',
     data() {
         let status = false
-        let NotError = true
+        let NotError
 
         return {
             status,
             NotError,
             AddBoard,
             GetBoards,
+        }
+    },
+    methods: {
+        async get_res() {
+            this.NotError = await this.AddBoard(this.status);
         }
     }
 }

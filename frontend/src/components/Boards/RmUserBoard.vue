@@ -14,6 +14,7 @@
                         type="text"
                         id="user"
                         size="lg"
+                        :state="NotError"
                         required
                         >
                         </b-form-input>
@@ -27,7 +28,7 @@
                 <b-col align="center">
                     <input 
                     class="theysa-button theysa-shadow inputButton" 
-                    type="submit" @click="NotError = RmUserBoard(board_path)"
+                    type="submit" @click="get_res"
                     value="SUBMIT" 
                     />
                 </b-col>
@@ -52,10 +53,15 @@ import { RmUserBoard } from './Boards';
             }
         },
         data() {
-            let NotError = true
+            let NotError = null
             return {
                 NotError,
                 RmUserBoard
+            }
+        },
+        methods: {
+            async get_res() {
+                this.NotError = await this.RmUserBoard(this.board_path);
             }
         }
     }

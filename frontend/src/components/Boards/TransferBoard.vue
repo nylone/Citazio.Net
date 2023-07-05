@@ -13,7 +13,8 @@
                             placeholder="Username" 
                             type="text" 
                             id="uname" 
-                            size="lg" 
+                            size="lg"
+                            :state="NotError" 
                             required>
                         </b-form-input>
                         <b-form-invalid-feedback :state="NotError">
@@ -24,7 +25,7 @@
             </b-row>
             <b-row>
                 <b-col align="center">
-                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="NotError = TransferBoard(board_path)" value="SUBMIT" />
+                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="get_res" value="SUBMIT" />
                 </b-col>
             </b-row>
         </b-container>
@@ -40,13 +41,19 @@ export default {
         board_path: String
     },
     data() {
-        let NotError = true
+        let NotError
         return {
             NotError,
             TransferBoard,
             GetBoards
         }
+    },
+    methods: {
+        async get_res() {
+            this.NotError = await this.TransferBoard(this.board_path);
+        }
     }
+    
 
 }
 </script>

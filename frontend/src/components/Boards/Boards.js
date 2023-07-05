@@ -7,13 +7,13 @@ export async function GetBoards() {
     return response
 }
 
-export function EditBoard(board_path, pub) {
+export async function EditBoard(board_path, pub) {
     let title = document.getElementById("bname").value
     let body
     if (title !== "") body= JSON.stringify({"pub": pub, "title": title})
     else body = JSON.stringify({"pub": pub})
 
-    fetch(`${this.$path}/board/${board_path}/update`, {
+    let response = await fetch(`${this.$path}/board/${board_path}/update`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -22,23 +22,20 @@ export function EditBoard(board_path, pub) {
         },
         body
     })
-    .then(response => {
-        if (response.status === 200) {
-            this.$emit('close:edit')
-            return true
-        }
-        else {
-            return false
-        }
-    })
-    return false
+    if (response.status === 200) {
+        this.$emit('close:edit')
+        return true
+    }
+    else {
+        return false
+    }
 }
 
-export function AddBoard(pub) {
+export async function AddBoard(pub) {
     let title = document.getElementById('bname').value
     let path = document.getElementById('bpath').value
 
-    fetch(`${this.$path}/boards/add`, {
+    let response = await fetch(`${this.$path}/boards/add`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -47,18 +44,14 @@ export function AddBoard(pub) {
         },
         body: JSON.stringify({ "title": title, "path": path, "pub": pub })
     })
-    .then(response => {
-        if (response.status === 200) {
-            this.$emit("close:addboard")
-            this.$emit("close:added")
-            return true
-        }
-        else {
-            return false
-        }
-    })
-
-    return false
+    if (response.status === 200) {
+        this.$emit("close:addboard")
+        this.$emit("added")
+        return null
+    }
+    else {
+        return false
+    }
 }
 
 
@@ -74,9 +67,9 @@ export function RmBoard(board) {
     })
 }
 
-export function TransferBoard(board_path) {
+export async function TransferBoard(board_path) {
     let uname = document.getElementById("uname").value
-    fetch(`${this.$path}/board/${board_path}/transfer`, {
+    let response = await fetch(`${this.$path}/board/${board_path}/transfer`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -85,23 +78,20 @@ export function TransferBoard(board_path) {
         },
         body: JSON.stringify({ "uname": uname })
     })
-    .then(response => {
-        if (response.status === 200) {
-            this.$emit('close:transfer')
-            return true
-        }
-        else {
-            return false;
-        }
-    })
-    return false
+    if (response.status === 200) {
+        this.$emit('close:transfer')
+        return null
+    }
+    else {
+        return false;
+    }
 }
 
-export function AddUserBoard(board_path, lvl) {
+export async function AddUserBoard(board_path, lvl) {
     let uname = document.getElementById("uname").value
     let access_lvl = lvl
 
-    fetch(`${this.$path}/board/${board_path}/users/add`, {
+    let response = await fetch(`${this.$path}/board/${board_path}/users/add`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -110,34 +100,28 @@ export function AddUserBoard(board_path, lvl) {
         },
         body: JSON.stringify({ "uname": uname, "access_lvl": access_lvl })
     })
-    .then(response => {
-        if (response.status === 200) {
-            this.$emit('close:adduser')
-            return true
-        }
-        else {
-            return false
-        }
-    })
-    return false
+    if(response.status === 200) {
+        this.$emit('close:adduser')
+        return null
+    }
+    else {
+        return false
+    }
 }
 
-export function RmUserBoard(board_path) {
+export async function RmUserBoard(board_path) {
     let uname = document.getElementById('user').value
-    fetch(`${this.$path}/board/${board_path}/user/${uname}/remove`, {
+    let response = await fetch(`${this.$path}/board/${board_path}/user/${uname}/remove`, {
         method: 'POST',
         credentials: 'include'
     })
-    .then(response => {
-        if(response.status === 200) {
-            this.$emit('close:rmuser')
-            return true
-        }
-        else {
-            return false
-        }
-    })
-    return false
+    if(response.status === 200) {
+        this.$emit('close:rmuser')
+        return null
+    }
+    else {
+        return false
+    }
 }
 
 

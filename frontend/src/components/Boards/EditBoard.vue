@@ -36,7 +36,7 @@
             </b-row>
             <b-row>
                 <b-col align="center">
-                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="NotError = EditBoard(board_path, status)" value="SUBMIT" />
+                    <input class="theysa-button theysa-shadow inputButton" type="submit" @click="get_res" value="SUBMIT" />
                 </b-col>
             </b-row>
         </b-container>
@@ -58,6 +58,11 @@ export default {
             NotError,
             status,
             EditBoard,
+        }
+    },
+    methods: {
+        async get_res() {
+            this.NotError = await this.EditBoard(this.board_path, this.status);
         }
     }
 }
