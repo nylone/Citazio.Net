@@ -17,8 +17,8 @@ module.exports = async function (fastify, opts) {
     const uname = request.session.uname;
 
     if (uname) {
-      const title = request.body.title || null;
-      const public_flag = request.body.pub || null;
+      const title = request.body.title;
+      const public_flag = request.body.pub;
       const path = request.params.path;
 
       let conn;
