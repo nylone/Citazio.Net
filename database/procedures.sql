@@ -202,6 +202,18 @@ begin
     end if;
 end;
 
+create or replace procedure get_users(
+    in username varchar(32)
+)
+begin
+    set @user_id = get_user_id(username);
+    if (@user_id is null) then
+        select false as result;
+    else
+        (select u.username, u.created from active_users u);
+    end if;
+end;
+
 create or replace procedure get_phc_from_username(in username varchar(25))
 begin
     select phc
