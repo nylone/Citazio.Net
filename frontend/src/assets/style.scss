@@ -19,6 +19,7 @@ $dropdown-border-color: var(--border-color);
 // Forms
 $form-check-input-bg: var(--subtle-color);
 $form-text-color: var(--text-color);
+$form-select-bg: var(--subtle-color);
 
 //Inputs
 $input-bg: var(--subtle-color);
@@ -41,6 +42,10 @@ $modal-footer-border-color: var(--border-color);
 
 
 // Buttons
+.b-icon {
+    color: var(--text-color);
+}
+
 .btn {
     --#{$prefix}btn-disabled-border-color: var(--subtle-color);
 }
@@ -70,8 +75,15 @@ $modal-footer-border-color: var(--border-color);
     border: 0;
 }
 
-.b-icon {
+.custom-select {
+    background-color: var(--subtle-color);
+    border: 1px solid var(--border-color);
+    border-radius: .5rem;
     color: var(--text-color);
+    font-size: 1.25rem;
+    margin: 5px;
+    padding: .5rem;
+    width: 100%;
 }
 
 // End of Custom Bootstrap variables

@@ -87,8 +87,7 @@ export async function TransferBoard(board_path) {
     }
 }
 
-export async function AddUserBoard(board_path, lvl) {
-    let uname = document.getElementById("uname").value
+export async function AddUserBoard(board_path, lvl, uname) {
     let access_lvl = lvl
 
     let response = await fetch(`${this.$path}/board/${board_path}/users/add`, {
@@ -109,8 +108,7 @@ export async function AddUserBoard(board_path, lvl) {
     }
 }
 
-export async function RmUserBoard(board_path) {
-    let uname = document.getElementById('user').value
+export async function RmUserBoard(board_path, uname) {
     let response = await fetch(`${this.$path}/board/${board_path}/user/${uname}/remove`, {
         method: 'POST',
         credentials: 'include'
@@ -125,8 +123,7 @@ export async function RmUserBoard(board_path) {
 }
 
 
-export async function EditUserBoard(board_path, access_lvl) {
-    let uname = document.getElementById('uname').value
+export async function EditUserBoard(board_path, access_lvl, uname) {
     let response = await fetch(`${this.$path}/board/${board_path}/user/${uname}/update`, {
         method: 'POST',
         credentials: 'include',
@@ -146,7 +143,7 @@ export async function EditUserBoard(board_path, access_lvl) {
 }
 
 
-export async function GetBoardUsers(board_path, user) {
+export async function GetUserAccessLvl(board_path, user) {
     let users = await fetch(`${this.$path}/board/${board_path}/users/get`, {
         method: 'GET',
         credentials: 'include',
@@ -157,12 +154,30 @@ export async function GetBoardUsers(board_path, user) {
     }
     else {
         let usersmap = new Map(users.map(e => [e.username, true]))
-        if(usersmap.get(user.value)) {
-            return users.find(o => o.username === user.value).access_lvl
+        if(usersmap.get(user)) {
+            return users.find(o => o.username === user).access_lvl
         }
         else {
             return 0
         }
     }
 
+}
+
+export async function GetBoardUsers(board_path) {
+    let users = await fetch(`${this.$path}/board/${board_path}/users/get`, {
+        method: 'GET',
+        credentials: 'include',
+    })
+    users = await users.json()
+    let levels = ["Read-Only", "Read/Write", "Admin"]
+    let usersmap = users.map(e => {
+        return {
+            value: e.username,
+            text: `${e.username} (lvl: ${levels[e.access_lvl]})`
+        }
+    });
+
+
+    return usersmap
 }
