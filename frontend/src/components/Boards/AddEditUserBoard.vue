@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { AddUserBoard, EditUserBoard, GetBoardUsers, GetUserAccessLvl} from './Boards';
+import { AddUserBoard, EditUserBoard, GetBoardUsers, GetBoardExternalUsers, GetUserAccessLvl} from './Boards';
     export default {
         name: "AddEditUserBoard",
         props: {
@@ -63,6 +63,7 @@ import { AddUserBoard, EditUserBoard, GetBoardUsers, GetUserAccessLvl} from './B
                 AddUserBoard,
                 EditUserBoard,
                 GetBoardUsers,
+                GetBoardExternalUsers,
                 GetUserAccessLvl,
             }
         },
@@ -82,6 +83,9 @@ import { AddUserBoard, EditUserBoard, GetBoardUsers, GetUserAccessLvl} from './B
         async mounted() {
             if(this.operation === 'Edit') {
                 this.users = await this.GetBoardUsers(this.board_path)
+            }
+            else if(this.operation === 'Add') {
+                this.users = await this.GetBoardExternalUsers(this.board_path)
             }
         }
     }
