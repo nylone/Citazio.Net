@@ -74,8 +74,8 @@
         <editboardmodal :board_path="path" :show=edit @close:edit="$emit('reload'); edit = false" />
         <addquotemodal :board_path="path" :show=quote @close:addquote="$emit('reload'); quote = false" />
         <transferboardmodal :board_path="path" :show=transfer @close:transfer="$emit('reload'); transfer = false" />
-        <addeditusermodal :board_path="path" :show=addedituser @close:AddEdituser="$emit('reload'); addedituser = false" />
-        <rmuserboardmodal :board_path="path" :show="rmuser" @close:rmuser="$emit('reload'); rmuser = false" />
+        <addeditusermodal :board_path="path" :show=addedituser :operation="operation" @close:AddEdituser="$emit('reload'); addedituser = false" />
+        <rmuserboardmodal :board_path="path" :show="rmuser" :operation="operation" @close:rmuser="$emit('reload'); rmuser = false" />
 
     </div>
 
