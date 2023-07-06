@@ -156,7 +156,7 @@ export default {
             else if (option === 'RmUser') {
                 this.rmuser = true
             }
-            else if (option === 'Edituser') {
+            else if (option === 'EditUser') {
                 this.addedituser = true
                 this.operation = 'Edit'
             }
