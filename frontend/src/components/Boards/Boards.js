@@ -181,3 +181,28 @@ export async function GetBoardUsers(board_path) {
 
     return usersmap
 }
+
+export async function GetBoardExternalUsers(board_path) {
+    let boardUsers = await fetch(`${this.$path}/board/${board_path}/users/get`, {
+        method: 'GET', 
+        credentials: 'include',
+    })
+    let globalUsers = await fetch(`${this.$path}/users/get`, {
+        method: 'GET',
+        credentials: 'include',
+    })
+      
+    boardUsers = await boardUsers.json()
+    globalUsers = await globalUsers.json()
+        
+    const boardUserSet = new Map(boardUsers.map(e => [e.username, true]));
+        
+    let usersmap = globalUsers.filter(e => !boardUserSet.get(e.username)).map(e => {
+        return {
+            value: e.username,
+            text: `${e.username}`    
+        }
+    });
+
+    return usersmap    
+}
