@@ -13,18 +13,19 @@ module.exports = async function (fastify, opts) {
   };
 
   fastify.post("/username", { schema }, async (request, reply) => {
-    let uname = request.session.uname;
+    const uname = request.session.uname;
+    const new_uname = request.body.uname;
 
     if (uname) {
-      uname = request.body.uname;
       let conn;
       try {
         conn = await fastify.dbPool.getConnection();
-        const rows = await conn.execute("CALL edit_user_username(?)", [
+        const rows = await conn.execute("CALL edit_user_username(?, ?)", [
           uname,
+          new_uname,
         ]);
         if (rows[0][0].result) {
-          request.session.uname = uname;
+          request.session.uname = new_uname;
           return reply.send();
         } else {
           return reply.badRequest();

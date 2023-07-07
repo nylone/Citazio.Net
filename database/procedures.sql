@@ -303,14 +303,14 @@ begin
     end if;
 end;
 
-create or replace procedure edit_user_username(in username varchar(32))
+create or replace procedure edit_user_username(in username varchar(32), in new_username varchar(32))
 begin
     set @user_id = get_user_id(username);
     if (@user_id is null)
     then
         select false as result;
     else
-        update users u set u.username = username where u.id = @user_id;
+        update users u set u.username = new_username where u.id = @user_id;
         select true as result;
     end if;
 end;
