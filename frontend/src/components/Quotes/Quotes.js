@@ -1,26 +1,23 @@
 export function AddQuote(board_path, field_count) {
-    let text = document.getElementById("msg-1").value
-    let context = document.getElementById("ctx").value
-    let general_ctx = context
+    let msg
+    let ctx
+    let by
+    let q
+    let general_ctx = document.getElementById("general_ctx").value
     const d = new Date();
-    let time = d.getTime();
-    let quote = {
-        phrases: [
-            {
-                msg: text,
-                by: this.$user.value,
-                ctx: context,
-            }
-        ],
-        ctx: general_ctx,
-        date: time
+    let date = d.getTime();
+    let quote = { phrases: [], "ctx": general_ctx, "date": date} 
+
+    for(let i = 1; i <= field_count; i++) {
+        // Finds the values
+        msg = document.getElementById(`msg-${i}`).value
+        by = document.getElementById(`by-${i}`)?.value
+        ctx = document.getElementById(`ctx-${i}`)?.value
+        // Creates the quote object 
+        q = {"msg": msg, "by": by, "ctx": ctx}
+        quote.phrases.push(q)
     }
-    if(field_count > 1) {
-        for(let i = 2; i <= field_count; i++) {
-            let additional_text = document.getElementById(`msg-${i}`).value
-            quote.phrases.push({msg: additional_text})
-        }
-    }
+    console.log(quote)
 
     fetch(`${this.$path}/board/${board_path}/quotes/add`, {
         method: 'POST',

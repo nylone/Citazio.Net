@@ -25,7 +25,7 @@
                                 <b-dropdown-item :disabled="board.access_lvl < 1" v-on:click="Call(board, 'AddQuote')">
                                     <b-icon-pencil-square /> Add Quote
                                 </b-dropdown-item>
-                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'Transfer')">
+                                <b-dropdown-item disabled>
                                     <b-icon-arrow-left-right /> Transfer Board
                                 </b-dropdown-item>
                                 <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'Edit')">
@@ -73,7 +73,6 @@
         <!-- Modals -->
         <editboardmodal :board_path="path" :show=edit @close:edit="$emit('reload'); edit = false" />
         <addquotemodal :board_path="path" :show=quote @close:addquote="$emit('reload'); quote = false" />
-        <transferboardmodal :board_path="path" :show=transfer @close:transfer="$emit('reload'); transfer = false" />
         <addeditusermodal :board_path="path" :show=addedituser :operation="operation" @close:AddEdituser="$emit('reload'); addedituser = false" />
         <rmuserboardmodal :board_path="path" :show="rmuser" :operation="operation" @close:rmuser="$emit('reload'); rmuser = false" />
 
@@ -87,7 +86,6 @@
 <script>
 import editboardmodal from '../Modals/EditBoardModal.vue'
 import addquotemodal from '../Modals/AddQuoteModal.vue'
-import transferboardmodal from '../Modals/TransferBoardModal.vue'
 import addeditusermodal from '../Modals/AddEditUserBoardModal.vue'
 import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
 import { RmBoard } from './Boards'
@@ -106,7 +104,6 @@ export default {
     components: {
         addquotemodal,
         editboardmodal,
-        transferboardmodal,
         addeditusermodal,
         rmuserboardmodal
     },
@@ -114,7 +111,6 @@ export default {
     data() {
         let edit = ref(false)
         let quote = ref(false)
-        let transfer = ref(false)
         let addedituser = ref(false)
         let rmuser = ref(false)
         let path = ref(" ")
@@ -127,7 +123,6 @@ export default {
         return {
             edit,
             quote,
-            transfer,
             addedituser,
             rmuser,
             path,
@@ -145,9 +140,6 @@ export default {
             }
             else if (option === 'AddQuote') {
                 this.quote = true
-            }
-            else if (option === 'Transfer') {
-                this.transfer = true
             }
             else if (option === 'AddUser') {
                 this.addedituser = true

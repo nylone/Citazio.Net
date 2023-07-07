@@ -62,7 +62,7 @@ export function RmBoard(board) {
     })
     .then(response => {
         if (response.status === 200) {
-            this.$emit("rmboardsuccess")
+            this.$emit("reload")
         }
     })
 }

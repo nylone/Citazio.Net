@@ -1,15 +1,15 @@
 <template>
     <div align="center">
-        <h5 style="width: 50%">Board: {{ board_title }}</h5>
+        <h5 style="width: 50%; margin-top: 5px;">Board: {{ board_title }}</h5>
         <div  v-if="quotes.length > 0">
         <b-card v-for="quote in quotes" :key=quote.key  class="theysa-shadow theysa-quote-card " >
             <div v-if="quote.quote != undefined">
                 <b-card-header>
                     <b-button-group >
-                        <b-button :disabled="access_lvl < 1" @click="RmQuote(board_path, quote.id)" variant="text-color">Remove Quote 
+                        <b-button :disabled="access_lvl < 1" @click="RmQuote(board_path, quote.id)"> <p>Remove Quote </p>
                             <b-icon-trash />
                         </b-button>
-                        <b-button :disabled="access_lvl < 1" @click="editquote=true; quote_id=quote.id" variant="text-color">Update Quote <b-icon-gear /></b-button>
+                        <b-button :disabled="access_lvl < 1" @click="editquote=true; quote_id=quote.id"> <p>Update Quote</p> <b-icon-gear /></b-button>
                     </b-button-group>
                 </b-card-header>
                 <b-card-body >

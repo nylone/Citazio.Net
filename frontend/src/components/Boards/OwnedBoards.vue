@@ -10,7 +10,7 @@
                                 <template #button-content>
                                     <b-icon-list /> 
                                 </template>
-                                <b-dropdown-item v-on:click="RmBoard(board); $emit('reload')">
+                                <b-dropdown-item v-on:click="RmBoard(board)">
                                     <b-icon-trash /> Remove Board
                                 </b-dropdown-item>
                                 <b-dropdown-item v-on:click="Call(board, 'AddUser')">
