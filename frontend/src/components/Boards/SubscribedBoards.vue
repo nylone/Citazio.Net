@@ -10,7 +10,7 @@
                                 <template #button-content>
                                     <b-icon-list />
                                 </template>
-                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="RmBoard(board); $emit('reload')">
+                                <b-dropdown-item disabled>
                                     <b-icon-trash /> Remove Board
                                 </b-dropdown-item>
                                 <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'AddUser')">
@@ -28,7 +28,7 @@
                                 <b-dropdown-item disabled>
                                     <b-icon-arrow-left-right /> Transfer Board
                                 </b-dropdown-item>
-                                <b-dropdown-item :disabled="board.access_lvl < 2" v-on:click="Call(board, 'Edit')">
+                                <b-dropdown-item disabled>
                                     <b-icon-gear /> Edit Board </b-dropdown-item>
                             </b-dropdown>
 
@@ -71,7 +71,6 @@
 
 
         <!-- Modals -->
-        <editboardmodal :board_path="path" :show=edit @close:edit="$emit('reload'); edit = false" />
         <addquotemodal :board_path="path" :show=quote @close:addquote="$emit('reload'); quote = false" />
         <addeditusermodal :board_path="path" :show=addedituser :operation="operation" @close:AddEdituser="$emit('reload'); addedituser = false" />
         <rmuserboardmodal :board_path="path" :show="rmuser" :operation="operation" @close:rmuser="$emit('reload'); rmuser = false" />
@@ -84,7 +83,6 @@
 </template>
 
 <script>
-import editboardmodal from '../Modals/EditBoardModal.vue'
 import addquotemodal from '../Modals/AddQuoteModal.vue'
 import addeditusermodal from '../Modals/AddEditUserBoardModal.vue'
 import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
@@ -103,13 +101,11 @@ export default {
     },
     components: {
         addquotemodal,
-        editboardmodal,
         addeditusermodal,
         rmuserboardmodal
     },
 
     data() {
-        let edit = ref(false)
         let quote = ref(false)
         let addedituser = ref(false)
         let rmuser = ref(false)
@@ -121,7 +117,6 @@ export default {
             2: "Admin"
         })
         return {
-            edit,
             quote,
             addedituser,
             rmuser,
@@ -135,10 +130,7 @@ export default {
     methods: {
         Call(board, option) {
             this.path = board.path
-            if (option === 'Edit') {
-                this.edit = true
-            }
-            else if (option === 'AddQuote') {
+            if (option === 'AddQuote') {
                 this.quote = true
             }
             else if (option === 'AddUser') {
