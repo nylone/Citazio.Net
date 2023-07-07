@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@fastify/autoload':
     specifier: ^5.0.0
@@ -23,8 +27,8 @@ dependencies:
     specifier: ^5.0.0
     version: 5.0.0
   '@fastify/session':
-    specifier: ^10.1.1
-    version: 10.1.1
+    specifier: ^10.4.0
+    version: 10.4.0
   '@fastify/static':
     specifier: ^6.7.0
     version: 6.7.0
@@ -366,10 +370,10 @@ packages:
       vary: 1.1.2
     dev: false
 
-  /@fastify/session@10.1.1:
-    resolution: {integrity: sha512-8pKDTL9MuqU1FCTca6XNd1E4quZ/ipik69AHXqkANia9Z4xPFS5OSKIwmCClIdaMYD32/tPu4G/6wGgK5Buj5g==}
+  /@fastify/session@10.4.0:
+    resolution: {integrity: sha512-0lABZ0Rcg0VjiRj5xWeAwC1LBwgclaoAPikaONxTz0LJQTPPWSfSDDXafLkGDAqrl5KF8sC3jqLiZ9CbRHZ0Jg==}
     dependencies:
-      fastify-plugin: 4.0.0
+      fastify-plugin: 4.5.0
       safe-stable-stringify: 2.4.3
     dev: false
 
