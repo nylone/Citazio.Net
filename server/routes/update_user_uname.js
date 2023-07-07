@@ -13,7 +13,7 @@ module.exports = async function (fastify, opts) {
   };
 
   fastify.post("/username", { schema }, async (request, reply) => {
-    const uname = request.session.uname;
+    let uname = request.session.uname;
 
     if (uname) {
       uname = request.body.uname;
