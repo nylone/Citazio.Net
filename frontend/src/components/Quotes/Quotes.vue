@@ -41,6 +41,7 @@
 <script>
 import { GetQuotes, RmQuote } from './Quotes'
 import { GetUserAccessLvl } from '../Boards/Boards'
+import { get_session_info } from '../User/user'
 import editquotemodal from '../Modals/EditQuoteModal.vue'
 
 export default {
@@ -68,18 +69,20 @@ export default {
         let editquote = false
         let access_lvl
         return {
-            GetQuotes,
-            RmQuote,
-            GetUserAccessLvl,
             editquote,
             quote_id,
             quotes,
-            access_lvl
+            access_lvl,
+            GetQuotes,
+            RmQuote,
+            GetUserAccessLvl,
+            get_session_info,
         }
     },
     created: async function () {
         this.refresh()
-        this.access_lvl = await this.GetUserAccessLvl(this.board_path, this.$user)
+        let user= (await this.get_session_info()).username
+        this.access_lvl = await this.GetUserAccessLvl(this.board_path, user)
     },
     methods: {
         async refresh() {

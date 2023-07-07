@@ -12,7 +12,6 @@ export function signin() {
     })
     .then(response => {
         if(response.status === 200) {
-            this.$user.value=uname
             this.$emit("close:successauth")
         }
     })
@@ -143,7 +142,7 @@ export async function check_session() {
     let response = await fetch(`${this.$path}/session/check`, {
         method: 'GET',
         credentials: 'include'
-    });
+    })
     if(response.status === 200) {
         return true
     }
@@ -152,5 +151,15 @@ export async function check_session() {
     }
 }
 
+// Returns session info
+export async function get_session_info() {
+    let response = await fetch(`${this.$path}/session/get`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    if(response.status === 200) {
+        return response.json()
+    }
+}
 
 
