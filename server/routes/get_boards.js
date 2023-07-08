@@ -16,35 +16,27 @@ const schema = {
 module.exports = async function (fastify, opts) {
   fastify.get("/boards/get", { schema }, async (request, reply) => {
     const uname = request.session.uname;
-    if (uname) {
-      let boards = {};
-      let conn;
-      try {
-        conn = await fastify.dbPool.getConnection();
+    let boards = {};
+    let conn;
+    try {
+      conn = await fastify.dbPool.getConnection();
 
-        const rows_owned = await conn.execute("CALL get_own_boards(?)", [
+      let boards_owned, boards_subscribed;
+      if (uname) {
+        boards_owned = (await conn.execute("CALL get_own_boards(?)", [uname]))[0];
+        boards_subscribed = (await conn.execute("CALL get_subscribed_boards(?)", [
           uname,
-        ]);
-        const rows_subbed = await conn.execute(
-          "CALL get_subscribed_boards(?)",
-          [uname]
-        );
-        const rows_public = await conn.execute("CALL get_public_boards()");
-
-        const boards_owned = rows_owned[0];
-        const boards_subscribed = rows_subbed[0];
-        const boards_public = rows_public[0];
-
-        boards = { boards_owned, boards_public, boards_subscribed };
-        return reply.send(boards);
-      } catch (err) {
-        console.log(err);
-        return reply.internalServerError();
-      } finally {
-        if (conn) conn.end();
+        ]))[0];
       }
-    } else {
-      return reply.unauthorized();
+      const boards_public = (await conn.execute("CALL get_public_boards()"))[0];
+
+      boards = { boards_owned, boards_public, boards_subscribed };
+      return reply.send(boards);
+    } catch (err) {
+      console.log(err);
+      return reply.internalServerError();
+    } finally {
+      if (conn) conn.end();
     }
   });
 };
