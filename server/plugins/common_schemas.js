@@ -52,7 +52,7 @@ module.exports = fp(async function (fastify, opts, done) {
   fastify.addSchema({
     $id: "board_path_quote_params",
     type: "object",
-    required: ["path", "uname"],
+    required: ["path", "id"],
     properties: {
       path: { $ref: "short_identifiable_string" },
       id: { type: "integer", minimum: 0 },
