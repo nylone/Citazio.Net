@@ -16,7 +16,6 @@ const schema = {
 module.exports = async function (fastify, opts) {
   fastify.get("/boards/get", { schema }, async (request, reply) => {
     const uname = request.session.uname;
-    let boards = {};
     let conn;
     try {
       conn = await fastify.dbPool.getConnection();
@@ -30,7 +29,7 @@ module.exports = async function (fastify, opts) {
       }
       const boards_public = (await conn.execute("CALL get_public_boards()"))[0];
 
-      boards = { boards_owned, boards_public, boards_subscribed };
+      const boards = { boards_owned, boards_public, boards_subscribed };
       return reply.send(boards);
     } catch (err) {
       console.log(err);
