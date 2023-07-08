@@ -1,28 +1,28 @@
 "use strict";
 
 const schema = {
-  params: { $ref: "board_path_params" },
+  params: { $ref: "board_path_quote_params" },
   body: {
     type: "object",
-    required: ["quote", "id"],
+    required: ["quote"],
     properties: {
       quote: { $ref: "quote" },
-      id: { type: "integer", minimum: 0 },
     },
   },
 };
 
 module.exports = async function (fastify, opts) {
   fastify.post(
-    "/board/:path/quotes/update",
+    "/board/:path/quote/:id/update",
     { schema },
     async (request, reply) => {
       const uname = request.session.uname;
 
       if (uname) {
-        const id = request.body.id;
         const quote = request.body.quote;
         const path = request.params.path;
+        const id = request.params.id;
+
 
         let conn;
         try {
