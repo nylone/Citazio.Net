@@ -9,7 +9,7 @@
                         <b-button :disabled="access_lvl < 1" @click="RmQuote(board_path, quote.id)"> <p>Remove Quote </p>
                             <b-icon-trash />
                         </b-button>
-                        <b-button :disabled="access_lvl < 1" @click="editquote=true; quote_id=quote.id"> <p>Update Quote</p> <b-icon-gear /></b-button>
+                        <b-button :disabled="access_lvl < 1" @click="editquote=true; curr_quote=quote"> <p>Update Quote</p> <b-icon-gear /></b-button>
                     </b-button-group>
                 </b-card-header>
                 <b-card-body >
@@ -28,7 +28,7 @@
             
         </b-card>
 
-        <editquotemodal :board_path="board_path" :quote_id="quote_id" :show="editquote" @success="refresh(); editquote=false" @close:editquote="editquote=false" />
+        <editquotemodal :board_path="board_path" :quote="curr_quote" :show="editquote" @success="refresh(); editquote=false" @close:AddEditQuote="editquote=false" />
         </div>
         <b-card align="center" class="theysa-quote-card" v-else>
             <p>No quotes to show</p>
@@ -67,9 +67,11 @@ export default {
         let quotes = {}
         let quote_id = -1
         let editquote = false
+        let curr_quote
         let access_lvl
         return {
             editquote,
+            curr_quote,
             quote_id,
             quotes,
             access_lvl,

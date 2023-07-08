@@ -1,9 +1,9 @@
 <template>
     <div>
         <b-modal class="theysa-shadow" size="lg" v-model="value" hide-header>
-            <editquote @editquote:success="$emit('success')" :board_path="board_path" :quote_id="quote_id"/>
+            <editquote @close:AddEditQuote="$emit('success')" :board_path="board_path" :quote="quote"/>
             <template #modal-footer>
-                <b-button size="md" variant="secondary" @click="$emit('close:editquote')" >Close</b-button>
+                <b-button size="md" variant="secondary" @click="$emit('close:AddEditQuote')" >Close</b-button>
             </template> 
         </b-modal>
     </div>
@@ -18,9 +18,8 @@ import editquote from '../Quotes/EditQuote.vue'
                 type: String,
                 default: ''
             },
-            quote_id: {
-                type: Number,
-                default: -1
+            quote: {
+                type: Object,
             },
             show:{
                 type: Boolean,
@@ -30,14 +29,14 @@ import editquote from '../Quotes/EditQuote.vue'
         components: {
             editquote
         },
-        emits: ['close:editquote'],
+        emits: ["close:AddEditQuote"],
         computed: {
             value: {
                 get() {
                     return this.$props.show
                 },
                 set() {
-                    this.$emit('close:editquote')
+                    this.$emit("close:AddEditQuote")
                 }
             }
         }

@@ -1,39 +1,74 @@
 <template>
     <div>
-        <h3 class="theysa-shadow">Update Quote</h3>
-        <b-form id="form">
-            <b-form-input 
-                placeholder="context" 
-                type="text"
-                id="ctx"
-                size="lg"
-                required
-            ></b-form-input>
-            <b-form-input 
-                placeholder="Message 1" 
-                type="text"
-                id="msg-1" 
-                size="lg"
-                required
-            ></b-form-input>
-            
-        </b-form>
-        <center><b-icon-clipboard-plus type="submit" v-on:click="AddField()" /> Add Message </center>
-        <center>
-            <input 
-            class="theysa-button theysa-shadow inputButton" 
-            type="submit" @click="UpdateQuote(board_path, count, quote_id)"
-            value="SUBMIT" 
-        />
-        </center>
-        
-        
+        <b-container>
+            <b-row>
+                <b-col>
+                    <h3 class="theysa-shadow">Update Quote</h3>
+                </b-col>
+            </b-row>
+            <b-row>
+                <b-col>
+                    <b-form id="form">
+                        <!-- Fields -->
+                        <div v-for="(phrase, index) in quote.quote.phrases" :key="phrase.key">
+                            <p style="margin-top: 5px;"><b>Phrase {{ index+1 }}</b> </p>
+                            <b-form-input 
+                            placeholder="Context"
+                            type="text"
+                            size="lg"
+                            :id=get_ctx_id(index+1)
+                            :value=phrase.ctx
+                            />
+                            <b-form-input 
+                            placeholder="By"
+                            type="text"
+                            size="lg"
+                            :id=get_by_id(index+1)
+                            :value=phrase.by
+                            />
+                            <b-form-input 
+                            placeholder="Message"
+                            type="text"
+                            size="lg"
+                            :id=get_msg_id(index+1)
+                            :value=phrase.msg
+                            required
+                            />
+                        </div>
+                    </b-form>
+                </b-col>
+            </b-row>
+
+            <!-- General context field -->
+            <b-row>
+                <b-col>
+                    <b-form-input 
+                    placeholder="General Context" 
+                    type="text"
+                    id="general_ctx" 
+                    size="lg"
+                    :value=quote.quote.ctx
+                    required
+                    />
+                </b-col>
+            </b-row>
+
+            <!-- Submit button-->
+            <b-row >
+                <b-col align="center">
+                    <input 
+                    class="theysa-button theysa-shadow inputButton" 
+                    type="submit" @click="AddEditQuote(board_path, count, 'Edit', quote.id)"
+                    value="SUBMIT" 
+                    />
+                </b-col>
+            </b-row>
+        </b-container>
     </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import { UpdateQuote } from './Quotes'
+import { AddEditQuote } from './Quotes'
 
 export default {
     name: 'EditQuote',
@@ -42,29 +77,28 @@ export default {
             type: String,
             default: ''
         },
-        quote_id: {
-            type: Number,
-            default: -1
+        quote: {
+            type: Object
         }
     },
     data() {
-        let count = ref(1)
+        let count
         return {
             count,
-            UpdateQuote
+            AddEditQuote
         }
     },
     methods: {
-        AddField() {
-            this.$data.count = this.$data.count + 1
-            let field = document.createElement("input")
-            field.placeholder = `Message ${this.$data.count}`
-            field.className="form-control form-control-lg"
-            field.id = `msg-${this.$data.count}`
-            field.ariaRequired='true'
-            let form = document.getElementById("form")
-            form.appendChild(field)
-        }
-    }
+        get_msg_id(index) {
+            this.count = index;
+            return `msg-${index}`
+        },
+        get_ctx_id(index) {
+            return `ctx-${index}`
+        },
+        get_by_id(index) {
+            return `by-${index}`
+        },
+    },
 }
 </script>

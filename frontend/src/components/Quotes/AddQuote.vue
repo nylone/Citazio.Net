@@ -10,24 +10,21 @@
             <!-- Fields -->
             <b-row>
                 <b-col>
-                    <p><b>Quote 1</b> </p>
+                    <p><b>Phrase 1</b> </p>
                     <b-form id="form">
                         <b-form-input 
                             placeholder="Context" 
                             type="text"
                             id="ctx-1"
                             size="lg"
-                            required>
-                        </b-form-input>
+                        />
 
                         <b-form-input 
                             placeholder="By" 
                             type="text"
                             id="by-1" 
                             size="lg"
-                            required
-                            >
-                        </b-form-input>
+                        />
 
                         <b-form-input 
                             placeholder="Message" 
@@ -35,8 +32,7 @@
                             id="msg-1" 
                             size="lg"
                             required
-                            >
-                        </b-form-input>
+                        />
                     </b-form>
                 </b-col>
             </b-row>
@@ -64,8 +60,7 @@
                     id="general_ctx" 
                     size="lg"
                     required
-                    >
-                    </b-form-input>
+                    />
                 </b-col>
             </b-row>
 
@@ -74,20 +69,18 @@
                 <b-col align="center">
                     <input 
                     class="theysa-button theysa-shadow inputButton" 
-                    type="submit" @click="AddQuote(board_path, count)"
+                    type="submit" @click="AddEditQuote(board_path, count, 'Add', null)"
                     value="SUBMIT" 
                     />
                 </b-col>
             </b-row>
-            
-            
 
         </b-container>
     </div>
 </template>
 
 <script>
-import { AddQuote } from './Quotes'
+import { AddEditQuote } from './Quotes'
 export default {
     name: 'AddQuote',
     props: {
@@ -102,7 +95,7 @@ export default {
         return {
             count,
             NotError,
-            AddQuote
+            AddEditQuote
         }
     },
     methods: {
@@ -141,7 +134,7 @@ export default {
             let par = document.createElement("p")
             par.style.paddingTop="5px"
             par.style.fontWeight="bold"
-            par.append(document.createTextNode(`Quote ${count}`))  // appends the text to the paragraph
+            par.append(document.createTextNode(`Phrase ${count}`))  // appends the text to the paragraph
             let form = document.getElementById("form")  // Form where the paragraph will be added 
             form.appendChild(par)
         },

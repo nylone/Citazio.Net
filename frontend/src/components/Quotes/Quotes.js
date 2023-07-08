@@ -1,25 +1,38 @@
-export function AddQuote(board_path, field_count) {
+export function AddEditQuote(board_path, field_count, operation, id) {
     let msg
     let ctx
     let by
     let q
-    let general_ctx = document.getElementById("general_ctx").value
+    let general_ctx = document.getElementById("general_ctx")?.value
+
+    if(general_ctx === "") general_ctx = undefined 
+
     const d = new Date();
     let date = d.getTime();
-    let quote = { phrases: [], "ctx": general_ctx, "date": date} 
+    let quote = { phrases: [], "ctx": general_ctx, "date": date}   // Quote object
 
-    for(let i = 1; i <= field_count; i++) {
+    for(let i = 1; i <= field_count; i++) {  // Iterates for each message contained in the quote 
         // Finds the values
         msg = document.getElementById(`msg-${i}`).value
-        by = document.getElementById(`by-${i}`)?.value
-        ctx = document.getElementById(`ctx-${i}`)?.value
+        by = document.getElementById(`by-${i}`).value
+        ctx = document.getElementById(`ctx-${i}`).value
+
+        if(by === "") by=undefined
+        if(ctx === "") ctx=undefined
+
         // Creates the quote object 
         q = {"msg": msg, "by": by, "ctx": ctx}
         quote.phrases.push(q)
     }
-    console.log(quote)
+    let route
+    if(operation === 'Add') {
+        route = `${this.$path}/board/${board_path}/quotes/add`
+    }
+    else if(operation === 'Edit') {
+        route = `${this.$path}/board/${board_path}/quote/${id}/update`
+    }
 
-    fetch(`${this.$path}/board/${board_path}/quotes/add`, {
+    fetch(route, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -30,7 +43,7 @@ export function AddQuote(board_path, field_count) {
     })
     .then(response => {
         if(response.status === 200) {
-            this.$emit("close:addquote")
+            this.$emit("close:AddEditQuote")
         }
     })
 }
@@ -61,43 +74,3 @@ export function RmQuote(board_path, quote_id) {
         }
     })
 }
-
-export function UpdateQuote(board_path, field_count, quote_id) {
-    let ctx = document.getElementById("ctx").value
-    let msg1 = document.getElementById("msg-1").value
-    const d = new Date();
-    let time = d.getTime();
-    let quote = {
-        phrases: [
-            {
-                msg: msg1,
-                by: this.$user.value,
-                ctx: ctx,
-            }
-        ],
-        ctx: ctx,
-        date: time
-    }
-    if(field_count > 1) {
-        for(let i = 2; i <= field_count; i++) {
-            let additional_text = document.getElementById(`msg-${i}`).value
-            quote.phrases.push({msg: additional_text})
-        }
-    }
-
-    fetch(`${this.$path}/board/${board_path}/quotes/update`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"quote": quote, "id": quote_id})
-    })
-    .then(response => {
-        if(response.status === 200) {
-            this.$emit("editquote:success")
-        }
-    })
-}
-

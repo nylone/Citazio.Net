@@ -71,7 +71,7 @@
 
 
         <!-- Modals -->
-        <addquotemodal :board_path="path" :show=quote @close:addquote="$emit('reload'); quote = false" />
+        <addquotemodal :board_path="path" :show=quote @close:AddEditQuote="$emit('reload'); quote = false" />
         <addeditusermodal :board_path="path" :show=addedituser :operation="operation" @close:AddEdituser="$emit('reload'); addedituser = false" />
         <rmuserboardmodal :board_path="path" :show="rmuser" :operation="operation" @close:rmuser="$emit('reload'); rmuser = false" />
 
