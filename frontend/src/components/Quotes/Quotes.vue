@@ -15,13 +15,21 @@
                 <b-card-body >
                     <b-container fluid>
                         <b-row>
-                            <b-col><p align="left"> <b> ctx </b>: {{ quote.quote.ctx }} </p></b-col>
+                            <b-col v-if="quote.quote.ctx != undefined "><p align="left" > <b> ctx </b>: {{ quote.quote.ctx }} </p></b-col>
                             <b-col><p align="right"> <b>By </b>: {{ quote.username }}</p></b-col>
                         </b-row>
                     </b-container>
-                    <div v-for="phrase in quote.quote.phrases" :key="phrase.count">
-                        <p v-if="phrase.by != null">{{ phrase.by }}: "{{ phrase.msg }}"</p>
-                        <p v-else> *{{ phrase.msg }}*</p>
+                    <div v-for="(phrase, index) in quote.quote.phrases" :key="phrase.count">
+                        <p :id=get_phrase_id(index) v-if="phrase.by != null">{{ phrase.by }}: "{{ phrase.msg }}"</p>
+                        <p :id="get_phrase_id(index)" v-else> *{{ phrase.msg }}*</p>
+
+                        <b-tooltip
+                         v-if="phrase.ctx != '' "
+                         :target=get_phrase_id(index)
+                         trigger="focus"
+                         >
+                         {{ phrase.ctx }}
+                        </b-tooltip>
                     </div>
             </b-card-body>
             </div>
@@ -89,6 +97,9 @@ export default {
     methods: {
         async refresh() {
             this.$data.quotes= await this.GetQuotes(this.$props.board_path)
+        },
+        get_phrase_id(index) {
+            return `phrase-${index}`
         }
     },
     watch: {
