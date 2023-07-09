@@ -1,9 +1,5 @@
-<center>
-
 ![logo](docs/logo.png)
 # Citazio.Net
-
-</center>
 
 ## Foreword
 [citazio.net](https://citazio.net) is a project developed during free time and for fun.
