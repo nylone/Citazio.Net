@@ -10,46 +10,60 @@
             <!-- Fields -->
             <b-row>
                 <b-col>
-                    <p><b>Phrase 1</b> </p>
                     <b-form id="form">
-                        <b-form-input 
-                            placeholder="Context" 
-                            type="text"
-                            id="ctx-1"
-                            size="lg"
-                        />
+                        <div id="phrase-1">
+                            <p id="p-1"><b>Phrase 1</b> </p>
+                            <b-form-input 
+                                placeholder="Context" 
+                                type="text"
+                                id="ctx-1"
+                                size="lg"
+                            />
 
-                        <b-form-input 
-                            placeholder="By" 
-                            type="text"
-                            id="by-1" 
-                            size="lg"
-                        />
+                            <b-form-input 
+                                placeholder="By" 
+                                type="text"
+                                id="by-1" 
+                                size="lg"
+                            />
 
-                        <b-form-input 
-                            placeholder="Message" 
-                            type="text"
-                            id="msg-1" 
-                            size="lg"
-                            required
-                        />
+                            <b-form-input 
+                                placeholder="Message" 
+                                type="text"
+                                id="msg-1" 
+                                size="lg"
+                                required
+                            />
+                        </div>
                     </b-form>
                 </b-col>
             </b-row>
 
-            <!-- Error Message -->
+            <!-- Error Message when adding a phrase-->
             <b-row>
                 <b-col>
-                    <b-form-invalid-feedback :state="NotError"> You should write at least a message before adding a new quote</b-form-invalid-feedback>
+                    <b-form-invalid-feedback :state="NotAddError"> You should write at least a message before adding a new quote</b-form-invalid-feedback>
                 </b-col>
             </b-row>
 
-            <!-- Add Fields option-->
+            <!-- Error Message when removing a phrase-->
             <b-row>
-                <b-col align="center">
-                    <b-icon-clipboard-plus style="margin:5px;" v-on:click="AddMoreFields()"></b-icon-clipboard-plus>
+                <b-col>
+                    <b-form-invalid-feedback :state="NotRemoveError"> You should at least add another phrase before removing it </b-form-invalid-feedback>
                 </b-col>
             </b-row>
+
+            <!-- Add and Remove Fields options -->
+            <b-row>
+                <b-col >
+                    <b-icon-clipboard-plus style="margin-top:5px; float:right;" v-on:click="AddFields()"></b-icon-clipboard-plus>
+                </b-col>
+
+                <b-col>
+                    <b-icon-clipboard-minus style="margin-top:5px;" v-on:click="RemoveFields()"></b-icon-clipboard-minus>
+                </b-col>
+            </b-row>    
+
 
             <!-- General context field -->
             <b-row>
@@ -80,7 +94,7 @@
 </template>
 
 <script>
-import { AddEditQuote } from './Quotes'
+import { AddEditQuote, AddPhrase } from './Quotes'
 export default {
     name: 'AddQuote',
     props: {
@@ -91,67 +105,41 @@ export default {
     },
     data() {
         let count = 1
-        let NotError
+        let NotAddError
+        let NotRemoveError
         return {
             count,
-            NotError,
-            AddEditQuote
+            NotAddError,
+            NotRemoveError,
+            AddEditQuote,
+            AddPhrase,
         }
     },
     methods: {
-        
-        AddMessage(count) {  // Adds a message field
-            let field = document.createElement("input") 
-            field.placeholder = "Message"
-            field.className="form-control form-control-lg"
-            field.id = `msg-${count}` // Its id will be msg-i+1
-            field.ariaRequired='true'
-            let form = document.getElementById("form")  // Form where the "msg" will be added 
-            form.appendChild(field)
-        },
-
-        AddContext(count) {  // Adds a context field
-            let field = document.createElement("input") 
-            field.placeholder = "Context"
-            field.className="form-control form-control-lg"
-            field.id = `ctx-${count}` // Its id will be: ctx-i+1
-            field.ariaRequired='true'
-            let form = document.getElementById("form")  // Form where the "ctx" will be added 
-            form.appendChild(field)
-        },
-
-        AddBy(count) {  // Adds a by field
-            let field = document.createElement("input") 
-            field.placeholder = "By"
-            field.className="form-control form-control-lg"
-            field.id = `by-${count}` // Its id will be: by-i+1
-            field.ariaRequired='true'
-            let form = document.getElementById("form")  // Form where the "By" will be added 
-            form.appendChild(field)
-        },
-
-        AddParagraph(count) {  // Adds the 'Quote i' at the beginning of each section
-            let par = document.createElement("p")
-            par.style.paddingTop="5px"
-            par.style.fontWeight="bold"
-            par.append(document.createTextNode(`Phrase ${count}`))  // appends the text to the paragraph
-            let form = document.getElementById("form")  // Form where the paragraph will be added 
-            form.appendChild(par)
-        },
-
-        AddMoreFields() {
-            if(document.getElementById(`msg-${this.$data.count}`).value != "") {
-                this.NotError = null
-                document.getElementById(`msg-${this.$data.count}`).classList.remove("is-invalid")
-                this.$data.count = this.$data.count + 1
-                this.AddParagraph(this.$data.count)
-                this.AddContext(this.$data.count)
-                this.AddBy(this.$data.count)
-                this.AddMessage(this.$data.count)
+        AddFields() {
+            if(document.getElementById(`msg-${this.count}`).value != "") {
+                this.NotAddError = null
+                this.NotRemoveError = null
+                document.getElementById(`msg-${this.count}`).classList.remove("is-invalid")
+                this.count = this.count + 1
+                AddPhrase(this.count)
             }
             else {
-                this.NotError = false
-                document.getElementById(`msg-${this.$data.count}`).classList.add("is-invalid")
+                this.NotAddError = false
+                document.getElementById(`msg-${this.count}`).classList.add("is-invalid")
+            }
+        },
+        RemoveFields() {
+            if(this.count > 1) {
+                this.NotAddError = null
+                this.NotRemoveError = null
+                let form = document.getElementById("form")  // Form where the fields will be removed
+                let phrase = document.getElementById(`phrase-${this.count}`)
+                form.removeChild(phrase)
+                this.count = this.count - 1
+            }
+            else {
+                this.NotRemoveError = false
             }
         }
     }

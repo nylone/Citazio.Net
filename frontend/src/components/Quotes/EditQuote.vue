@@ -10,8 +10,8 @@
                 <b-col>
                     <b-form id="form">
                         <!-- Fields -->
-                        <div v-for="(phrase, index) in quote.quote.phrases" :key="phrase.key">
-                            <p style="margin-top: 5px;"><b>Phrase {{ index+1 }}</b> </p>
+                        <div v-for="(phrase, index) in quote.quote.phrases" :key="phrase.key" :id=get_phrase_id(index+1)>
+                            <p :id=get_p_id(index+1) style="margin-top: 5px;"><b>Phrase {{ index+1 }}</b> </p>
                             <b-form-input 
                             placeholder="Context"
                             type="text"
@@ -38,6 +38,32 @@
                     </b-form>
                 </b-col>
             </b-row>
+
+            <!-- Error Message when adding a phrase-->
+            <b-row>
+                <b-col>
+                    <b-form-invalid-feedback :state="NotAddError"> You should write at least a message before adding a new quote</b-form-invalid-feedback>
+                </b-col>
+            </b-row>
+
+            <!-- Error Message when removing a phrase-->
+            <b-row>
+                <b-col>
+                    <b-form-invalid-feedback :state="NotRemoveError"> You should at least add another phrase before removing it </b-form-invalid-feedback>
+                </b-col>
+            </b-row>
+
+
+            <!-- Add and Remove Fields options -->
+            <b-row>
+                <b-col >
+                    <b-icon-clipboard-plus style="margin-top:5px; float:right;" v-on:click="AddFields()"></b-icon-clipboard-plus>
+                </b-col>
+
+                <b-col>
+                    <b-icon-clipboard-minus style="margin-top:5px;" v-on:click="RemoveFields()"></b-icon-clipboard-minus>
+                </b-col>
+            </b-row>    
 
             <!-- General context field -->
             <b-row>
@@ -68,7 +94,7 @@
 </template>
 
 <script>
-import { AddEditQuote } from './Quotes'
+import { AddEditQuote, AddPhrase } from './Quotes'
 
 export default {
     name: 'EditQuote',
@@ -83,14 +109,18 @@ export default {
     },
     data() {
         let count
+        let NotAddError
+        let NotRemoveError
         return {
             count,
-            AddEditQuote
+            NotAddError,
+            NotRemoveError,
+            AddEditQuote,
+            AddPhrase,
         }
     },
     methods: {
         get_msg_id(index) {
-            this.count = index;
             return `msg-${index}`
         },
         get_ctx_id(index) {
@@ -99,6 +129,41 @@ export default {
         get_by_id(index) {
             return `by-${index}`
         },
+        get_p_id(index) {
+            return `p-${index}`
+        },
+        get_phrase_id(index) {
+            return `phrase-${index}`
+        },
+        AddFields() {
+            if(document.getElementById(`msg-${this.count}`).value != "") {
+                this.NotAddError = null
+                this.NotRemoveError = null
+                document.getElementById(`msg-${this.count}`).classList.remove("is-invalid")
+                this.count = this.count + 1
+                AddPhrase(this.count)
+            }
+            else {
+                this.NotAddError = false
+                document.getElementById(`msg-${this.count}`).classList.add("is-invalid")
+            }
+        },
+        RemoveFields() {
+            if(this.count > 1) {
+                this.NotAddError = null
+                this.NotRemoveError = null
+                let form = document.getElementById("form")  // Form where the fields will be removed
+                let phrase = document.getElementById(`phrase-${this.count}`)
+                form.removeChild(phrase)
+                this.count = this.count - 1
+            }
+            else {
+                this.NotRemoveError = false
+            }
+        }
     },
+    created() {
+        this.count = this.quote.quote.phrases.length
+    }
 }
 </script>

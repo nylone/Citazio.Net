@@ -74,3 +74,53 @@ export function RmQuote(board_path, quote_id) {
         }
     })
 }
+
+export function AddMessage(count, phrase) {  // Adds a message field
+    let field = document.createElement("input") 
+    field.placeholder = "Message"
+    field.className="form-control form-control-lg"
+    field.id = `msg-${count}` // Its id will be msg-i+1
+    field.ariaRequired='true'
+    phrase.appendChild(field)  // Appends the message to the phrase
+}
+
+export function AddContext(count, phrase) {  // Adds a 'context' field
+    let field = document.createElement("input") 
+    field.placeholder = "Context"
+    field.className="form-control form-control-lg"
+    field.id = `ctx-${count}` // Its id will be: ctx-i+1
+    field.ariaRequired='true'
+    phrase.appendChild(field) // Appends the Context to the phrase
+}
+
+export function AddBy(count, phrase) {  // Adds a 'by' field
+    let field = document.createElement("input") 
+    field.placeholder = "By"
+    field.className="form-control form-control-lg"
+    field.id = `by-${count}` // Its id will be: by-i+1
+    field.ariaRequired='true' 
+    phrase.appendChild(field) // Appends the By to the phrase
+}
+
+export function AddParagraph(count, phrase) {  // Adds the 'Quote i' at the beginning of each section
+    let par = document.createElement("p")
+    par.style.paddingTop="5px"
+    par.style.fontWeight="bold"
+    par.id=`p-${count}`
+    par.append(document.createTextNode(`Phrase ${count}`))  // appends the text to the paragraph
+    phrase.appendChild(par) // Appends the paragraph to the phrase
+}
+
+export function AddPhrase(count) {  // Adds a phrase in the form
+    let phrase = document.createElement("div")
+    let form = document.getElementById("form")
+    phrase.id=`phrase-${count}`
+    form.appendChild(phrase)  // Creates the 'phrase' section
+    
+    // Adds content to it
+    AddParagraph(count, phrase)
+    AddContext(count, phrase)
+    AddBy(count, phrase),
+    AddMessage(count, phrase)
+
+}
