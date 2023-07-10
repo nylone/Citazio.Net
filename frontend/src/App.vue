@@ -1,16 +1,16 @@
 <template>
     <div>
         <h1 class="theysa-shadow" style=" margin-top: 0;"> citazio.net<b-badge variant="info">Beta </b-badge> </h1>
-        <navbar @refresh="update=true" :logged="logged" @close:successauth="logged = true" @logout="logged = false" />
+        <navbar @refresh="update=true" :logged="logged" @close:successauth="logged = true; guest=false" @logout="logged = false; guest=true" />
         <center><cookiebanner /></center>
         <component 
             :update=update 
             :board_title=title 
             :board_path=path 
+            :guest=guest
             @onpath="(board_path, board_title) => setData(board_path, board_title)"
             @rmquote:success="update=true"
             @done:update="update=false" 
-            v-if="logged" 
             :is="currentView" 
         />
         
@@ -43,11 +43,13 @@ export default {
     },
     data() {
         let logged = ref(false)
+        let guest = ref(true)
         let path = ref('')
         let title = ref('')
         let update = ref(false)
         return {
             logged,
+            guest,
             path,
             title,
             update,

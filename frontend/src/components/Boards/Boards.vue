@@ -1,6 +1,6 @@
 <template>
     <b-container fluid>
-        <div class="theysa-box">
+        <div class="theysa-box" v-if="!guest">
             <b-row > 
                 <b-col >
                     <center><h5 class="w-50">Your Boards</h5></center>
@@ -31,7 +31,7 @@
             </b-row>
             
         </div>
-        <div class="theysa-box">
+        <div class="theysa-box" v-if="!guest">
             <b-row>
                 <b-col>
                 <center><h5 class="w-50">Friends' Boards</h5></center>
@@ -39,6 +39,7 @@
             </b-row>
             <b-row> 
                 <subscribedboards 
+                
                 @reload="refresh()"
                 @onpath="(board_path, board_title) => $emit('onpath', board_path, board_title)"
                 :boards="boards.boards_subscribed" 
@@ -67,6 +68,10 @@ export default {
         update: {
             type: Boolean,
             default: false
+        },
+        guest: {
+            type: Boolean,
+            default: true
         }
     },
     data() {
@@ -91,6 +96,9 @@ export default {
                 this.refresh()
                 this.$emit('done:update')
             }
+        },
+        guest() {
+            this.refresh()
         }
     },
 
