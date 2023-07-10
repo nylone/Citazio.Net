@@ -25,6 +25,7 @@ const run = async () => {
     });
 
     await conn.query("use " + config.database + ";");
+    await conn.query("alter database " + config.database + "COLLATE = 'utf8_bin';");
     await conn.query(tables);
     await conn.query(views);
     await conn.query(functions);
