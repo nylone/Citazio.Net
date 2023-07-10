@@ -160,6 +160,9 @@ export async function get_session_info() {
     if(response.status === 200) {
         return response.json()
     }
+    else {
+        return false
+    }
 }
 
 

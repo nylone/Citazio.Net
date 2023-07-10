@@ -144,6 +144,8 @@ export async function EditUserBoard(board_path, access_lvl, uname) {
 
 
 export async function GetUserAccessLvl(board_path, user) {
+    if(user === '') return 0  // If the user is a guest
+
     let users = await fetch(`${this.$path}/board/${board_path}/users/get`, {
         method: 'GET',
         credentials: 'include',
@@ -161,7 +163,6 @@ export async function GetUserAccessLvl(board_path, user) {
             return 0
         }
     }
-
 }
 
 export async function GetBoardUsers(board_path) {
