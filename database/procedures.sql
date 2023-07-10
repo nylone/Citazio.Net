@@ -211,7 +211,7 @@ begin
     if (@board_id is null or has_user_got_access_lvl(username, path, 0) = 0) then
         select false as result;
     else
-        select b.title, b.public, b.created, u.owner, u.users, u.last_updated
+        select b.title, b.public, b.created, b.owner, b.users, b.last_updated
         from active_boards b
         where b.id = @board_id;
     end if;
