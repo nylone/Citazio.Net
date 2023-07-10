@@ -93,6 +93,7 @@ export default {
         this.refresh()
         let user= (await this.get_session_info()).username
         this.access_lvl = await this.GetUserAccessLvl(this.board_path, user)
+        history.replaceState(null, null, `#/quotes?path=${this.board_path}`)
     },
     methods: {
         async refresh() {

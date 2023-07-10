@@ -72,8 +72,18 @@ export default {
         window.addEventListener('hashchange', () => {
             this.currentPath = window.location.hash
         });
-        this.logged = await this.check_session()
 
+
+        this.logged = await this.check_session()
+    },
+    created() {
+        let url = new URL(window.location).hash
+        let hash = url.substring(1, 8)
+        let query = new URLSearchParams(url.substring(8)).get('path')
+        if(query != null) {
+            this.setData(query, "test")
+            this.currentPath = '#' + hash
+        }
     }
 }
 </script>
