@@ -1,5 +1,4 @@
-![logo](docs/logo.png)
-# Citazio.Net
+# ![logo](/frontend/public/favicon.ico) Citazio.Net
 
 ## Foreword
 [citazio.net](https://citazio.net) is a project developed during free time and for fun.
@@ -12,7 +11,7 @@ We recognise that a backend running on [Node](https://nodejs.org) is not particu
 
 ## Structure of the docs
 The docs are split in:
-- How to **install** and **host** (WIP)
+- How to [**install** and **host**](docs/INSTALL.md)
 - How to interact with the **API** (WIP)
 - How to **backup** and **restore** the site data (WIP)
 
