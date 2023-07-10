@@ -134,7 +134,7 @@ begin
     then
         select false as result;
     else
-        update quotes q set q.quote = quote, q.updated = current_timestamp() where q.board_id = @board_id and q.user_id = @user_id;
+        update quotes q set q.quote = quote, q.updated = current_timestamp() where q.board_id = @board_id and q.user_id = @user_id and q.id = id;
         select true as result;
     end if;
 end;
