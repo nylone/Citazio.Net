@@ -75,8 +75,10 @@ export default {
             this.currentPath = window.location.hash
         });
 
-
         this.logged = await this.check_session()
+        if(this.logged) {
+            this.guest=false
+        }
     },
     created() {
         let url = new URL(window.location).hash
