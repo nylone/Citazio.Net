@@ -202,6 +202,21 @@ begin
     end if;
 end;
 
+create or replace procedure get_board_info(
+    in path varchar(32),
+    in username varchar(32)
+)
+begin
+    set @board_id = get_board_id(path);
+    if (@board_id is null or has_user_got_access_lvl(username, path, 0) = 0) then
+        select false as result;
+    else
+        select b.title, b.public, b.created, u.owner, u.users, u.last_updated
+        from active_boards b
+        where b.id = @board_id;
+    end if;
+end;
+
 create or replace procedure get_users(
     in username varchar(32)
 )
