@@ -221,19 +221,23 @@ begin
     where u.username = username;
 end;
 
-create or replace procedure edit_board(in path varchar(32), in title varchar(32), in public bool,
+create or replace procedure edit_board(in path varchar(32), in new_path varchar(32), in title varchar(32), in public bool,
                                        in executor varchar(32))
 begin
     set @board_id = get_board_id(path);
     set @executor_id = get_user_id(executor);
     if (@board_id is null or
         @executor_id is null or
+        ((select count(*) from boards b where b.path = new_path) > 0) or
         ((select owner_id from active_boards b where b.id = @board_id) <> @executor_id))
     then
         select false as result;
     else
         if title is not null then
             update boards b set b.title = title where id = @board_id;
+        end if;
+        if new_path is not null then
+            update boards b set b.path = new_path where id = @board_id;
         end if;
         if public is not null then
             update boards b set b.public = public where id = @board_id;
