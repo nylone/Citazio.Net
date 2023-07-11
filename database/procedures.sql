@@ -144,6 +144,7 @@ begin
             call remove_quote(id, path, username);
             insert into quotes(quote, board_id, user_id, updated) value (quote, @board_id, @user_id, current_timestamp());
             select true as result;
+        end if;
     end if;
 end;
 
