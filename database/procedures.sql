@@ -134,10 +134,14 @@ begin
     then
         select false as result;
     else
-        if (select result from (call remove_quote(id, path, username))) = 0
+        if @board_id is null or @user_id is null or
+        (select count(*) from active_quotes q where q.id = id) <> 1 or
+        has_user_got_access_lvl(username, path,
+            if((select q.user_id from quotes q where q.id = id) = @user_id, 1, 2)) = 0
         then
-            selectt false as result;
+            select false as result;
         else
+            call remove_quote(id, path, username);
             insert into quotes(quote, board_id, user_id, updated) value (quote, @board_id, @user_id, current_timestamp());
             select true as result;
     end if;
