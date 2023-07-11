@@ -207,3 +207,16 @@ export async function GetBoardExternalUsers(board_path) {
 
     return usersmap    
 }
+
+export async function get_board_title(board_path) {
+    let response = await fetch(`${this.$path}/board/${board_path}/info/get`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    if(response.status === 200) {
+        let title = (await response.json()).title
+        return title
+    }
+}
+
+

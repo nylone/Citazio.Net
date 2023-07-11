@@ -25,6 +25,7 @@ import quotes from './components/Quotes/Quotes.vue';
 import cookiebanner from './components/User/cookiebanner.vue'
 import { ref } from 'vue'
 import { check_session } from './components/User/user';
+import { get_board_title } from './components/Boards/Boards';
 
 const routes = {
     '/': boards,
@@ -55,6 +56,7 @@ export default {
             update,
             currentPath: window.location.hash,
             check_session,
+            get_board_title,
         }
     },
     methods: {
@@ -80,12 +82,13 @@ export default {
             this.guest=false
         }
     },
-    created() {
+    async created() {
         let url = new URL(window.location).hash
         let hash = url.substring(1, 8)
         let query = new URLSearchParams(url.substring(8)).get('path')
         if(query != null) {
-            this.setData(query, "test")
+            let title= await this.get_board_title(query)
+            this.setData(query, title)
             this.currentPath = '#' + hash
         }
     }
