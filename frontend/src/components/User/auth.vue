@@ -5,7 +5,7 @@
             <b-row>
                 <b-col>
                     <!-- Sign in card -->
-                    <b-card align="center" footer-class="background-color: var(--bg-color);">
+                    <b-card align="center">
                         <b-card-header>
                             <h3 class="theysa-shadow">Sign In</h3>
                         </b-card-header>
@@ -16,6 +16,8 @@
                                 type="text" 
                                 id="signin_user" 
                                 v-on:input = "signin_input = check_input('signin_user')"
+                                v-on:keyup.enter = "get_response('Signin')"
+                                :state = "signin_response"
                                 size="lg" 
                                 required>
 
@@ -30,6 +32,8 @@
                                 type="password" 
                                 id="signin_pass" 
                                 v-on:input = "signin_pass = check_input('signin_pass')"
+                                v-on:keyup.enter = "get_response('Signin')"
+                                :state="signin_response"
                                 size="lg" 
                                 required>
 
@@ -39,10 +43,14 @@
                                 Invalid input
                                 </b-form-invalid-feedback>
 
+                                <b-form-invalid-feedback :state="signin_response">
+                                Login failed, please check your credentials.
+                                </b-form-invalid-feedback>
+
                             </b-form>
                         </b-card-body>
                         <b-card-footer align="center">
-                            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="signin()"
+                            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="get_response('Signin')"
                                 value="SUBMIT" />
                         </b-card-footer>
                     </b-card>
@@ -61,6 +69,7 @@
                                 type="text" 
                                 id="signup_user" 
                                 v-on:input = "signup_input = check_input('signup_user')"
+                                v-on:keyup.enter = "get_response('Signup')"
                                 size="lg" 
                                 required>
                                 </b-form-input>
@@ -75,6 +84,7 @@
                                 type="password" 
                                 id="signup_pass" 
                                 v-on:input = "signup_pass = check_input('signup_pass')"
+                                v-on:keyup.enter = "get_response('Signup')"
                                 size="lg" 
                                 required>
 
@@ -92,6 +102,7 @@
                                 type="password" 
                                 id="signup_confirmpass" 
                                 v-on:input="verify = compare()"
+                                v-on:keyup.enter = "get_response('Signup')"
                                 size="lg" 
                                 required>
 
@@ -112,6 +123,7 @@
                                 :disabled=!status
                                 id="signup_token" 
                                 v-on:input = "signup_token = check_input('signup_token')"
+                                v-on:keyup.enter = "get_response('Signup')"
                                 size="lg" 
                                 required>
 
@@ -133,11 +145,11 @@
                             </b-form>
                             
                         </b-card-body>
-                        <b-form-invalid-feedback :state="response">
+                        <b-form-invalid-feedback :state="signup_response">
                             Service may also require token based authentication. <br />If so contact the admin.
                         </b-form-invalid-feedback>
                         <b-card-footer align="center">
-                            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="get_response()" value="SUBMIT" />
+                            <input class="theysa-button theysa-shadow inputButton" type="submit" @click="get_response('Signup')" value="SUBMIT" />
                                 
                         </b-card-footer>
                     </b-card>
@@ -154,7 +166,8 @@ export default {
     name: 'UserAuth',
     data() {
         let status = false
-        let response = true
+        let signup_response = null
+        let signin_response = null
         let verify
         let signin_input
         let signin_pass 
@@ -166,7 +179,8 @@ export default {
         }
         return {
             status,
-            response,
+            signup_response,
+            signin_response,
             verify,
             signin_input,
             signin_pass, 
@@ -181,9 +195,16 @@ export default {
         }
     },
     methods: {
-        async get_response() {
-            this.response = await this.signup();
-        }
+        async get_response(auth_type) {
+            if(auth_type === 'Signup') {
+                this.signup_response = await this.signup();
+            }
+            else if(auth_type === 'Signin') {
+                this.signin_response = await this.signin();
+                console.log(this.signin_response)
+            }
+            
+        },
     }
 }
 </script>

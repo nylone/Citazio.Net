@@ -10,27 +10,27 @@
                 <b-col>
                     <b-form id="form">
                         <!-- Fields -->
-                        <div v-for="(phrase, index) in quote.quote.phrases" :key="phrase.key" :id=get_phrase_id(index+1)>
-                            <p :id=get_p_id(index+1) style="margin-top: 5px;"><b>Phrase {{ index+1 }}</b> </p>
+                        <div v-for="(phrase, index) in quote.quote.phrases" :key="phrase.key" :id="`p-${index+1}`">
+                            <p :id="`phrase-${index+1}`" style="margin-top: 5px;"><b>Phrase {{ index+1 }}</b> </p>
                             <b-form-input 
                             placeholder="Context"
                             type="text"
                             size="lg"
-                            :id=get_ctx_id(index+1)
+                            :id="`ctx-${index+1}`"
                             :value=phrase.ctx
                             />
                             <b-form-input 
                             placeholder="By"
                             type="text"
                             size="lg"
-                            :id=get_by_id(index+1)
+                            :id="`by-${index+1}`"
                             :value=phrase.by
                             />
                             <b-form-input 
                             placeholder="Message"
                             type="text"
                             size="lg"
-                            :id=get_msg_id(index+1)
+                            :id="`msg-${index+1}`"
                             :value=phrase.msg
                             required
                             />
@@ -120,18 +120,6 @@ export default {
         }
     },
     methods: {
-        get_msg_id(index) {
-            return `msg-${index}`
-        },
-        get_ctx_id(index) {
-            return `ctx-${index}`
-        },
-        get_by_id(index) {
-            return `by-${index}`
-        },
-        get_p_id(index) {
-            return `p-${index}`
-        },
         get_phrase_id(index) {
             return `phrase-${index}`
         },

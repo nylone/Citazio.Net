@@ -2,7 +2,7 @@
     <div align="center">
         <h5 style="width: 50%; margin-top: 5px;">Board: {{ board_title }}</h5>
         <div  v-if="quotes.length > 0">
-        <b-card v-for="quote in quotes" :key=quote.key  class="theysa-shadow theysa-quote-card " >
+        <b-card v-for="(quote, quote_index) in quotes" :key=quote.key  class="theysa-shadow theysa-quote-card " >
             <div v-if="quote.quote != undefined">
                 <b-card-header>
                     <b-button-group >
@@ -19,13 +19,14 @@
                             <b-col><p align="right"> <b>By </b>: {{ quote.username }}</p></b-col>
                         </b-row>
                     </b-container>
-                    <div v-for="(phrase, index) in quote.quote.phrases" :key="phrase.count">
-                        <p :id=get_phrase_id(index) v-if="phrase.by != null">{{ phrase.by }}: "{{ phrase.msg }}"</p>
-                        <p :id="get_phrase_id(index)" v-else> *{{ phrase.msg }}*</p>
-
+                    <div v-for="(phrase, phrase_index) in quote.quote.phrases" :key="phrase.count">
+                        <div :id="`phrase-${(quote_index+phrase_index)+1}`">
+                            <p v-if="phrase.by != null">{{ phrase.by }}: "{{ phrase.msg }}"</p>
+                            <p v-else> *{{ phrase.msg }}*</p>
+                        </div>
                         <b-tooltip
-                         v-if="phrase.ctx != '' "
-                         :target=get_phrase_id(index)
+                         v-if="phrase.ctx != '' && phrase.ctx.replace(/\s/g, '').length"
+                         :target="`phrase-${(quote_index+phrase_index)+1}` "
                          trigger="focus"
                          >
                          {{ phrase.ctx }}
@@ -100,9 +101,6 @@ export default {
         async refresh() {
             this.$data.quotes= await this.GetQuotes(this.$props.board_path)
         },
-        get_phrase_id(index) {
-            return `phrase-${index}`
-        }
     },
     watch: {
         update() {

@@ -1,7 +1,7 @@
-export function signin() {
+export async function signin() {
     let uname = document.getElementById("signin_user").value
     let pass = document.getElementById("signin_pass").value
-    fetch(`${this.$path}/signin`, {
+    let response = await fetch(`${this.$path}/signin`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -10,11 +10,13 @@ export function signin() {
         },
         body: JSON.stringify({ "uname": uname, "pass": pass })
     })
-    .then(response => {
-        if(response.status === 200) {
-            this.$emit("close:successauth")
-        }
-    })
+    if(response.status === 200) {
+        this.$emit("close:successauth")
+        return null;
+    }
+    else {
+        return false
+    }
 }
 
 export async function signup() {
@@ -37,7 +39,7 @@ export async function signup() {
     })
     if(response.status === 200) {
         this.$emit("close:successauth")
-        return true
+        return null
     }
     else {
         return false
