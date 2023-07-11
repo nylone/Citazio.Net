@@ -13,7 +13,7 @@ const schema = {
           public: { type: "boolean" },
           title: { $ref: "short_ascii_string" },
           created: { $ref: "short_ascii_string" },
-          last_updated: { $ref: "short_ascii_string" },
+          last_updated: { $ref: "short_nullable_ascii_string" },
           users: { $ref: "positive_int" },
       },
     },

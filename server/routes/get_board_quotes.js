@@ -15,7 +15,7 @@ const schema = {
           quote: { $ref: "quote" },
           username: { $ref: "short_identifiable_string" },
           created: { $ref: "short_ascii_string" },
-          updated: { $ref: "short_ascii_string" }
+          updated: { $ref: "short_nullable_ascii_string" }
         },
       },
     },
