@@ -184,10 +184,12 @@ begin
         select q.id,
                q.quote,
                u.username,
-               q.created
+               q.created,
+               q.updated
         from active_quotes q
                  join users u on q.user_id = u.id
-        where q.board_id = @board_id;
+        where q.board_id = @board_id
+        order by q.created;
     end if;
 end;
 
