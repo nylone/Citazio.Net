@@ -25,7 +25,7 @@
                             <p v-else> *{{ phrase.msg }}*</p>
                         </div>
                         <b-tooltip
-                         v-if="phrase.ctx != '' && phrase.ctx.replace(/\s/g, '').length"
+                         v-if="phrase.ctx?.replace(/\s/g, '').length"
                          :target="`phrase-${(quote_index+phrase_index)+1}` "
                          trigger="focus"
                          >
