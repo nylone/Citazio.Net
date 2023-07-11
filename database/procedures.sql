@@ -134,8 +134,12 @@ begin
     then
         select false as result;
     else
-        update quotes q set q.quote = quote, q.updated = current_timestamp() where q.board_id = @board_id and q.user_id = @user_id and q.id = id;
-        select true as result;
+        if (select result from (call remove_quote(id, path, username))) = 0
+        then
+            selectt false as result;
+        else
+            insert into quotes(quote, board_id, user_id, updated) value (quote, @board_id, @user_id, current_timestamp());
+            select true as result;
     end if;
 end;
 
