@@ -6,8 +6,6 @@ const schema = {
   },
   response: {
     200: {
-      type: "array",
-      items: {
         type: "object",
         required: ["public", "title"],
         properties: {
@@ -17,7 +15,6 @@ const schema = {
           created: { $ref: "short_ascii_string" },
           last_updated: { $ref: "short_ascii_string" },
           users: { $ref: "positive_int" },
-        },
       },
     },
   },
@@ -40,7 +37,7 @@ module.exports = async function (fastify, opts) {
       if (rows[0][0]?.result == false) {
         return reply.unauthorized();
       } else {
-        const info = rows[0];
+        const info = rows[0][0];
         return reply.send(info);
       }
     } catch (err) {
