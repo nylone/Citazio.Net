@@ -10,7 +10,7 @@
                                 <template #button-content>
                                     <b-icon-list /> 
                                 </template>
-                                <b-dropdown-item v-on:click="RmBoard(board)">
+                                <b-dropdown-item v-on:click="Call(board, 'Remove')">
                                     <b-icon-trash /> Remove Board
                                 </b-dropdown-item>
                                 <b-dropdown-item v-on:click="Call(board, 'AddUser')">
@@ -63,6 +63,7 @@
 
         <!-- Modals -->
         <editboardmodal :board_path="path" :show=edit @close:edit="$emit('reload'); edit = false" />
+        <confirmmodal :show=remove @close:No="remove=false" @close:Yes="RmBoard(path); $emit('reload'); remove=false"/>
         <addquotemodal :board_path="path" :show=quote @close:AddEditQuote="$emit('reload'); quote = false" />
         <transferboardmodal :board_path="path" :show=transfer @close:transfer="$emit('reload'); transfer = false" />
         <addeditusermodal :board_path="path" :show=addedituser :operation="operation" @close:AddEdituser="$emit('reload'); addedituser = false" />
@@ -81,8 +82,8 @@ import addquotemodal from '../Modals/AddQuoteModal.vue'
 import transferboardmodal from '../Modals/TransferBoardModal.vue'
 import addeditusermodal from '../Modals/AddEditUserBoardModal.vue'
 import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
+import confirmmodal from '../Modals/ConfirmModal.vue'
 import { RmBoard, GetBoards } from './Boards'
-import { ref } from 'vue'
 export default {
     name: 'OwnedBoards',
     props: {
@@ -100,15 +101,17 @@ export default {
         transferboardmodal,
         addeditusermodal,
         rmuserboardmodal,
+        confirmmodal
     },
 
     data() {
-        let edit = ref(false)
-        let quote = ref(false)
-        let transfer = ref(false)
-        let addedituser = ref(false)
-        let rmuser = ref(false)
-        let path = ref(" ")
+        let edit = false
+        let quote = false
+        let transfer = false
+        let addedituser = false
+        let rmuser = false
+        let path = ""
+        let remove = false
         let operation
         return {
             edit,
@@ -117,6 +120,8 @@ export default {
             addedituser,
             rmuser,
             path,
+            remove,
+            confirm,
             operation,
             RmBoard,
             GetBoards,
@@ -128,6 +133,9 @@ export default {
             this.path = board.path
             if (option === 'Edit') {
                 this.edit = true
+            }
+            else if (option === 'Remove') {
+                this.remove = true
             }
             else if (option === 'AddQuote') {
                 this.quote = true

@@ -55,8 +55,8 @@ export async function AddBoard(pub) {
 }
 
 
-export function RmBoard(board) {
-    fetch(`${this.$path}/board/${board.path}/remove`, {
+export function RmBoard(path) {
+    fetch(`${this.$path}/board/${path}/remove`, {
         method: 'POST',
         credentials: 'include',
     })
