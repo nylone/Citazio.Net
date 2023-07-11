@@ -141,8 +141,9 @@ begin
         then
             select false as result;
         else
+            set @created_at = (select created from quotes q where q.id=id);
             call remove_quote(id, path, username);
-            insert into quotes(quote, board_id, user_id, updated) value (quote, @board_id, @user_id, current_timestamp());
+            insert into quotes(quote, board_id, user_id, created, updated) value (quote, @board_id, @user_id, @created_at, current_timestamp());
             select true as result;
         end if;
     end if;
