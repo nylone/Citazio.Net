@@ -193,6 +193,30 @@ begin
     end if;
 end;
 
+create or replace procedure get_board_quotes_limited(
+    in path varchar(32),
+    in username varchar(32),
+    in page bigint unsigned,
+    in page_size bigint unsigned
+)
+begin
+    set @board_id = get_board_id(path);
+    if (@board_id is null or has_user_got_access_lvl(username, path, 0) = 0) then
+        select false as result;
+    else
+        select q.id,
+               q.quote,
+               u.username,
+               q.created,
+               q.updated
+        from active_quotes q
+                 join users u on q.user_id = u.id
+        where q.board_id = @board_id
+        order by q.created
+        limit page*page_size, page_size;
+    end if;
+end;
+
 create or replace procedure get_board_users(
     in path varchar(32),
     in username varchar(32)
