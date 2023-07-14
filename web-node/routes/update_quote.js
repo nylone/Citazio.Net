@@ -19,7 +19,7 @@ module.exports = async function (fastify, opts) {
       const uname = request.session.uname;
 
       if (uname) {
-        const quote = request.body.quote;
+        const quote = JSON.stringify(JSON.parse(request.body.quote));
         const path = request.params.path;
         const id = request.params.id;
 

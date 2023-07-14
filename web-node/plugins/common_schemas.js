@@ -163,7 +163,7 @@ module.exports = fp(async function (fastify, opts, done) {
         },
       },
       ctx: { $ref: "long_string" },
-      date: { type: "integer" },
+      date: { type: "positive_int" },
     },
   });
 });
