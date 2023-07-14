@@ -48,6 +48,20 @@ module.exports = fp(async function (fastify, opts, done) {
   });
 
   fastify.addSchema({
+    $id: "limited_quotes_params",
+    type: "object",
+    required: ["path", "page", "size"],
+    properties: {
+      path: { $ref: "short_identifiable_string" },
+      page: { $ref: "positive_int" },
+      size: {
+        type: "integer",
+        minimum: 1,
+      }
+    },
+  });
+
+  fastify.addSchema({
     $id: "board_path_user_params",
     type: "object",
     required: ["path", "uname"],
