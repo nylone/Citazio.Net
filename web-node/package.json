@@ -1,19 +1,17 @@
 {
-  "name": "server",
+  "name": "web-node",
   "version": "1.0.0",
-  "description": "This project was bootstrapped with Fastify-CLI.",
-  "main": "app.js",
-  "directories": {
-    "test": "test"
-  },
+  "description": "citazio.net node api",
+  "main": "server.js",
   "scripts": {
-    "test": "tap --no-coverage -t 2 \"test/**/*.test.js\"",
-    "start": "fastify start -l info app.js",
-    "dev": "fastify start -w -l info -P app.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "setup": "node db_setup.js",
+    "tokens": "node add_tokens.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "nylone",
+  "license": "GNU GENERAL PUBLIC LICENSE",
   "dependencies": {
     "@fastify/autoload": "^5.0.0",
     "@fastify/cookie": "^8.3.0",
