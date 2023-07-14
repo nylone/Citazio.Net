@@ -36,7 +36,7 @@ module.exports = async function (fastify, opts) {
       const rows = await conn.execute("CALL get_board_quotes_limited(?, ?, ?, ?)", [
         path,
         uname,
-        page,
+        page * size,
         size,
       ]);
 

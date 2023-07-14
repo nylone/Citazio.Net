@@ -196,7 +196,7 @@ end;
 create or replace procedure get_board_quotes_limited(
     in path varchar(32),
     in username varchar(32),
-    in page bigint unsigned,
+    in page_offset bigint unsigned,
     in page_size bigint unsigned
 )
 begin
@@ -213,7 +213,7 @@ begin
                  join users u on q.user_id = u.id
         where q.board_id = @board_id
         order by q.created
-        limit page*page_size, page_size;
+        limit page_offset, page_size;
     end if;
 end;
 
