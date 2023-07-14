@@ -30,8 +30,5 @@
     "fastify-plugin": "^4.0.0",
     "mariadb": "^3.2.0",
     "toml": "^3.0.0"
-  },
-  "overrides": {
-    "make-dir": "^4.0.0"
   }
 }
