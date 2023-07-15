@@ -21,7 +21,7 @@ module.exports = async function (fastify, opts) {
         let conn;
         try {
           conn = await fastify.dbPool.getConnection();
-          const quote = JSON.stringify(JSON.parse(request.body.quote));
+          const quote = JSON.stringify(request.body.quote);
           const path = request.params.path;
           const rows = await conn.execute("CALL add_quote(?, ?, ?)", [
             quote,
