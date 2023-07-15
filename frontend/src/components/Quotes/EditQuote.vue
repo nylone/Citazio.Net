@@ -108,6 +108,7 @@
 
 <script>
 import { AddEditQuote, AddPhrase } from './Quotes'
+import { convert_time_toISO } from '../User/user'
 
 export default {
     name: 'EditQuote',
@@ -132,6 +133,7 @@ export default {
             NotRemoveError,
             AddEditQuote,
             AddPhrase,
+            convert_time_toISO
         }
     },
     methods: {
@@ -165,16 +167,15 @@ export default {
             }
         },
         setDate() {
-            if(this.quote.date != undefined) {
-                this.date = this.quote.date
+            if(this.quote.quote.date != undefined) {
+                this.date = this.quote.quote.date
+                this.date = convert_time_toISO(this.date)
             }
-            console.log(this.quote.date)
         }
     },
     created() {
         this.count = this.quote.quote.phrases.length
         this.setDate()
-       
     }
 }
 </script>

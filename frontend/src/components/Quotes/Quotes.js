@@ -1,4 +1,4 @@
-export function AddEditQuote(board_path,field_count, operation, id, d) {
+export async function AddEditQuote(board_path, field_count, operation, id, d) {
     let msg
     let ctx
     let by
@@ -18,6 +18,7 @@ export function AddEditQuote(board_path,field_count, operation, id, d) {
         by = document.getElementById(`by-${i}`).value
         ctx = document.getElementById(`ctx-${i}`).value
 
+        if(msg === "") msg=undefined
         if(by === "") by=undefined
         if(ctx === "") ctx=undefined
 
@@ -33,7 +34,7 @@ export function AddEditQuote(board_path,field_count, operation, id, d) {
         route = `${this.$path}/board/${board_path}/quote/${id}/update`
     }
 
-    fetch(route, {
+    let response = await fetch(route, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -42,11 +43,13 @@ export function AddEditQuote(board_path,field_count, operation, id, d) {
         },
         body: JSON.stringify({"quote": quote})
     })
-    .then(response => {
-        if(response.status === 200) {
-            this.$emit("close:AddEditQuote")
-        }
-    })
+    if(response.status === 200) {
+        this.$emit("close:AddEditQuote")
+        return null
+    }
+    else {
+        return false
+    }
 }
 
 export async function GetQuotes(board_path) {

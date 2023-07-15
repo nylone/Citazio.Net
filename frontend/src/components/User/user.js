@@ -168,10 +168,16 @@ export async function get_session_info() {
 }
 
 
-export function convert_time(prev_date) {
+export function convert_time(curr) {
     var luxon = require("luxon")
-    let date = luxon.DateTime.fromISO(prev_date)
+    let date = luxon.DateTime.fromISO(curr)
     
     return date.toLocaleString({ day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })
 }
 
+export function convert_time_toISO(curr) {
+    var luxon = require("luxon")
+    let date = luxon.DateTime.fromMillis(curr).toISO()
+
+    return convert_time(date)
+}

@@ -24,6 +24,7 @@
                             <p v-if="phrase.by != null">{{ phrase.by }}: "{{ phrase.msg }}"</p>
                             <p v-else> *{{ phrase.msg }}*</p>
                         </div>
+                        <p align="right">{{ convert_time_toISO(quote.quote.date) }}</p>
                         <b-tooltip
                          v-if="phrase.ctx?.replace(/\s/g, '').length"
                          :target="`phrase-${(quote_index+phrase_index)+1}` "
@@ -51,7 +52,7 @@
 <script>
 import { GetQuotes, RmQuote } from './Quotes'
 import { GetUserAccessLvl } from '../Boards/Boards'
-import { get_session_info } from '../User/user'
+import { get_session_info, convert_time_toISO } from '../User/user'
 import editquotemodal from '../Modals/EditQuoteModal.vue'
 import confirmmodal from '../Modals/ConfirmModal.vue'
 
@@ -95,6 +96,7 @@ export default {
             RmQuote,
             GetUserAccessLvl,
             get_session_info,
+            convert_time_toISO,
         }
     },
     created: async function () {

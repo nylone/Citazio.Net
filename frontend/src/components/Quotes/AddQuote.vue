@@ -91,12 +91,19 @@
                 </b-col>
             </b-row>
 
+            <!-- Generic error message -->
+            <b-row>
+                <b-col>
+                    <b-form-invalid-feedback :state="NotError"> There was an error while adding the quote. Check the message field. <br/>If this error keeps occuring, please contact the admin</b-form-invalid-feedback>
+                </b-col>
+            </b-row>
+
             <!-- Submit button-->
             <b-row >
                 <b-col align="center">
                     <input 
                     class="theysa-button theysa-shadow inputButton" 
-                    type="submit" @click="AddEditQuote(board_path, count, 'Add', null, date)"
+                    type="submit" @click="SendQuote()"
                     value="SUBMIT" 
                     />
                 </b-col>
@@ -122,11 +129,13 @@ export default {
         let date
         let NotAddError
         let NotRemoveError
+        let NotError
         return {
             count,
             date,
             NotAddError,
             NotRemoveError,
+            NotError,
             AddEditQuote,
             AddPhrase,
             convert_time,
@@ -162,6 +171,9 @@ export default {
         GetTodayDate() {
             let date = new Date().toJSON();
             this.date = convert_time(date)
+        },
+        async SendQuote() {
+            this.NotError = await this.AddEditQuote(this.board_path, this.count, 'Add', null, this.date)
         }
     },
     mounted() {

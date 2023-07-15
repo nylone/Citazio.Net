@@ -122,6 +122,13 @@ label {
     color: var(--text-soft-color) !important
 }
 
+
+// Custom tooltip
+.tooltip-inner {
+    background-color: var(--dark-color);
+}
+
+
 // End of Custom Bootstrap variables
 
 html {
