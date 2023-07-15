@@ -48,7 +48,7 @@
                             <b-row>
                                 <b-col>
                                     <p><b> Last Update: </b></p>
-                                    <p v-if="board.last_updated != ''"> {{ board.last_updated }}</p>
+                                    <p v-if="board.last_updated != ''"> {{ convert_time(board.last_updated) }}</p>
                                     <p v-else> None</p>
                                 </b-col>
                             </b-row>
@@ -83,7 +83,8 @@ import transferboardmodal from '../Modals/TransferBoardModal.vue'
 import addeditusermodal from '../Modals/AddEditUserBoardModal.vue'
 import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
 import confirmmodal from '../Modals/ConfirmModal.vue'
-import { RmBoard, GetBoards } from './Boards'
+import { RmBoard } from './Boards'
+import { convert_time } from '../User/user'
 export default {
     name: 'OwnedBoards',
     props: {
@@ -124,7 +125,7 @@ export default {
             confirm,
             operation,
             RmBoard,
-            GetBoards,
+            convert_time
         }
     },
 

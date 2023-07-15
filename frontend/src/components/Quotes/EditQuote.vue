@@ -79,12 +79,25 @@
                 </b-col>
             </b-row>
 
+            <!-- Datepicker -->
+            <b-row align-h="center">
+                <b-col align="center">
+                    <b-form-datepicker
+                    id="datepicker"
+                    v-model="date"
+                    size="lg"
+                    class="w-50"
+                    :label-no-date-selected="date"
+                    />
+                </b-col>
+            </b-row>
+
             <!-- Submit button-->
             <b-row >
                 <b-col align="center">
                     <input 
                     class="theysa-button theysa-shadow inputButton" 
-                    type="submit" @click="AddEditQuote(board_path, count, 'Edit', quote.id)"
+                    type="submit" @click="AddEditQuote(board_path, count, 'Edit', quote.id, date)"
                     value="SUBMIT" 
                     />
                 </b-col>
@@ -111,8 +124,10 @@ export default {
         let count
         let NotAddError
         let NotRemoveError
+        let date
         return {
             count,
+            date,
             NotAddError,
             NotRemoveError,
             AddEditQuote,
@@ -148,10 +163,18 @@ export default {
             else {
                 this.NotRemoveError = false
             }
+        },
+        setDate() {
+            if(this.quote.date != undefined) {
+                this.date = this.quote.date
+            }
+            console.log(this.quote.date)
         }
     },
     created() {
         this.count = this.quote.quote.phrases.length
+        this.setDate()
+       
     }
 }
 </script>

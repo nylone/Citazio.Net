@@ -78,12 +78,25 @@
                 </b-col>
             </b-row>
 
+            <!-- Datepicker -->
+            <b-row align-h="center">
+                <b-col align="center">
+                    <b-form-datepicker
+                    id="datepicker"
+                    v-model="date"
+                    size="lg"
+                    class="w-50"
+                    :label-no-date-selected="date"
+                    />
+                </b-col>
+            </b-row>
+
             <!-- Submit button-->
             <b-row >
                 <b-col align="center">
                     <input 
                     class="theysa-button theysa-shadow inputButton" 
-                    type="submit" @click="AddEditQuote(board_path, count, 'Add', null)"
+                    type="submit" @click="AddEditQuote(board_path, count, 'Add', null, date)"
                     value="SUBMIT" 
                     />
                 </b-col>
@@ -95,6 +108,7 @@
 
 <script>
 import { AddEditQuote, AddPhrase } from './Quotes'
+import { convert_time } from '../User/user'
 export default {
     name: 'AddQuote',
     props: {
@@ -105,14 +119,17 @@ export default {
     },
     data() {
         let count = 1
+        let date
         let NotAddError
         let NotRemoveError
         return {
             count,
+            date,
             NotAddError,
             NotRemoveError,
             AddEditQuote,
             AddPhrase,
+            convert_time,
         }
     },
     methods: {
@@ -141,7 +158,14 @@ export default {
             else {
                 this.NotRemoveError = false
             }
+        },
+        GetTodayDate() {
+            let date = new Date().toJSON();
+            this.date = convert_time(date)
         }
+    },
+    mounted() {
+        this.GetTodayDate()
     }
 }
 

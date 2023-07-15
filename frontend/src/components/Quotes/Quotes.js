@@ -1,4 +1,4 @@
-export function AddEditQuote(board_path, field_count, operation, id) {
+export function AddEditQuote(board_path,field_count, operation, id, d) {
     let msg
     let ctx
     let by
@@ -7,8 +7,9 @@ export function AddEditQuote(board_path, field_count, operation, id) {
 
     if(general_ctx === "") general_ctx = undefined 
 
-    const d = new Date();
-    let date = d.getTime();
+    var luxon = require("luxon")
+    let date = luxon.DateTime.fromISO(d)
+    date = date.toMillis() 
     let quote = { phrases: [], "ctx": general_ctx, "date": date}   // Quote object
 
     for(let i = 1; i <= field_count; i++) {  // Iterates for each message contained in the quote 

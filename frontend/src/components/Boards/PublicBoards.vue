@@ -27,7 +27,7 @@
                             <b-row>
                                 <b-col>
                                     <p><b> Last Update: </b></p>
-                                    <p v-if="board.last_updated != ''"> {{ board.last_updated }}</p>
+                                    <p v-if="board.last_updated != ''"> {{ convert_time(board.last_updated) }}</p>
                                     <p v-else> None</p>
                                 </b-col>
                             </b-row>
@@ -49,6 +49,7 @@
     </div>
 </template>
 <script>
+import { convert_time } from '../User/user'
 import { ref } from 'vue'
 export default {
     name: 'PublicBoards',
@@ -64,6 +65,7 @@ export default {
     data() {
         let path = ref(" ")
         return {
+            convert_time,
             path,
         }
     },

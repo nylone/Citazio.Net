@@ -48,6 +48,11 @@ $modal-footer-border-color: var(--border-color);
 
 .btn {
     --#{$prefix}btn-disabled-border-color: var(--subtle-color);
+
+    &:hover,
+    &:hover {
+        background-color: var(--shadow-color);
+    }
 }
 
 .btn-secondary {
@@ -60,20 +65,6 @@ $modal-footer-border-color: var(--border-color);
     background-color: var(--special-color);
 }
 
-.dropdown-item {
-    color: var(--text-color);
-    
-    &:hover,
-    &:focus {
-      color: var(--text-color);
-      @include gradient-bg(var(--shadow-color));
-    }
-    
-    &.disabled,
-    &:disabled {
-        color: var(--text-soft-color);
-    }
-}
 
 .close {
     position: absolute;
@@ -95,6 +86,40 @@ $modal-footer-border-color: var(--border-color);
     margin: 5px;
     padding: .5rem;
     width: 100%;
+}
+
+.dropdown-item {
+    color: var(--text-color);
+    
+    &:hover,
+    &:focus {
+      color: var(--text-color);
+      @include gradient-bg(var(--shadow-color));
+    }
+    
+    &.disabled,
+    &:disabled {
+        color: var(--text-soft-color);
+    }
+}
+
+.form-control.focus {
+    background-color: var(--subtle-color);
+}
+
+label {
+    align-self: center;
+    padding-left: 10px;
+}
+
+
+// custom text used in the datepicker 
+.text-dark {
+    color: var(--text-color) !important
+}
+
+.text-muted {
+    color: var(--text-soft-color) !important
 }
 
 // End of Custom Bootstrap variables

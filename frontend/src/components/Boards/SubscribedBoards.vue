@@ -53,7 +53,7 @@
                             <b-row>
                                 <b-col>
                                     <p><b> Last Update: </b></p>
-                                    <p v-if="board.last_updated != ''"> {{ board.last_updated }}</p>
+                                    <p v-if="board.last_updated != ''"> {{ convert_time(board.last_updated) }}</p>
                                     <p v-else> None</p>
                                 </b-col>
                                 <b-col>
@@ -88,6 +88,7 @@ import addeditusermodal from '../Modals/AddEditUserBoardModal.vue'
 import rmuserboardmodal from '../Modals/RmUserBoardModal.vue'
 import { RmBoard } from './Boards'
 import { ref } from 'vue'
+import { convert_time } from '../User/user'
 export default {
     name: 'SubscribedBoards',
     props: {
@@ -124,6 +125,7 @@ export default {
             operation,
             levels,
             RmBoard,
+            convert_time
         }
     },
 

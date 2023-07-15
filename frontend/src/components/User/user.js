@@ -167,3 +167,11 @@ export async function get_session_info() {
     }
 }
 
+
+export function convert_time(prev_date) {
+    var luxon = require("luxon")
+    let date = luxon.DateTime.fromISO(prev_date)
+    
+    return date.toLocaleString({ day: '2-digit', weekday: 'long', month: 'long', year: 'numeric' })
+}
+
