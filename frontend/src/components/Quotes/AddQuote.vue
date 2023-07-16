@@ -94,7 +94,8 @@
             <!-- Generic error message -->
             <b-row>
                 <b-col>
-                    <b-form-invalid-feedback :state="NotError"> There was an error while adding the quote. Check the message field. <br/>If this error keeps occuring, please contact the admin</b-form-invalid-feedback>
+                    <b-form-invalid-feedback :state="NotError"> There was an error while adding the quote. Check the message field. 
+                                                                <br/>If this error keeps occuring, please contact the admin</b-form-invalid-feedback>
                 </b-col>
             </b-row>
 
@@ -168,16 +169,12 @@ export default {
                 this.NotRemoveError = false
             }
         },
-        GetTodayDate() {
-            let date = new Date().toJSON();
-            this.date = convert_time(date)
-        },
         async SendQuote() {
             this.NotError = await this.AddEditQuote(this.board_path, this.count, 'Add', null, this.date)
         }
     },
     mounted() {
-        this.GetTodayDate()
+        this.date = new Date().toJSON();
     }
 }
 
