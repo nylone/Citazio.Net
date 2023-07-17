@@ -5,7 +5,11 @@
                 <b-col style="max-width: 350px; margin-top: 10px;" col v-for="board in boards" :key="board.name">
                     <b-card class="theysa-shadow theysa-border">
                         <b-card-header class="theysa-card-actions" align="right">
-                            <b-dropdown id="dropdown-dropup" dropup variant="text-color" no-caret
+                            <b-dropdown 
+                                id="dropdown-dropup" 
+                                dropup variant="text-color" 
+                                boundary="viewport"
+                                no-caret
                                 toggle-class="text-decoration-none">
                                 <template #button-content>
                                     <b-icon-list /> 

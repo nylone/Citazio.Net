@@ -323,3 +323,13 @@ input:focus, input:hover {
     border-color: var(--special-bg-color);
     background-color: var(--special-bg-color);
 }
+
+
+@media screen and (max-width: 576px) {
+    .theysa-quote-card {
+        justify-content: flex-end;
+        width: 90%;
+        margin:15px; 
+        border-color: var(--border-color);
+    }
+}

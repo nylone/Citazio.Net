@@ -2,41 +2,41 @@
     <div align="center">
         <h5 style="width: 50%; margin-top: 5px;">Board: {{ board_title }}</h5>
         <div  v-if="quotes.length > 0">
-        <b-card v-for="(quote, quote_index) in quotes" :key=quote.key  class="theysa-shadow theysa-quote-card " >
-            <div v-if="quote.quote != undefined">
-                <b-card-header>
-                    <b-button-group >
-                        <b-button :disabled="access_lvl < 2 && quote.username != user" @click="Remove_quote(quote)"> <p>Remove Quote </p>
-                            <b-icon-trash />
-                        </b-button>
-                        <b-button :disabled="access_lvl < 1 || quote.username!= user" @click="editquote=true; curr_quote=quote"> <p>Update Quote</p> <b-icon-gear /></b-button>
-                    </b-button-group>
-                </b-card-header>
-                <b-card-body >
-                    <b-container fluid>
-                        <b-row>
-                            <b-col v-if="quote.quote.ctx != undefined "><p align="left" > <b> ctx </b>: {{ quote.quote.ctx }} </p></b-col>
-                            <b-col><p align="right"> <b>By </b>: {{ quote.username }}</p></b-col>
-                        </b-row>
-                    </b-container>
-                    <div v-for="(phrase, phrase_index) in quote.quote.phrases" :key="phrase.count">
-                        <div :id="`phrase-${(quote_index+phrase_index)+1}`">
-                            <p v-if="phrase.by != null">{{ phrase.by }}: "{{ phrase.msg }}"</p>
-                            <p v-else> *{{ phrase.msg }}*</p>
+            <b-card v-for="(quote, quote_index) in quotes" :key=quote.key  class="theysa-shadow theysa-quote-card">
+                <div v-if="quote.quote != undefined">
+                    <b-card-header>
+                        <b-button-group >
+                            <b-button :disabled="access_lvl < 2 && quote.username != user" @click="Remove_quote(quote)"> <p>Remove Quote </p>
+                                <b-icon-trash />
+                            </b-button>
+                            <b-button :disabled="access_lvl < 1 || quote.username!= user" @click="editquote=true; curr_quote=quote"> <p>Update Quote</p> <b-icon-gear /></b-button>
+                        </b-button-group>
+                    </b-card-header>
+                    <b-card-body >
+                        <b-container fluid>
+                            <b-row>
+                                <b-col v-if="quote.quote.ctx != undefined "><p align="left" > <b> ctx </b>: {{ quote.quote.ctx }} </p></b-col>
+                                <b-col><p align="right"> <b>By </b>: {{ quote.username }}</p></b-col>
+                            </b-row>
+                        </b-container>
+                        <div v-for="(phrase, phrase_index) in quote.quote.phrases" :key="phrase.count">
+                            <div :id="`phrase-${(quote_index+phrase_index)+1}`">
+                                <p v-if="phrase.by != null">{{ phrase.by }}: "{{ phrase.msg }}"</p>
+                                <p v-else> *{{ phrase.msg }}*</p>
+                            </div>
+                            <p align="right">{{ convert_time_toISO(quote.quote.date) }}</p>
+                            <b-tooltip
+                            v-if="phrase.ctx?.replace(/\s/g, '').length"
+                            :target="`phrase-${(quote_index+phrase_index)+1}` "
+                            trigger="focus"
+                            >
+                            {{ phrase.ctx }}
+                            </b-tooltip>
                         </div>
-                        <p align="right">{{ convert_time_toISO(quote.quote.date) }}</p>
-                        <b-tooltip
-                         v-if="phrase.ctx?.replace(/\s/g, '').length"
-                         :target="`phrase-${(quote_index+phrase_index)+1}` "
-                         trigger="focus"
-                         >
-                         {{ phrase.ctx }}
-                        </b-tooltip>
-                    </div>
-            </b-card-body>
-            </div>
-            
-        </b-card>
+                </b-card-body>
+                </div>
+                
+            </b-card>
 
         <editquotemodal :board_path="board_path" :quote="curr_quote" :show="editquote" @success="refresh(); editquote=false" @close:AddEditQuote="editquote=false" />
         <confirmmodal :show=remove @close:No="remove=false" @close:Yes="RmQuote(board_path, quote_id); $emit('reload'); remove=false" />
