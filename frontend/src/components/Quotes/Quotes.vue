@@ -24,7 +24,6 @@
                                 <p v-if="phrase.by != null">{{ phrase.by }}: "{{ phrase.msg }}"</p>
                                 <p v-else> *{{ phrase.msg }}*</p>
                             </div>
-                            <p align="right">{{ convert_time_toISO(quote.quote.date) }}</p>
                             <b-tooltip
                             v-if="phrase.ctx?.replace(/\s/g, '').length"
                             :target="`phrase-${(quote_index+phrase_index)+1}` "
@@ -33,6 +32,7 @@
                             {{ phrase.ctx }}
                             </b-tooltip>
                         </div>
+                    <p align="right">{{ convert_time_toISO(quote.quote.date) }}</p>
                 </b-card-body>
                 </div>
                 
